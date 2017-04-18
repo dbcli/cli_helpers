@@ -15,8 +15,8 @@ Helpers for building command-line apps.
 Thanks
 ------
 
-This project exists because of the awesome `pgcli <https://pgcli.com/>`_
-and `mycli <http://mycli.net/>`_ contributors.
+This project exists because of the awesome contributors from
+`pgcli <https://pgcli.com/>`_ and `mycli <http://mycli.net/>`_.
 
 A special thanks to `Amjith Ramanujam <https://github.com/amjith>`_, the creator
 of pgcli and mycli.
