@@ -1,0 +1,8 @@
+include *.rst
+include AUTHORS
+include CHANGELOG
+include LICENSE
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs Makefile
+recursive-include tests *.py
