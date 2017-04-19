@@ -32,7 +32,6 @@ setup(
     include_package_data=True,
     description='Helpers for building command-line apps',
     long_description=readme,
-    license='BSD',
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
