@@ -25,7 +25,7 @@ readme = open_file('README.rst')
 setup(
     name='cli_helpers',
     author='dbcli',
-    author_email='amjith[dot]r[at]gmail.com',
+    author_email='thomas@roten.us',
     version=version,
     url='https://github.com/dbcli/cli_helpers',
     packages=find_packages(exclude=['docs', 'tests']),
