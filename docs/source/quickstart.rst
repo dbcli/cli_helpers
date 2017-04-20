@@ -16,6 +16,7 @@ CLI Helpers provides a simple way to display your tabular data (columns/rows) in
     >>> headers = ['id', 'city', 'visited']
 
     >>> print(tabular_output.format_output(data, headers, format_name='simple'))
+
       id  city       visited
     ----  ---------  ---------
        1  Asgard     True
