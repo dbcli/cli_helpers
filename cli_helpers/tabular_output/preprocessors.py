@@ -8,25 +8,65 @@ from cli_helpers._compat import text_type
 
 
 def convert_to_string(data, headers, **_):
-    """Convert all *data* and *headers* to strings."""
+    """Convert all *data* and *headers* to strings.
+
+    Binary data that cannot be decoded is hexlified via
+    :func:`binascii.hexlify`.
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :return: The processed data and headers.
+    :rtype: tuple
+
+    """
     return ([[utils.to_string(v) for v in row] for row in data],
             [utils.to_string(h) for h in headers])
 
 
 def override_missing_value(data, headers, missing_value='', **_):
-    """Override missing values in the data with *missing_value*."""
+    """Override missing values in the *data* with *missing_value*.
+
+    A missing value is any value that is :data:`None`.
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :param missing_value: The default value to use for missing data.
+    :return: The processed data and headers.
+    :rtype: tuple
+
+    """
     return ([[missing_value if v is None else v for v in row] for row in data],
             headers)
 
 
 def bytes_to_string(data, headers, **_):
-    """Convert all *data* and *headers* bytes to strings."""
+    """Convert all *data* and *headers* bytes to strings.
+
+    Binary data that cannot be decoded is converted to a hexadecimal
+    representation via :func:`binascii.hexlify`.
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :return: The processed data and headers.
+    :rtype: tuple
+
+    """
     return ([[utils.bytes_to_string(v) for v in row] for row in data],
             [utils.bytes_to_string(h) for h in headers])
 
 
 def align_decimals(data, headers, **_):
-    """Align decimals to decimal point."""
+    """Align numbers in *data* on their decimal points.
+
+    Whitespace padding is added before a number so that all numbers in a
+    column are aligned.
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :return: The processed data and headers.
+    :rtype: tuple
+
+    """
     pointpos = len(headers) * [0]
     for row in data:
         for i, v in enumerate(row):
@@ -47,7 +87,19 @@ def align_decimals(data, headers, **_):
 
 
 def quote_whitespaces(data, headers, quotestyle="'", **_):
-    """Quote leading/trailing whitespace."""
+    """Quote leading/trailing whitespace in *data*.
+
+    When outputing data with leading or trailing whitespace, it can be useful
+    to put quotation marks around the value so the whitespace is more
+    apparent. If one value in a column needs quoted, then all values in that
+    column are quoted to keep things consistent.
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :return: The processed data and headers.
+    :rtype: tuple
+
+    """
     quote = len(headers) * [False]
     for row in data:
         for i, v in enumerate(row):
