@@ -32,21 +32,21 @@ class TabularOutputFormatter(object):
       >>> data = ((1, 87), (2, 80), (3, 79))
       >>> headers = ('day', 'temperature')
       >>> print(formatter.format_output(data, headers))
-      day    temperature
+        day    temperature
       -----  -------------
-      1      87
-      2      80
-      3      79
+          1             87
+          2             80
+          3             79
 
     You can use any :term:`iterable` for the data or headers::
 
       >>> data = enumerate(('87', '80', '79'), 1)
       >>> print(formatter.format_output(data, headers))
-      day    temperature
+        day    temperature
       -----  -------------
-      1      87
-      2      80
-      3      79
+          1             87
+          2             80
+          3             79
 
     """
 

@@ -11,7 +11,7 @@ preprocessors = (bytes_to_string, align_decimals)
 
 
 def adapter(data, headers, table_format=None, missing_value='',
-            disable_numparse=True, preserve_whitespace=True, **_):
+            disable_numparse=False, preserve_whitespace=False, **_):
     """Wrap tabulate inside a function for TabularOutputFormatter."""
     kwargs = {'tablefmt': table_format, 'missingval': missing_value,
               'disable_numparse': disable_numparse}

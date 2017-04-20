@@ -16,12 +16,11 @@ CLI Helpers provides a simple way to display your tabular data (columns/rows) in
     >>> headers = ['id', 'city', 'visited']
 
     >>> print(tabular_output.format_output(data, headers, format_name='simple'))
-
-    id    city       visited
+      id  city       visited
     ----  ---------  ---------
-    1     Asgard     True
-    2     Camelot    False
-    3     El Dorado  True
+       1  Asgard     True
+       2  Camelot    False
+       3  El Dorado  True
 
 Let's take a look at what we did there.
 
@@ -59,13 +58,13 @@ same data from our first example and put it in the ``fancy_grid`` format::
     >>> headers = ['id', 'city', 'visited']
     >>> print(formatter.format_output(data, headers, format_name='fancy_grid'))
     ╒══════╤═══════════╤═══════════╕
-    │ id   │ city      │ visited   │
+    │   id │ city      │ visited   │
     ╞══════╪═══════════╪═══════════╡
-    │ 1    │ Asgard    │ True      │
+    │    1 │ Asgard    │ True      │
     ├──────┼───────────┼───────────┤
-    │ 2    │ Camelot   │ False     │
+    │    2 │ Camelot   │ False     │
     ├──────┼───────────┼───────────┤
-    │ 3    │ El Dorado │ True      │
+    │    3 │ El Dorado │ True      │
     ╘══════╧═══════════╧═══════════╛
 
 That was easy! How about CLI Helper's vertical table layout?
@@ -94,10 +93,10 @@ format name each time you want to format your data::
 
     >>> formatter = TabularOutputFormatter(format_name='plain')
     >>> print(formatter.format_output(data, headers))
-    id    city       visited
-    1     Asgard     True
-    2     Camelot    False
-    3     El Dorado  True
+      id  city       visited
+       1  Asgard     True
+       2  Camelot    False
+       3  El Dorado  True
 
 .. TIP::
    You can get or set the default format whenever you'd like with
@@ -143,11 +142,11 @@ far-fetched example to prove the point::
     >>> data = [range(n, n + step) for n in range(0, 9, step)]
     >>> headers = 'abc'
     >>> print(format_output(data, headers, format_name='simple'))
-    a    b    c
+      a    b    c
     ---  ---  ---
-    0    1    2
-    3    4    5
-    6    7    8
+      0    1    2
+      3    4    5
+      6    7    8
 
 Real life examples include a PyMySQL
 :class:`Cursor <pymysql:pymysql.cursors.Cursor>` with
