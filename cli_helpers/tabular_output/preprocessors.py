@@ -113,6 +113,7 @@ def quote_whitespaces(data, headers, quotestyle="'", **_):
 
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
+    :param str quotestyle: The quotation mark to use (defaults to ``'``).
     :return: The processed data and headers.
     :rtype: tuple
 
