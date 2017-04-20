@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Preprocessor functions for use by tabular data outputs."""
+"""These preprocessor functions are used to process data prior to output."""
 
 from decimal import Decimal
 import string
@@ -11,8 +11,8 @@ from cli_helpers._compat import text_type
 def convert_to_string(data, headers, **_):
     """Convert all *data* and *headers* to strings.
 
-    Binary data that cannot be decoded is hexlified via
-    :func:`binascii.hexlify`.
+    Binary data that cannot be decoded is converted to a hexadecimal
+    representation via :func:`binascii.hexlify`.
 
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
@@ -62,6 +62,18 @@ def align_decimals(data, headers, **_):
     Whitespace padding is added before a number so that all numbers in a
     column are aligned.
 
+    Outputting data before aligning the decimals::
+
+        1
+        2.1
+        10.59
+
+    Outputting data after aligning the decimals::
+
+         1
+         2.1
+        10.59
+
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
     :return: The processed data and headers.
@@ -95,8 +107,9 @@ def quote_whitespaces(data, headers, quotestyle="'", **_):
     apparent. If one value in a column needs quoted, then all values in that
     column are quoted to keep things consistent.
 
-    :data:`string.whitespace` is used to determine which characters are
-    whitespace.
+    .. NOTE::
+       :data:`string.whitespace` is used to determine which characters are
+       whitespace.
 
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
