@@ -2,6 +2,7 @@
 """Preprocessor functions for use by tabular data outputs."""
 
 from decimal import Decimal
+import string
 
 from cli_helpers import utils
 from cli_helpers._compat import text_type
@@ -94,17 +95,21 @@ def quote_whitespaces(data, headers, quotestyle="'", **_):
     apparent. If one value in a column needs quoted, then all values in that
     column are quoted to keep things consistent.
 
+    :data:`string.whitespace` is used to determine which characters are
+    whitespace.
+
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
     :return: The processed data and headers.
     :rtype: tuple
 
     """
+    whitespace = tuple(string.whitespace)
     quote = len(headers) * [False]
     for row in data:
         for i, v in enumerate(row):
             v = text_type(v)
-            if v.startswith(' ') or v.endswith(' '):
+            if v.startswith(whitespace) or v.endswith(whitespace):
                 quote[i] = True
 
     results = []

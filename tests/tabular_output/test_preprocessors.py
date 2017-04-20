@@ -75,3 +75,13 @@ def test_quote_whitespaces_empty_result():
     expected = ([], ['h1', 'h2'])
 
     assert expected == quote_whitespaces(data, headers)
+
+
+def test_quote_whitespaces_non_spaces():
+    """Test the quote_whitespaces() function with non-spaces."""
+    data = [["\tbefore", "after \r"], ["\n both  ", "none"]]
+    headers = ['h1', 'h2']
+    expected = ([["'\tbefore'", "'after \r'"], ["'\n both  '", "'none'"]],
+                ['h1', 'h2'])
+
+    assert expected == quote_whitespaces(data, headers)
