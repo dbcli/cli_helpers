@@ -14,8 +14,8 @@ def test_tabulate_wrapper():
     output = tabulate_adapter.adapter(data, headers, table_format='psql')
     assert output == dedent('''\
         +-----------+----------+
-        | letters   | number   |
+        | letters   |   number |
         |-----------+----------|
-        | abc       | 1        |
-        | d         | 456      |
+        | abc       |        1 |
+        | d         |      456 |
         +-----------+----------+''')
