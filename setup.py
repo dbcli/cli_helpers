@@ -5,7 +5,7 @@ import ast
 from io import open
 import re
 
-from setuptools import find_packages, setup
+from setuptools import setup
 
 _version_re = re.compile(r'__version__\s+=\s+(.*)')
 
@@ -28,7 +28,7 @@ setup(
     author_email='thomas@roten.us',
     version=version,
     url='https://github.com/dbcli/cli_helpers',
-    packages=find_packages(exclude=['docs', 'tests']),
+    packages=['cli_helpers'],
     include_package_data=True,
     description='Helpers for building command-line apps',
     long_description=readme,
