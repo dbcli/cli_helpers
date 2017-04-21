@@ -62,7 +62,7 @@ class TabularOutputFormatter(object):
         :param str format_name: The display format name.
 
         """
-        if format_name in self.supported_formats():
+        if format_name in self.supported_formats:
             self._format_name = format_name
         else:
             raise ValueError('unrecognized format_name: {}'.format(
@@ -77,13 +77,9 @@ class TabularOutputFormatter(object):
         """
         return self._format_name
 
+    @property
     def supported_formats(self):
-        """Return the names of supported output formats.
-
-        :return: The format names.
-        :rtype: tuple
-
-        """
+        """The names of the supported output formats in a :class:`tuple`."""
         return tuple(self._output_formats.keys())
 
     @classmethod
@@ -105,7 +101,7 @@ class TabularOutputFormatter(object):
         """Format the headers and data using a specific formatter.
 
         *format_name* must be a supported formatter (see
-        :meth:`supported_formats`).
+        :attr:`supported_formats`).
 
         :param iterable data: An :term:`iterable` (e.g. list) of rows.
         :param iterable headers: The column headers.
@@ -118,7 +114,7 @@ class TabularOutputFormatter(object):
 
         """
         format_name = format_name or self._format_name
-        if format_name not in self.supported_formats():
+        if format_name not in self.supported_formats:
             raise ValueError('unrecognized format: {}'.format(format_name))
 
         (_, preprocessors, formatter,
