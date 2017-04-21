@@ -84,7 +84,7 @@ class TabularOutputFormatter(object):
 
     @classmethod
     def register_new_formatter(cls, format_name, handler, preprocessors=(),
-                               kwargs={}):
+                               kwargs=None):
         """Register a new output formatter.
 
         :param str format_name: The name of the format.
@@ -95,7 +95,7 @@ class TabularOutputFormatter(object):
 
         """
         cls._output_formats[format_name] = OutputFormatHandler(
-            format_name, preprocessors, handler, kwargs)
+            format_name, preprocessors, handler, kwargs or {})
 
     def format_output(self, data, headers, format_name=None, **kwargs):
         """Format the headers and data using a specific formatter.
