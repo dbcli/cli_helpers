@@ -8,7 +8,7 @@ CLI Helpers
 .. image:: https://img.shields.io/pypi/v/cli_helpers.svg?style=flat
     :target: https://pypi.python.org/pypi/cli_helpers
 
-  .. start-body
+.. start-body
 
 CLI Helpers is a Python package that makes it easy to perform common tasks when
 building command-line apps. It's a helper library for command-line interfaces.
@@ -27,6 +27,6 @@ What's included in CLI Helpers?
 - Prettyprinting of tabular data with custom pre-processing
 - *[in progress]* config file reading/writing
 
-  .. end-body
+.. end-body
 
 Read the documentation at http://cli-helpers.rtfd.io
