@@ -1,10 +1,11 @@
 PROJECT = cli_helpers
 
-.PHONY: clean lint test test-all coverage docs dist release
+.PHONY: clean lint lint-fix test test-all coverage docs dist release
 
 help:
 	@echo "clean - remove all build artifacts"
-	@echo "lint - check code changes against PEP8"
+	@echo "lint - check code changes against PEP 8"
+	@echo "lint-fix - automatically fix PEP 8 violations"
 	@echo "test - run tests quickly with the current Python"
 	@echo "test-all - run tests in all environments"
 	@echo "coverage - run tests and check code coverage"
@@ -19,6 +20,9 @@ clean:
 
 lint:
 	pep8radius master --docformatter --error-status || ( pep8radius master --docformatter --diff; false )
+
+lint-fix:
+	pep8radius master --docformatter --in-place
 
 test:
 	coverage run --source $(PROJECT) -m py.test

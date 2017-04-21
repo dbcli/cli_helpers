@@ -1,26 +1,18 @@
-.. CLI Helpers documentation master file, created by
-   sphinx-quickstart on Mon Apr 17 20:26:02 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Welcome to CLI Helpers
+======================
 
-CLI Helpers
-===========
+.. include:: ../../README.rst
+   :start-after: start-body
+   :end-before: end-body
 
-CLI Helpers is a Python package that helps you build command-line apps.
 
-Contents
-========
+Documentation
+-------------
+
 .. toctree::
    :maxdepth: 2
 
-   How to Contribute <contributing>
-   Authors <authors>
-   Changelog <changelog>
-   License <license>
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   contributing
+   changelog
+   authors
+   license
