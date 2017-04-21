@@ -33,12 +33,12 @@ def test_to_string_non_bytes():
     assert utils.to_string(2.33) == '2.33'
 
 
-def test_intlen_with_deimal():
-    """Test that intlen() counts correctly with a decmial place."""
+def test_intlen_with_decimal():
+    """Test that intlen() counts correctly with a decimal place."""
     assert utils.intlen('11.1') == 2
     assert utils.intlen('1.1') == 1
 
 
-def test_intlen_without_deimal():
-    """Test that intlen() counts correctly without a decmial place."""
+def test_intlen_without_decimal():
+    """Test that intlen() counts correctly without a decimal place."""
     assert utils.intlen('11') == 2

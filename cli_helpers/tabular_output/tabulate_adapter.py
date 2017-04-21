@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Format adapter for the tabulate module."""
+
 from cli_helpers.packages import tabulate
 from .preprocessors import bytes_to_string, align_decimals
 

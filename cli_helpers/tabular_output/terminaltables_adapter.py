@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Format adapter for the terminaltables module."""
+
 import terminaltables
 
 from .preprocessors import (bytes_to_string, align_decimals,
