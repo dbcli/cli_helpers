@@ -62,8 +62,9 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'CLI Helpers'
-copyright = '2017, dbcli'
 author = 'dbcli'
+description = 'Python helpers for common CLI tasks'
+copyright = '2017, dbcli'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -108,14 +109,20 @@ html_theme = 'alabaster'
 # documentation.
 #
 html_theme_options = {
-    'description': 'Python helpers for common CLI tasks',
+    'description': description,
     'github_user': 'dbcli',
     'github_repo': 'cli_helpers',
     'github_banner': False,
     'github_button': False,
     'github_type': 'watch',
-    'github_count': False
+    'github_count': False,
+    'extra_nav_links': {
+        'CLI Helpers at GitHub': 'https://github.com/dbcli/cli_helpers',
+        'CLI Helpers at PyPI': 'https://pypi.org/project/cli_helpers',
+        'Issue Tracker': 'https://github.com/dbcli/cli_helpers/issues'
+    }
 }
+
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -175,7 +182,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'CLIHelpers', 'CLI Helpers Documentation',
-     author, 'CLIHelpers', 'Helpers for building command-line apps.',
+     author, 'CLIHelpers', description,
      'Miscellaneous'),
 ]
 
