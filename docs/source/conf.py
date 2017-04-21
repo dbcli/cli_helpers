@@ -18,6 +18,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import ast
+from collections import OrderedDict
 # import os
 import re
 # import sys
@@ -107,7 +108,13 @@ html_theme = 'alabaster'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#
+
+nav_links = OrderedDict((
+    ('CLI Helpers at GitHub', 'https://github.com/dbcli/cli_helpers'),
+    ('CLI Helpers at PyPI', 'https://pypi.org/project/cli_helpers'),
+    ('Issue Tracker', 'https://github.com/dbcli/cli_helpers/issues')
+))
+
 html_theme_options = {
     'description': description,
     'github_user': 'dbcli',
@@ -116,11 +123,7 @@ html_theme_options = {
     'github_button': False,
     'github_type': 'watch',
     'github_count': False,
-    'extra_nav_links': {
-        'CLI Helpers at GitHub': 'https://github.com/dbcli/cli_helpers',
-        'CLI Helpers at PyPI': 'https://pypi.org/project/cli_helpers',
-        'Issue Tracker': 'https://github.com/dbcli/cli_helpers/issues'
-    }
+    'extra_nav_links': nav_links
 }
 
 
