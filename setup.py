@@ -32,6 +32,9 @@ setup(
     include_package_data=True,
     description='Helpers for building command-line apps',
     long_description=readme,
+    install_requires=[
+        'configobj >= 5.0.5'
+    ],
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
