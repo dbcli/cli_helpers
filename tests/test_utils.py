@@ -42,3 +42,12 @@ def test_intlen_with_decimal():
 def test_intlen_without_decimal():
     """Test that intlen() counts correctly without a decimal place."""
     assert utils.intlen('11') == 2
+
+
+def test_filter_dict_by_key():
+    """Test that filter_dict_by_key() filter unwanted items."""
+    keys = ('foo', 'bar')
+    d = {'foo': 1, 'foobar': 2}
+    fd = utils.filter_dict_by_key(d, keys)
+    assert len(fd) == 1
+    assert all([k in keys for k in fd])

@@ -32,3 +32,8 @@ def intlen(n):
     """Find the length of the integer part of a number *n*."""
     pos = n.find('.')
     return len(n) if pos < 0 else pos
+
+
+def filter_dict_by_key(d, keys):
+    """Filter the dict *d* to remove keys not in *keys*."""
+    return {k: v for k, v in d.items() if k in keys}
