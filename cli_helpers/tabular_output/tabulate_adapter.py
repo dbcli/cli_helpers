@@ -2,6 +2,7 @@
 """Format adapter for the tabulate module."""
 
 from cli_helpers.packages import tabulate
+from cli_helpers.utils import filter_dict_by_key
 from .preprocessors import bytes_to_string, align_decimals
 
 supported_markup_formats = ('mediawiki', 'html', 'latex', 'latex_booktabs',
@@ -14,13 +15,16 @@ preprocessors = (bytes_to_string, align_decimals)
 
 
 def adapter(data, headers, table_format=None, missing_value='',
-            disable_numparse=False, preserve_whitespace=False, **_):
+            preserve_whitespace=False, **kwargs):
     """Wrap tabulate inside a function for TabularOutputFormatter."""
-    kwargs = {'tablefmt': table_format, 'missingval': missing_value,
-              'disable_numparse': disable_numparse}
+    keys = ('floatfmt', 'numalign', 'stralign', 'missingval', 'showindex',
+            'disable_numparse')
+    tkwargs = {'tablefmt': table_format, 'missingval': missing_value}
+    tkwargs.update(filter_dict_by_key(kwargs, keys))
+
     if table_format in supported_markup_formats:
         kwargs.update(numalign=None, stralign=None)
 
     tabulate.PRESERVE_WHITESPACE = preserve_whitespace
 
-    return tabulate.tabulate(data, headers, **kwargs)
+    return tabulate.tabulate(data, headers, **tkwargs)

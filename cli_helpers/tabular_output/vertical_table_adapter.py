@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 
+from cli_helpers.utils import filter_dict_by_key
 from .preprocessors import convert_to_string, override_missing_value
 
 supported_formats = ('vertical', )
@@ -55,5 +56,4 @@ def vertical_table(data, headers, sep_title='row', sep_character='*',
 def adapter(data, headers, **kwargs):
     """Wrap vertical table in a function for TabularOutputFormatter."""
     keys = ('sep_title', 'sep_character', 'sep_length')
-    kwargs = {k: v for k, v in kwargs.items() if k in keys}
-    return vertical_table(data, headers, **kwargs)
+    return vertical_table(data, headers, **filter_dict_by_key(kwargs, keys))
