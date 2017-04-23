@@ -21,16 +21,27 @@ def _format_row(headers, row):
     return '\n'.join(formatted_row)
 
 
-def vertical_table(rows, headers, sep_title='row', sep_character='*',
+def vertical_table(data, headers, sep_title='row', sep_character='*',
                    sep_length=27):
-    """Format *rows* and *headers* as an vertical table.
+    """Format *data* and *headers* as an vertical table.
 
-    The values in *rows* and *headers* must be strings.
+    The values in *data* and *headers* must be strings.
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :param str sep_title: The title given to each row separator. Defaults to
+                          ``'row'``.
+    :param str sep_character: The character used to separate rows. Defaults to
+                              ``'*'``.
+    :param int sep_length: The number of separator characters that should
+                           appear on each side of the *sep_title*.
+    :return: The formatted data.
+    :rtype: str
 
     """
     header_len = max([len(x) for x in headers])
     padded_headers = [x.ljust(header_len) for x in headers]
-    formatted_rows = [_format_row(padded_headers, row) for row in rows]
+    formatted_rows = [_format_row(padded_headers, row) for row in data]
 
     output = []
     for i, result in enumerate(formatted_rows):
@@ -41,8 +52,8 @@ def vertical_table(rows, headers, sep_title='row', sep_character='*',
     return ''.join(output)
 
 
-def adapter(rows, headers, **kwargs):
+def adapter(data, headers, **kwargs):
     """Wrap vertical table in a function for TabularOutputFormatter."""
     keys = ('sep_title', 'sep_character', 'sep_length')
     kwargs = {k: v for k, v in kwargs.items() if k in keys}
-    return vertical_table(rows, headers, **kwargs)
+    return vertical_table(data, headers, **kwargs)
