@@ -3,7 +3,7 @@
 
 from textwrap import dedent
 
-from cli_helpers._compat import text_type
+from cli_helpers.compat import text_type
 from cli_helpers.tabular_output.vertical_table_adapter import vertical_table
 
 

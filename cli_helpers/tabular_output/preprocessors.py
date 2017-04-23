@@ -5,7 +5,7 @@ from decimal import Decimal
 import string
 
 from cli_helpers import utils
-from cli_helpers._compat import text_type
+from cli_helpers.compat import text_type
 
 
 def convert_to_string(data, headers, **_):

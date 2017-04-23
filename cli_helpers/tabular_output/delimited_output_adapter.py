@@ -4,7 +4,7 @@
 import contextlib
 import csv
 
-from cli_helpers._compat import StringIO
+from cli_helpers.compat import StringIO
 from .preprocessors import bytes_to_string, override_missing_value
 
 supported_formats = ('csv', 'tsv')

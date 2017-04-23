@@ -3,7 +3,7 @@
 
 import binascii
 
-from cli_helpers._compat import binary_type, text_type
+from cli_helpers.compat import binary_type, text_type
 
 
 def bytes_to_string(b):
