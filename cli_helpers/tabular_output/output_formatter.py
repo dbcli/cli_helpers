@@ -54,28 +54,33 @@ class TabularOutputFormatter(object):
 
     def __init__(self, format_name=None):
         """Set the default *format_name*."""
-        self._format_name = format_name
+        self._format_name = None
 
-    def set_format_name(self, format_name):
-        """Set the default format.
+        if format_name:
+            self.format_name = format_name
+
+    @property
+    def format_name(self):
+        """The current format name.
+
+        This value must be in :data:`supported_formats`.
+
+        """
+        return self._format_name
+
+    @format_name.setter
+    def format_name(self, format_name):
+        """Set the default format name.
 
         :param str format_name: The display format name.
+        :raises ValueError: if the format is not recognized.
 
         """
         if format_name in self.supported_formats:
             self._format_name = format_name
         else:
-            raise ValueError('unrecognized format_name: {}'.format(
+            raise ValueError('unrecognized format_name "{}"'.format(
                 format_name))
-
-    def get_format_name(self):
-        """Get the current default format.
-
-        :return: The format name.
-        :rtype: str or None
-
-        """
-        return self._format_name
 
     @property
     def supported_formats(self):
@@ -115,7 +120,7 @@ class TabularOutputFormatter(object):
         """
         format_name = format_name or self._format_name
         if format_name not in self.supported_formats:
-            raise ValueError('unrecognized format: {}'.format(format_name))
+            raise ValueError('unrecognized format "{}"'.format(format_name))
 
         (_, preprocessors, formatter,
          fkwargs) = self._output_formats[format_name]

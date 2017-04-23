@@ -100,10 +100,8 @@ format name each time you want to format your data::
        3  El Dorado  True
 
 .. TIP::
-   You can get or set the default format whenever you'd like with
-   :meth:`~cli_helpers.tabular_output.TabularOutputFormatter.get_format_name`
-   and
-   :meth:`~cli_helpers.tabular_output.TabularOutputFormatter.set_format_name`.
+   You can get or set the default format whenever you'd like through
+   :data:`TabularOutputFormatter.format_name <cli_helpers.tabular_output.TabularOutputFormatter.format_name>`.
 
 
 Passing Options to the Formatters
