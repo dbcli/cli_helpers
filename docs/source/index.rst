@@ -3,20 +3,30 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+===========
 CLI Helpers
 ===========
 
 CLI Helpers is a Python package that helps you build command-line apps.
 
-Contents
-========
+User Guide
+==========
 .. toctree::
    :maxdepth: 2
 
+   Quickstart <quickstart>
    How to Contribute <contributing>
    Authors <authors>
    Changelog <changelog>
    License <license>
+
+API
+===
+.. toctree::
+   :maxdepth: 2
+
+   api
+
 
 Indices and tables
 ==================

@@ -32,6 +32,9 @@ setup(
     include_package_data=True,
     description='Helpers for building command-line apps',
     long_description=readme,
+    install_requires=[
+        'terminaltables >= 3.0.0'
+    ],
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
