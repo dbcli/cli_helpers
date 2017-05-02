@@ -12,8 +12,15 @@ preprocessors = (override_missing_value, convert_to_string)
 
 def _get_separator(num, sep_title, sep_character, sep_length):
     """Get a row separator for row *num*."""
-    return "{divider}[ {n}. {title} ]{divider}\n".format(
-        divider=sep_character * sep_length, n=num + 1, title=sep_title)
+    left_divider_length = right_divider_length = sep_length
+    if isinstance(sep_length, tuple):
+        left_divider_length, right_divider_length = sep_length
+    left_divider = sep_character * left_divider_length
+    right_divider = sep_character * right_divider_length
+    title = sep_title.format(n=num + 1)
+
+    return "{left_divider}[ {title} ]{right_divider}\n".format(
+        left_divider=left_divider, right_divider=right_divider, title=title)
 
 
 def _format_row(headers, row):
@@ -22,7 +29,7 @@ def _format_row(headers, row):
     return '\n'.join(formatted_row)
 
 
-def vertical_table(data, headers, sep_title='row', sep_character='*',
+def vertical_table(data, headers, sep_title='{n}. row', sep_character='*',
                    sep_length=27):
     """Format *data* and *headers* as an vertical table.
 
@@ -31,11 +38,14 @@ def vertical_table(data, headers, sep_title='row', sep_character='*',
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
     :param str sep_title: The title given to each row separator. Defaults to
-                          ``'row'``.
+                          ``'{n}. row'``. Any instance of ``'{n}'`` is
+                          replaced by the record number.
     :param str sep_character: The character used to separate rows. Defaults to
                               ``'*'``.
-    :param int sep_length: The number of separator characters that should
-                           appear on each side of the *sep_title*.
+    :param int/tuple sep_length: The number of separator characters that should
+                                 appear on each side of the *sep_title*. Use
+                                 a tuple to specify the left and right values
+                                 separately.
     :return: The formatted data.
     :rtype: str
 
