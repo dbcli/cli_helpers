@@ -18,6 +18,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import ast
+from collections import OrderedDict
 # import os
 import re
 # import sys
@@ -34,12 +35,23 @@ import re
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
+
+html_sidebars = {
+    '**': [
+        'about.html',
+        'navigation.html',
+        'relations.html',
+        'searchbox.html',
+        'donate.html',
+    ]
+}
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -52,8 +64,9 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'CLI Helpers'
-copyright = '2017, dbcli'
 author = 'dbcli'
+description = 'Python helpers for common CLI tasks'
+copyright = '2017, dbcli'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -96,8 +109,24 @@ html_theme = 'alabaster'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#
-# html_theme_options = {}
+
+nav_links = OrderedDict((
+    ('CLI Helpers at GitHub', 'https://github.com/dbcli/cli_helpers'),
+    ('CLI Helpers at PyPI', 'https://pypi.org/project/cli_helpers'),
+    ('Issue Tracker', 'https://github.com/dbcli/cli_helpers/issues')
+))
+
+html_theme_options = {
+    'description': description,
+    'github_user': 'dbcli',
+    'github_repo': 'cli_helpers',
+    'github_banner': False,
+    'github_button': False,
+    'github_type': 'watch',
+    'github_count': False,
+    'extra_nav_links': nav_links
+}
+
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -157,9 +186,13 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'CLIHelpers', 'CLI Helpers Documentation',
-     author, 'CLIHelpers', 'Helpers for building command-line apps.',
+     author, 'CLIHelpers', description,
      'Miscellaneous'),
 ]
 
 
-intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+    'pymysql': ('https://pymysql.readthedocs.io/en/latest/', None),
+    'numpy': ('https://docs.scipy.org/doc/numpy', None)
+}

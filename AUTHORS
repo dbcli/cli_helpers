@@ -1,3 +1,6 @@
+Authors
+=======
+
 CLI Helpers is written and maintained by the following people:
 
 - Amjith Ramanujam
@@ -5,6 +8,17 @@ CLI Helpers is written and maintained by the following people:
 - Irina Truong
 - Thomas Roten
 
-With help from these awesome contributors:
+
+Contributors
+------------
+
+This project receives help from these awesome contributors:
 
 - None yet. Why not be the first?
+
+
+Thanks
+------
+
+This project exists because of the amazing contributors from
+`pgcli <https://pgcli.com/>`_ and `mycli <http://mycli.net/>`_.

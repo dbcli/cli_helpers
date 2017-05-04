@@ -33,7 +33,8 @@ setup(
     description='Helpers for building command-line apps',
     long_description=readme,
     install_requires=[
-        'configobj >= 5.0.5'
+        'configobj >= 5.0.5',
+        'terminaltables >= 3.0.0'
     ],
     classifiers=[
         'Intended Audience :: Developers',

@@ -1,6 +1,17 @@
-Version 0.1.0
-+++++++++++++
+Changelog
+=========
+
+Version TBD
+-----------
 
 (released on TBD)
 
-* First release on PyPI.
+* Make vertical table separator more customizable.
+
+
+Version 0.1.0
+-------------
+
+(released on 2017-05-01)
+
+* Pretty print tabular data using a variety of formatting libraries.
