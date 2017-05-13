@@ -1,3 +1,4 @@
+codecov==2.0.9
 coverage==4.3.4
 git+https://github.com/hayd/pep8radius.git@c8aebd0e1d272160896124e104773b97a6249c3e#egg=pep8radius
 pytest==3.0.7

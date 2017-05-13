@@ -25,13 +25,13 @@ lint-fix:
 	pep8radius master --docformatter --in-place
 
 test:
-	coverage run --source $(PROJECT) -m py.test
+	coverage run -m py.test
 
 test-all:
 	tox
 
 coverage: test
-	coverage report
+	coverage combine && coverage report
 
 docs:
 	$(MAKE) -C docs clean
