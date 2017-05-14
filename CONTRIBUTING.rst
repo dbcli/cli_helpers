@@ -47,7 +47,7 @@ Ready to contribute? Here's how to set up CLI Helpers for local development.
 
     $ git pull upstream master
 
-8. When your work is ready for the mycli team to review it, push your branch to your fork::
+8. When your work is ready for the CLI Helpers team to review it, push your branch to your fork::
 
     $ git push origin <name-of-bugfix-or-feature>
 
