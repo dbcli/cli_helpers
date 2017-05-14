@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from decimal import Decimal
 from textwrap import dedent
 
-from cli_helpers.tabular_output import TabularOutputFormatter
+from cli_helpers.tabular_output import format_output, TabularOutputFormatter
 
 
 def test_tabular_output_formatter():
@@ -24,6 +24,24 @@ def test_tabular_output_formatter():
 
     assert expected == TabularOutputFormatter().format_output(
         data, headers, format_name='ascii')
+
+
+def test_tabular_format_output_wrapper():
+    """Test the format_output wrapper."""
+    data = [['1', None], ['2', 'Sam'],
+            ['3', 'Joe']]
+    headers = ['id', 'name']
+    expected = dedent('''\
+        +----+------+
+        | id | name |
+        +----+------+
+        | 1  | N/A  |
+        | 2  | Sam  |
+        | 3  | Joe  |
+        +----+------+''')
+
+    assert expected == format_output(data, headers, format_name='ascii',
+                                     missing_value='N/A')
 
 
 def test_additional_preprocessors():
