@@ -22,13 +22,13 @@ Ready to contribute? Here's how to set up CLI Helpers for local development.
 
     $ cd cli_helpers
     $ pip install virtualenv
-    $ virtualenv cli_helper_dev
+    $ virtualenv cli_helpers_dev
 
    We've just created a virtual environment that we'll use to install all the dependencies
    and tools we need to work on CLI Helpers. Whenever you want to work on CLI Helpers, you
    need to activate the virtual environment::
 
-    $ source cli_helper_dev/bin/activate
+    $ source cli_helpers_dev/bin/activate
 
    When you're done working, you can deactivate the virtual environment::
 
