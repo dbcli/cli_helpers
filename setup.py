@@ -35,6 +35,12 @@ setup(
     install_requires=[
         'terminaltables >= 3.0.0'
     ],
+    entry_points={
+        'distutils.commands': [
+            'lint = tasks:lint',
+            'test = tasks:test',
+        ],
+    },
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
