@@ -39,6 +39,7 @@ setup(
         'distutils.commands': [
             'lint = tasks:lint',
             'test = tasks:test',
+            'docs = tasks:docs',
         ],
     },
     classifiers=[

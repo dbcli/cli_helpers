@@ -105,3 +105,18 @@ class test(BaseCommand):
             if self.coverage:
                 cmds += (self.apply_options(self.coverage_cmd), )
             self.call_in_sequence(cmds)
+
+
+class docs(BaseCommand):
+    """Use Sphinx Makefile to generate documentation."""
+
+    description = 'generate the Sphinx HTML documentation'
+
+    clean_docs_cmd = 'make -C docs clean'
+    html_docs_cmd = 'make -C docs html'
+    view_docs_cmd = 'open docs/build/html/index.html'
+
+    def run(self):
+        """Generate and view the documentation."""
+        cmds = (self.clean_docs_cmd, self.html_docs_cmd, self.view_docs_cmd)
+        self.call_in_sequence(cmds)
