@@ -6,7 +6,7 @@ CLI Helpers would love your help! We appreciate your time and always give credit
 Development Setup
 -----------------
 
-Read to contribute? Here's how to set up CLI Helpers for local development.
+Ready to contribute? Here's how to set up CLI Helpers for local development.
 
 1. `Fork the repository <https://github.com/dbcli/cli_helpers>`_ on GitHub.
 2. Clone your fork locally::
