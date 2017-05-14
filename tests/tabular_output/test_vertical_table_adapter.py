@@ -27,13 +27,13 @@ def test_vertical_table_customized():
     results = [('john', text_type(47)), ('jill', text_type(50))]
 
     expected = dedent("""\
-        -----[ 1. person ]-----
+        -[ PERSON 1 ]-----
         name | john
         age  | 47
-        -----[ 2. person ]-----
+        -[ PERSON 2 ]-----
         name | jill
         age  | 50
         """)
     assert expected == vertical_table(results, ('name', 'age'),
-                                      sep_title='person', sep_character='-',
-                                      sep_length=5)
+                                      sep_title='PERSON {n}',
+                                      sep_character='-', sep_length=(1, 5))
