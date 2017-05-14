@@ -85,7 +85,7 @@ class test(BaseCommand):
     ]
 
     unit_test_cmd = ('py.test{quiet: -q}{verbose: -v}{dry_run: --setup-only}'
-                     '{coverage: --cov-report= --cov=mycli}')
+                     '{coverage: --cov-report= --cov=cli_helpers}')
     test_all_cmd = 'tox{verbose: -v}{dry_run: --notest}'
     coverage_cmd = 'coverage report'
 
