@@ -31,7 +31,7 @@ test-all:
 	tox
 
 coverage: test
-	coverage combine && coverage report
+	coverage report
 
 docs:
 	$(MAKE) -C docs clean
