@@ -28,7 +28,7 @@ setup(
     author_email='thomas@roten.us',
     version=version,
     url='https://github.com/dbcli/cli_helpers',
-    packages=find_packages(exclude=['docs', 'tests']),
+    packages=find_packages(exclude=['docs', 'tests', 'tests.tabular_output']),
     include_package_data=True,
     description='Helpers for building command-line apps',
     long_description=readme,

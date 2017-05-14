@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version TBD
+-----------
+
+(released on TBD)
+
+* Make vertical table separator more customizable.
+* Don't install tests.tabular_output
+
+
 Version 0.1.0
 -------------
 
