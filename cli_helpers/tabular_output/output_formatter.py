@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 from collections import namedtuple
 
+from cli_helpers.utils import unique_items
 from . import (delimited_output_adapter, vertical_table_adapter,
                tabulate_adapter, terminaltables_adapter)
 
@@ -102,7 +103,8 @@ class TabularOutputFormatter(object):
         cls._output_formats[format_name] = OutputFormatHandler(
             format_name, preprocessors, handler, kwargs or {})
 
-    def format_output(self, data, headers, format_name=None, **kwargs):
+    def format_output(self, data, headers, format_name=None,
+                      preprocessors=(), **kwargs):
         """Format the headers and data using a specific formatter.
 
         *format_name* must be a supported formatter (see
@@ -112,6 +114,8 @@ class TabularOutputFormatter(object):
         :param iterable headers: The column headers.
         :param str format_name: The display format to use (optional, if the
             :class:`TabularOutputFormatter` object has a default format set).
+        :param tuple preprocessors: Additional preprocessors to call before
+                                    any formatter preprocessors.
         :param \*\*kwargs: Optional arguments for the formatter.
         :return: The formatted data.
         :rtype: str
@@ -122,12 +126,11 @@ class TabularOutputFormatter(object):
         if format_name not in self.supported_formats:
             raise ValueError('unrecognized format "{}"'.format(format_name))
 
-        (_, preprocessors, formatter,
+        (_, _preprocessors, formatter,
          fkwargs) = self._output_formats[format_name]
         fkwargs.update(kwargs)
-        if preprocessors:
-            for f in preprocessors:
-                data, headers = f(data, headers, **fkwargs)
+        for f in unique_items(preprocessors + _preprocessors):
+            data, headers = f(data, headers, **fkwargs)
         return formatter(data, headers, **fkwargs)
 
 

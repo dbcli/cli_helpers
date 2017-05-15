@@ -1,5 +1,5 @@
-include *.txt *.rst
-include AUTHORS CHANGELOG LICENSE Makefile
+include *.txt *.rst *.py
+include AUTHORS CHANGELOG LICENSE
 include tox.ini
 recursive-include docs *.py
 recursive-include docs *.rst
