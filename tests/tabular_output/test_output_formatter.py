@@ -24,3 +24,28 @@ def test_tabular_output_formatter():
 
     assert expected == TabularOutputFormatter().format_output(
         data, headers, format_name='ascii')
+
+
+def test_additional_preprocessors():
+    """Test that additional preprocessors are run."""
+    def hello_world(data, headers, **_):
+        for row in data:
+            for i, value in enumerate(row):
+                if value == 'hello':
+                    row[i] = "{}, world".format(value)
+        return data, headers
+
+    data = [['foo', None], ['hello!', 'hello']]
+    headers = 'ab'
+
+    expected = dedent('''\
+        +--------+--------------+
+        | a      | b            |
+        +--------+--------------+
+        | foo    | hello        |
+        | hello! | hello, world |
+        +--------+--------------+''')
+
+    assert expected == TabularOutputFormatter().format_output(
+        data, headers, format_name='ascii', preprocessors=(hello_world,),
+        missing_value='hello')

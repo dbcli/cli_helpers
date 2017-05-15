@@ -28,7 +28,7 @@ setup(
     author_email='thomas@roten.us',
     version=version,
     url='https://github.com/dbcli/cli_helpers',
-    packages=find_packages(exclude=['docs', 'tests']),
+    packages=find_packages(exclude=['docs', 'tests', 'tests.tabular_output']),
     include_package_data=True,
     description='Helpers for building command-line apps',
     long_description=readme,
@@ -36,6 +36,13 @@ setup(
         'configobj >= 5.0.5',
         'terminaltables >= 3.0.0'
     ],
+    entry_points={
+        'distutils.commands': [
+            'lint = tasks:lint',
+            'test = tasks:test',
+            'docs = tasks:docs',
+        ],
+    },
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
