@@ -9,6 +9,7 @@ Version TBD
 * Make vertical table separator more customizable.
 * Add ability to pass additional preprocessors when formatting output.
 * Don't install tests.tabular_output.
+* Add .gitignore
 
 
 Version 0.1.0
