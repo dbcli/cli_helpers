@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 from decimal import Decimal
 from textwrap import dedent
 
+import pytest
+
 from cli_helpers.tabular_output import format_output, TabularOutputFormatter
 
 
@@ -67,3 +69,25 @@ def test_additional_preprocessors():
     assert expected == TabularOutputFormatter().format_output(
         data, headers, format_name='ascii', preprocessors=(hello_world,),
         missing_value='hello')
+
+
+def test_format_name_attribute():
+    """Test the the format_name attribute be set and retrieved."""
+    formatter = TabularOutputFormatter(format_name='plain')
+    assert formatter.format_name == 'plain'
+    formatter.format_name = 'simple'
+    assert formatter.format_name == 'simple'
+
+    with pytest.raises(ValueError):
+        formatter.format_name = 'foobar'
+
+
+def test_unsupported_format():
+    """Test that TabularOutputFormatter rejects unknown formats."""
+    formatter = TabularOutputFormatter()
+
+    with pytest.raises(ValueError):
+        formatter.format_name = 'foobar'
+
+    with pytest.raises(ValueError):
+        formatter.format_output((), (), format_name='foobar')
