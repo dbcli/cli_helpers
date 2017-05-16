@@ -1,5 +1,6 @@
 coverage==4.3.4
 git+https://github.com/hayd/pep8radius.git@c8aebd0e1d272160896124e104773b97a6249c3e#egg=pep8radius
+mock==2.0.0
 pytest==3.0.7
 pytest-cov==2.4.0
 Sphinx==1.5.5
