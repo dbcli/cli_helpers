@@ -5,8 +5,8 @@ from __future__ import unicode_literals
 import os
 import sys
 import tempfile
-from unittest.mock import MagicMock
 
+from mock import MagicMock
 import pytest
 
 from cli_helpers.compat import text_type, WIN

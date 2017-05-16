@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Various test utility functions and helpers."""
 
+from __future__ import unicode_literals
 from functools import wraps
 
 from .compat import TemporaryDirectory
