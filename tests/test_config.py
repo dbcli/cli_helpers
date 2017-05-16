@@ -17,7 +17,6 @@ from .utils import with_temp_dir
 
 APP_NAME, APP_AUTHOR = 'Test', 'Acme'
 TEST_DIR = os.path.dirname(__file__)
-_, FAKE_USER_CONFIG_FILE = tempfile.mkstemp()
 DEFAULT_CONFIG = {
     'section':  {
         'test_boolean_default': 'True',
