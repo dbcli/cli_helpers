@@ -16,3 +16,5 @@ test_boolean = bool(default=False)
 test_string_file = string(default='~/myfile')
 
 test_option = option('foo', 'bar', 'foobar', default='foobar')
+
+[section2]

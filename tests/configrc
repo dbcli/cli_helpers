@@ -14,3 +14,5 @@ test_boolean_default = True
 test_string_file = '~/myfile'
 
 test_option = 'foobar'
+
+[section2]
