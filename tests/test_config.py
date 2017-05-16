@@ -98,6 +98,13 @@ def test_config_reading_raise_errors():
         Config(APP_NAME, APP_AUTHOR, 'test_config', default=b'test')
 
 
+def test_config_user_file():
+    """Test that the Config user_config_file is appropriate."""
+    config = Config(APP_NAME, APP_AUTHOR, 'test_config')
+    assert (get_user_config_dir(APP_NAME, APP_AUTHOR) in
+            config.user_config_file())
+
+
 def test_config_reading_default_dict():
     """Test that the Config constructor will read in defaults from a dict."""
     default = {'main': {'foo': 'bar'}}
