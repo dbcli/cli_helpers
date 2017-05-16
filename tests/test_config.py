@@ -2,7 +2,6 @@
 """Test the cli_helpers.config module."""
 
 from __future__ import unicode_literals
-from functools import wraps
 import os
 import sys
 import tempfile
@@ -14,7 +13,7 @@ from cli_helpers.compat import text_type, WIN
 from cli_helpers.config import (Config, ConfigValidationError,
                                 get_system_config_dirs, get_user_config_dir,
                                 _pathify)
-from .compat import TemporaryDirectory
+from .utils import with_temp_dir
 
 APP_NAME, APP_AUTHOR = 'Test', 'Acme'
 TEST_DIR = os.path.dirname(__file__)
@@ -33,6 +32,13 @@ DEFAULT_VALID_CONFIG = {
         'test_option': 'foobar'
     }
 }
+
+
+def _mocked_user_config(temp_dir, *args, **kwargs):
+    config = Config(*args, **kwargs)
+    config.user_config_file = MagicMock(return_value=os.path.join(
+        temp_dir, config.filename))
+    return config
 
 
 def test_user_config_dir():
@@ -128,33 +134,18 @@ def test_config_reading_configspec_with_error():
                default=os.path.join(TEST_DIR, 'invalid_configspecrc'))
 
 
-def with_temp_dir(f):
-    @wraps(f)
-    def wrapped(*args, **kwargs):
-        with TemporaryDirectory() as temp_dir:
-            return f(*args, temp_dir=temp_dir, **kwargs)
-    return wrapped
-
-
-def mocked_user_config(temp_dir, *args, **kwargs):
-    config = Config(*args, **kwargs)
-    config.user_config_file = MagicMock(return_value=os.path.join(
-        temp_dir, config.filename))
-    return config
-
-
 @with_temp_dir
 def test_write_and_read_default_config(temp_dir=None):
     config_file = 'test_config'
     default_file = os.path.join(TEST_DIR, 'configrc')
     temp_config_file = os.path.join(temp_dir, config_file)
 
-    config = mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
-                                default=default_file)
+    config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
+                                 default=default_file)
     config.write_default_config()
 
-    user_config = mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR,
-                                     config_file, default=default_file)
+    user_config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR,
+                                      config_file, default=default_file)
     user_config.read()
     assert temp_config_file in user_config.config_filenames
     assert user_config == config
@@ -173,13 +164,13 @@ def test_write_and_read_default_config_from_configspec(temp_dir=None):
     default_file = os.path.join(TEST_DIR, 'configspecrc')
     temp_config_file = os.path.join(temp_dir, config_file)
 
-    config = mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
-                                default=default_file, validate=True)
+    config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
+                                 default=default_file, validate=True)
     config.write_default_config()
 
-    user_config = mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR,
-                                     config_file, default=default_file,
-                                     validate=True)
+    user_config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR,
+                                      config_file, default=default_file,
+                                      validate=True)
     user_config.read()
     assert temp_config_file in user_config.config_filenames
     assert user_config == config
