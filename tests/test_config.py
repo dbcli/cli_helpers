@@ -8,7 +8,7 @@ import sys
 from mock import MagicMock
 import pytest
 
-from cli_helpers.compat import text_type, WIN
+from cli_helpers.compat import MAC, text_type, WIN
 from cli_helpers.config import (Config, ConfigValidationError,
                                 get_system_config_dirs, get_user_config_dir,
                                 _pathify)
@@ -68,7 +68,7 @@ def test_windows_user_config_dir_no_roaming():
     assert 'Local' in config_dir
 
 
-@pytest.mark.skipif(sys.platform != 'darwin', reason="requires macOS")
+@pytest.mark.skipif(not MAC, reason="requires macOS")
 def test_mac_user_config_dir_no_xdg():
     """Test that macOS returns the user config directory without XDG."""
     config_dir = get_user_config_dir(APP_NAME, APP_AUTHOR, force_xdg=False)
@@ -77,7 +77,7 @@ def test_mac_user_config_dir_no_xdg():
     assert 'Library' in config_dir
 
 
-@pytest.mark.skipif(sys.platform != 'darwin', reason="requires macOS")
+@pytest.mark.skipif(not MAC, reason="requires macOS")
 def test_mac_system_config_dirs_no_xdg():
     """Test that macOS returns the system config directories without XDG."""
     config_dirs = get_system_config_dirs(APP_NAME, APP_AUTHOR, force_xdg=False)

@@ -11,12 +11,11 @@ from __future__ import unicode_literals
 import io
 import logging
 import os
-import sys
 
 from configobj import ConfigObj, ConfigObjError
 from validate import ValidateError, Validator
 
-from .compat import text_type, UserDict, WIN
+from .compat import MAC, text_type, UserDict, WIN
 
 logger = logging.getLogger(__name__)
 
@@ -199,7 +198,7 @@ def get_user_config_dir(app_name, app_author, roaming=True, force_xdg=True):
         key = 'APPDATA' if roaming else 'LOCALAPPDATA'
         folder = os.path.expanduser(os.environ.get(key, '~'))
         return os.path.join(folder, app_author, app_name)
-    if sys.platform == 'darwin' and not force_xdg:
+    if MAC and not force_xdg:
         return os.path.join(os.path.expanduser(
             '~/Library/Application Support'), app_name)
     return os.path.join(
@@ -234,7 +233,7 @@ def get_system_config_dirs(app_name, app_author, force_xdg=True):
     if WIN:
         folder = os.environ.get('PROGRAMDATA')
         return [os.path.join(folder, app_author, app_name)]
-    if sys.platform == 'darwin' and not force_xdg:
+    if MAC and not force_xdg:
         return [os.path.join('/Library/Application Support', app_name)]
     dirs = os.environ.get('XDG_CONFIG_DIRS', '/etc/xdg')
     paths = [os.path.expanduser(x) for x in dirs.split(os.pathsep)]
