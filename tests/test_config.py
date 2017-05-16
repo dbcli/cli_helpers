@@ -179,3 +179,27 @@ def test_write_and_read_default_config_from_configspec(temp_dir=None):
     assert '# Test section comment' in contents
     assert '# Test field comment' in contents
     assert '# Test field commented out' in contents
+
+
+@with_temp_dir
+def test_overwrite_default_config_from_configspec(temp_dir=None):
+    config_file = 'test_config'
+    default_file = os.path.join(TEST_DIR, 'configspecrc')
+    temp_config_file = os.path.join(temp_dir, config_file)
+
+    config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
+                                 default=default_file, validate=True)
+    config.write_default_config()
+
+    with open(temp_config_file, 'a') as f:
+        f.write('--APPEND--')
+
+    config.write_default_config()
+
+    with open(temp_config_file) as f:
+        assert '--APPEND--' in f.read()
+
+    config.write_default_config(overwrite=True)
+
+    with open(temp_config_file) as f:
+        assert '--APPEND--' not in f.read()
