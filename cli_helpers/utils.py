@@ -37,3 +37,9 @@ def intlen(n):
 def filter_dict_by_key(d, keys):
     """Filter the dict *d* to remove keys not in *keys*."""
     return {k: v for k, v in d.items() if k in keys}
+
+
+def unique_items(seq):
+    """Return the unique items from iterable *seq* (in order)."""
+    seen = set()
+    return [x for x in seq if not (x in seen or seen.add(x))]
