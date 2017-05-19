@@ -136,14 +136,10 @@ class Config(UserDict, object):
             config = ConfigObj(infile=f, configspec=configspec,
                                interpolation=False, encoding='utf8')
         except ConfigObjError as e:
-            logger.log_warning(
+            logger.warning(
                 'Unable to parse line {} of config file {}'.format(
                     e.line_number, f))
-            return e.config
-        except (IOError, OSError) as e:
-            logger.log_error(
-                'Unable to open config file {}'.format(e.filename))
-            return None
+            config = e.config
 
         valid = True
         if self.validate:
