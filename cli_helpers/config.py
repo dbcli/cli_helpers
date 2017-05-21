@@ -48,7 +48,7 @@ class Config(UserDict, object):
 
     def __init__(self, app_name, app_author, filename, default=None,
                  validate=False, write_default=False, additional_dirs=()):
-        super(self.__class__, self).__init__()
+        super(Config, self).__init__()
 
         self.default = {}
         self.default_file = self.default_config = None
