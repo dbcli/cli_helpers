@@ -49,6 +49,7 @@ class Config(UserDict, object):
     def __init__(self, app_name, app_author, filename, default=None,
                  validate=False, write_default=False, additional_dirs=()):
         super(Config, self).__init__()
+        self.data = ConfigObj()
 
         self.default = {}
         self.default_file = self.default_config = None
@@ -128,6 +129,15 @@ class Config(UserDict, object):
 
         with io.open(destination, mode='wb') as f:
             self.default_config.write(f)
+
+    def write(self, outfile=None, section=None):
+        """Write the current config to a file (defaults to user config)."""
+        f = None
+        if not outfile:
+            outfile = f = open(self.user_config_file(), 'wb')
+        self.data.write(outfile=outfile, section=section)
+        if f:
+            f.close()
 
     def read_config_file(self, f, **kwargs):
         """Read a config file."""

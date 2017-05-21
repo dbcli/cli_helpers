@@ -223,3 +223,41 @@ def test_read_invalid_config_file():
     assert 'test_string_file' in config['section']
     assert 'test_boolean_default' not in config['section']
     assert 'section2' in config
+
+
+@with_temp_dir
+def test_write_to_user_config(temp_dir=None):
+    config_file = 'test_config'
+    default_file = os.path.join(TEST_DATA_DIR, 'configrc')
+    temp_config_file = os.path.join(temp_dir, config_file)
+
+    config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
+                                 default=default_file)
+    config.write_default_config()
+
+    with open(temp_config_file) as f:
+        assert 'test_boolean_default = True' in f.read()
+
+    config['section']['test_boolean_default'] = False
+    config.write()
+
+    with open(temp_config_file) as f:
+        assert 'test_boolean_default = False' in f.read()
+
+
+@with_temp_dir
+def test_write_to_outfile(temp_dir=None):
+    config_file = 'test_config'
+    outfile = 'foo'
+    default_file = os.path.join(TEST_DATA_DIR, 'configrc')
+
+    config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
+                                 default=default_file)
+    config.write_default_config()
+
+    config['section']['test_boolean_default'] = False
+    with open(outfile, 'wb') as f:
+        config.write(outfile=f)
+
+    with open(outfile) as f:
+        assert 'test_boolean_default = False' in f.read()
