@@ -248,7 +248,7 @@ def test_write_to_user_config(temp_dir=None):
 @with_temp_dir
 def test_write_to_outfile(temp_dir=None):
     config_file = 'test_config'
-    outfile = 'foo'
+    outfile = os.path.join(temp_dir, 'foo')
     default_file = os.path.join(TEST_DATA_DIR, 'configrc')
 
     config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
