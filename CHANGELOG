@@ -11,6 +11,7 @@ Version TBD
 * Add ability to pass additional preprocessors when formatting output.
 * Don't install tests.tabular_output.
 * Add .gitignore
+* Coverage for tox tests.
 
 
 Version 0.1.0
