@@ -30,9 +30,9 @@ def test_markup_format():
         {| class="wikitable" style="text-align: left;"
         |+ <!-- caption -->
         |-
-        ! letters   !! align="right"|   number
+        ! letters !! number
         |-
-        | abc       || align="right"|        1
+        | abc || 1
         |-
-        | d         || align="right"|      456
+        | d || 456
         |}''')
