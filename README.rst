@@ -5,6 +5,9 @@ CLI Helpers
 .. image:: https://travis-ci.org/dbcli/cli_helpers.svg?branch=master
     :target: https://travis-ci.org/dbcli/cli_helpers
 
+.. image:: https://codecov.io/gh/dbcli/cli_helpers/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/dbcli/cli_helpers
+
 .. image:: https://img.shields.io/pypi/v/cli_helpers.svg?style=flat
     :target: https://pypi.python.org/pypi/cli_helpers
 

@@ -4,7 +4,7 @@
 from textwrap import dedent
 
 from cli_helpers.compat import text_type
-from cli_helpers.tabular_output.vertical_table_adapter import vertical_table
+from cli_helpers.tabular_output import vertical_table_adapter
 
 
 def test_vertical_table():
@@ -19,7 +19,7 @@ def test_vertical_table():
         name | world
         age  | 456
         """)
-    assert expected == vertical_table(results, ('name', 'age'))
+    assert expected == vertical_table_adapter.adapter(results, ('name', 'age'))
 
 
 def test_vertical_table_customized():
@@ -34,6 +34,6 @@ def test_vertical_table_customized():
         name | jill
         age  | 50
         """)
-    assert expected == vertical_table(results, ('name', 'age'),
-                                      sep_title='PERSON {n}',
-                                      sep_character='-', sep_length=(1, 5))
+    assert expected == vertical_table_adapter.adapter(
+        results, ('name', 'age'), sep_title='PERSON {n}',
+        sep_character='-', sep_length=(1, 5))
