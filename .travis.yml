@@ -4,6 +4,9 @@ cache: pip
 install: pip install tox
 script: tox
 
+env:
+  - CODECOV=true
+
 matrix:
   include:
     - python: 2.7
