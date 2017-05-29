@@ -23,7 +23,7 @@ def adapter(data, headers, table_format=None, missing_value='',
     tkwargs.update(filter_dict_by_key(kwargs, keys))
 
     if table_format in supported_markup_formats:
-        kwargs.update(numalign=None, stralign=None)
+        tkwargs.update(numalign=None, stralign=None)
 
     tabulate.PRESERVE_WHITESPACE = preserve_whitespace
 

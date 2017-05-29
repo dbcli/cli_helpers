@@ -2,6 +2,7 @@ __pycache__
 *.pyc
 *.egg
 *.egg-info
+.coverage
 /.tox
 /build
 /docs/build

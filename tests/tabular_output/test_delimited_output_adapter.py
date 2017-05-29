@@ -4,6 +4,8 @@
 from __future__ import unicode_literals
 from textwrap import dedent
 
+import pytest
+
 from cli_helpers.tabular_output import delimited_output_adapter
 
 
@@ -27,3 +29,7 @@ def test_csv_wrapper():
         letters\tnumber\r\n\
         abc\t1\r\n\
         d\t456\r\n''')
+
+    with pytest.raises(ValueError):
+        output = delimited_output_adapter.adapter(
+            data, headers, table_format='foobar')

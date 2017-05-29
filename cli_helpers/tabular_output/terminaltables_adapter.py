@@ -21,10 +21,7 @@ def adapter(data, headers, table_format=None, **kwargs):
         'github': terminaltables.GithubFlavoredMarkdownTable,
     }
 
-    try:
-        table = table_format_handler[table_format]
-    except KeyError:
-        raise ValueError('unrecognized table format: {}'.format(table_format))
+    table = table_format_handler[table_format]
 
     t = table([headers] + data, **filter_dict_by_key(kwargs, keys))
     return t.table
