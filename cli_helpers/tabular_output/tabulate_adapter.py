@@ -3,7 +3,8 @@
 
 from cli_helpers.packages import tabulate
 from cli_helpers.utils import filter_dict_by_key
-from .preprocessors import bytes_to_string, align_decimals
+from .preprocessors import (bytes_to_string, align_decimals,
+                            override_missing_value)
 
 supported_markup_formats = ('mediawiki', 'html', 'latex', 'latex_booktabs',
                             'textile', 'moinmoin', 'jira')
@@ -11,7 +12,7 @@ supported_table_formats = ('plain', 'simple', 'grid', 'fancy_grid', 'pipe',
                            'orgtbl', 'psql', 'rst')
 supported_formats = supported_markup_formats + supported_table_formats
 
-preprocessors = (bytes_to_string, align_decimals)
+preprocessors = (bytes_to_string, override_missing_value, align_decimals)
 
 
 def adapter(data, headers, table_format=None, missing_value='',
