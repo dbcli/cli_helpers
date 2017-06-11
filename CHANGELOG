@@ -12,6 +12,7 @@ Version TBD
 * Don't install tests.tabular_output.
 * Add .gitignore
 * Coverage for tox tests.
+* Style formatted output with Pygments (optional).
 
 
 Version 0.1.0
