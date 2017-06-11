@@ -3,7 +3,8 @@
 
 from cli_helpers.packages import tabulate
 from cli_helpers.utils import filter_dict_by_key
-from .preprocessors import bytes_to_string, align_decimals
+from .preprocessors import (bytes_to_string, align_decimals,
+                            override_missing_value)
 
 supported_markup_formats = ('mediawiki', 'html', 'latex', 'latex_booktabs',
                             'textile', 'moinmoin', 'jira')
@@ -11,15 +12,14 @@ supported_table_formats = ('plain', 'simple', 'grid', 'fancy_grid', 'pipe',
                            'orgtbl', 'psql', 'rst')
 supported_formats = supported_markup_formats + supported_table_formats
 
-preprocessors = (bytes_to_string, align_decimals)
+preprocessors = (bytes_to_string, override_missing_value, align_decimals)
 
 
-def adapter(data, headers, table_format=None, missing_value='',
-            preserve_whitespace=False, **kwargs):
+def adapter(data, headers, table_format=None, preserve_whitespace=False,
+            **kwargs):
     """Wrap tabulate inside a function for TabularOutputFormatter."""
-    keys = ('floatfmt', 'numalign', 'stralign', 'missingval', 'showindex',
-            'disable_numparse')
-    tkwargs = {'tablefmt': table_format, 'missingval': missing_value}
+    keys = ('floatfmt', 'numalign', 'stralign', 'showindex', 'disable_numparse')
+    tkwargs = {'tablefmt': table_format}
     tkwargs.update(filter_dict_by_key(kwargs, keys))
 
     if table_format in supported_markup_formats:
