@@ -13,6 +13,7 @@ Version TBD
 * Add .gitignore
 * Coverage for tox tests.
 * Style formatted output with Pygments (optional).
+* Fix issue where tabulate can't handle ANSI escape codes in default values.
 
 
 Version 0.1.0
