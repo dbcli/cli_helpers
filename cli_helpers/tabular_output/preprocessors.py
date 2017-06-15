@@ -135,3 +135,20 @@ def quote_whitespaces(data, headers, quotestyle="'", **_):
                 quotestyle=quotation, value=v))
         results.append(result)
     return results, headers
+
+
+def format_numbers(data, headers, column_types=(), decimal_format=None,
+                   float_format=None, **_):
+    if (decimal_format is None and float_format is None) or not column_types:
+        return data, headers
+
+    def _format_number(field, column_type, decimal_format=None,
+                       float_format=None):
+        if decimal_format and column_type == int and type(field) in (int,):
+            return format(field, decimal_format)
+        elif float_format and column_type == float and isinstance(field, float):
+            return format(field, float_format)
+        return field
+
+    data = [[_format_number(v, column_types[i]) for i, v in enumerate(row)] for row in data]
+    return data, headers
