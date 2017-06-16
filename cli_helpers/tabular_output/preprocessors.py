@@ -5,7 +5,8 @@ from decimal import Decimal
 import string
 
 from cli_helpers import utils
-from cli_helpers.compat import text_type
+from cli_helpers.compat import (StringIO, text_type, HAS_PYGMENTS,
+                                Terminal256Formatter)
 
 
 def convert_to_string(data, headers, **_):
@@ -135,3 +136,60 @@ def quote_whitespaces(data, headers, quotestyle="'", **_):
                 quotestyle=quotation, value=v))
         results.append(result)
     return results, headers
+
+
+def style_output(data, headers, style=None,
+                 header_token='Token.Output.Header',
+                 odd_row_token='Token.Output.OddRow',
+                 even_row_token='Token.Output.EvenRow', **_):
+    """Style the *data* and *headers* (e.g. bold, italic, and colors)
+
+    .. NOTE::
+        This requires the `Pygments <http://pygments.org/>`_ library to
+        be installed. You can install it with CLI Helpers as an extra::
+            $ pip install cli_helpers[styles]
+
+    Example usage::
+
+        from cli_helpers.tabular_output.preprocessors import style_output
+        from pygments.style import Style
+        from pygments.token import Token
+
+        class YourStyle(Style):
+            default_style = ""
+            styles = {
+                Token.Output.Header: 'bold #ansired',
+                Token.Output.OddRow: 'bg:#eee #111',
+                Token.Output.EvenRow: '#0f0'
+            }
+
+        headers = ('First Name', 'Last Name')
+        data = [['Fred', 'Roberts'], ['George', 'Smith']]
+
+        data, headers = style_output(data, headers, style=YourStyle)
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :param str/pygments.style.Style style: A Pygments style. You can `create
+        your own styles <http://pygments.org/docs/styles/#creating-own-styles>`_.
+    :param str header_token: The token type to be used for the headers.
+    :param str odd_row_token: The token type to be used for odd rows.
+    :param str even_row_token: The token type to be used for even rows.
+    :return: The styled data and headers.
+    :rtype: tuple
+
+    """
+    if style and HAS_PYGMENTS:
+        formatter = Terminal256Formatter(style=style)
+
+        def style_field(token, field):
+            """Get the styled text for a *field* using *token* type."""
+            s = StringIO()
+            formatter.format(((token, field),), s)
+            return s.getvalue()
+
+        headers = [style_field(header_token, header) for header in headers]
+        data = [[style_field(odd_row_token if i % 2 else even_row_token, f)
+                 for f in r] for i, r in enumerate(data, 1)]
+
+    return data, headers
