@@ -132,3 +132,31 @@ def test_style_output():
 
     assert (expected_data, expected_headers) == style_output(data, headers,
                                                              style=CliStyle)
+
+
+@pytest.mark.skipif(not HAS_PYGMENTS, reason='requires the Pygments library')
+def test_style_output_custom_tokens():
+    """Test that *style_output()* styles output with custom token names."""
+
+    class CliStyle(Style):
+        default_style = ""
+        styles = {
+            Token.Results.Headers: 'bold #ansired',
+            Token.Results.OddRows: 'bg:#eee #111',
+            Token.Results.EvenRows: '#0f0'
+        }
+    headers = ['h1', 'h2']
+    data = [['1', '2'], ['a', 'b']]
+
+    expected_headers = ['\x1b[31;01mh1\x1b[39;00m', '\x1b[31;01mh2\x1b[39;00m']
+    expected_data = [['\x1b[38;5;233;48;5;7m1\x1b[39;49m',
+                      '\x1b[38;5;233;48;5;7m2\x1b[39;49m'],
+                     ['\x1b[38;5;10ma\x1b[39m', '\x1b[38;5;10mb\x1b[39m']]
+
+    output = style_output(
+        data, headers, style=CliStyle,
+        header_token='Token.Results.Headers',
+        odd_row_token='Token.Results.OddRows',
+        even_row_token='Token.Results.EvenRows')
+
+    assert (expected_data, expected_headers) == output
