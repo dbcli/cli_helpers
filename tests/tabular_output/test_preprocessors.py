@@ -101,7 +101,8 @@ def test_style_output_no_styles():
     assert (data, headers) == style_output(data, headers)
 
 
-@pytest.mark.skipif(HAS_PYGMENTS, reason='requires no Pygments library')
+@pytest.mark.skipif(HAS_PYGMENTS,
+                    reason='requires the Pygments library be missing')
 def test_style_output_no_pygments():
     """Test that *style_output()* does not try to style without Pygments."""
     headers = ['h1', 'h2']
