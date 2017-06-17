@@ -8,7 +8,8 @@ from cli_helpers.tabular_output.preprocessors import (align_decimals,
                                                       bytes_to_string,
                                                       convert_to_string,
                                                       quote_whitespaces,
-                                                      override_missing_value)
+                                                      override_missing_value,
+                                                      format_numbers)
 
 
 def test_convert_to_string():
@@ -85,3 +86,44 @@ def test_quote_whitespaces_non_spaces():
                 ['h1', 'h2'])
 
     assert expected == quote_whitespaces(data, headers)
+
+
+def test_format_integer():
+    """Test formatting for an INTEGER datatype."""
+    data = [[1], [1000], [1000000]]
+    headers = ['h1']
+    result = format_numbers(data,
+                            headers,
+                            column_types=(int,),
+                            decimal_format=',d',
+                            float_format=',')
+
+    expected = [[u'1'], [u'1,000'], [u'1,000,000']]
+    assert expected == result[0]
+
+
+def test_format_decimal():
+    """Test formatting for a DECIMAL(12, 4) datatype."""
+    data = [[Decimal('1.0000')], [Decimal('1000.0000')], [Decimal('1000000.0000')]]
+    headers = ['h1']
+    result = format_numbers(data,
+                            headers,
+                            column_types=(float,),
+                            decimal_format=',d',
+                            float_format=',')
+
+    expected = [[u'1.0000'], [u'1,000.0000'], [u'1,000,000.0000']]
+    assert expected == result[0]
+
+
+def test_format_float():
+    """Test formatting for a REAL datatype."""
+    data = [[1.0], [1000.0], [1000000.0]]
+    headers = ['h1']
+    result = format_numbers(data,
+                            headers,
+                            column_types=(float,),
+                            decimal_format=',d',
+                            float_format=',')
+    expected = [[u'1.0'], [u'1,000.0'], [u'1,000,000.0']]
+    assert expected == result[0]
