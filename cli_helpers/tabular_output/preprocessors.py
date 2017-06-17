@@ -142,8 +142,7 @@ def format_numbers(data, headers, column_types=(), decimal_format=None,
     if (decimal_format is None and float_format is None) or not column_types:
         return data, headers
 
-    def _format_number(field, column_type, decimal_format=None,
-                       float_format=None):
+    def _format_number(field, column_type):
         if decimal_format and column_type == int and type(field) in (int,):
             return format(field, decimal_format)
         elif float_format and column_type == float and isinstance(field, float):
