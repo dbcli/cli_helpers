@@ -3,9 +3,8 @@
 
 from __future__ import unicode_literals
 from collections import namedtuple
-from decimal import Decimal
 
-from cli_helpers.compat import text_type, binary_type, long_type
+from cli_helpers.compat import text_type, binary_type, int_types, float_types
 from cli_helpers.utils import unique_items
 from . import (delimited_output_adapter, vertical_table_adapter,
                tabulate_adapter, terminaltables_adapter)
@@ -158,9 +157,9 @@ class TabularOutputFormatter(object):
     def _get_type(self, value):
         if value is None:
             return type(None)
-        elif type(value) in (int, long_type):
+        elif type(value) in int_types:
             return int
-        elif isinstance(value, (float, Decimal)):
+        elif type(value) in float_types:
             return float
         elif isinstance(value, binary_type):
             return binary_type

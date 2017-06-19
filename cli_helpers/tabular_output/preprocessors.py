@@ -5,7 +5,7 @@ from decimal import Decimal
 import string
 
 from cli_helpers import utils
-from cli_helpers.compat import text_type
+from cli_helpers.compat import text_type, int_types, float_types
 
 
 def convert_to_string(data, headers, **_):
@@ -143,9 +143,9 @@ def format_numbers(data, headers, column_types=(), decimal_format=None,
         return data, headers
 
     def _format_number(field, column_type):
-        if decimal_format and column_type == int and type(field) in (int,):
+        if decimal_format and column_type is int and type(field) in int_types:
             return format(field, decimal_format)
-        elif float_format and column_type == float and type(field) in (float, Decimal):
+        elif float_format and column_type is float and type(field) in float_types:
             return format(field, float_format)
         return field
 
