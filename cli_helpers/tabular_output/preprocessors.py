@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """These preprocessor functions are used to process data prior to output."""
 
-from decimal import Decimal
 import string
 
 from cli_helpers import utils
@@ -57,11 +56,12 @@ def bytes_to_string(data, headers, **_):
             [utils.bytes_to_string(h) for h in headers])
 
 
-def align_decimals(data, headers, **_):
+def align_decimals(data, headers, column_types=(), **_):
     """Align numbers in *data* on their decimal points.
 
     Whitespace padding is added before a number so that all numbers in a
-    column are aligned.
+    column are aligned. Numbers are expected to be passed as strings to this
+    preprocessor.
 
     Outputting data before aligning the decimals::
 
@@ -77,6 +77,7 @@ def align_decimals(data, headers, **_):
 
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
+    :param iterable column_types: The columns' type objects (e.g. int or float).
     :return: The processed data and headers.
     :rtype: tuple
 
@@ -84,15 +85,13 @@ def align_decimals(data, headers, **_):
     pointpos = len(headers) * [0]
     for row in data:
         for i, v in enumerate(row):
-            if isinstance(v, Decimal):
-                v = text_type(v)
+            if column_types[i] is float and utils.is_number(v):
                 pointpos[i] = max(utils.intlen(v), pointpos[i])
     results = []
     for row in data:
         result = []
         for i, v in enumerate(row):
-            if isinstance(v, Decimal):
-                v = text_type(v)
+            if column_types[i] is float and utils.is_number(v):
                 result.append((pointpos[i] - utils.intlen(v)) * " " + v)
             else:
                 result.append(v)

@@ -9,8 +9,8 @@ from .preprocessors import (convert_to_string, align_decimals,
                             format_numbers)
 
 supported_formats = ('ascii', 'double', 'github')
-preprocessors = (override_missing_value, align_decimals, format_numbers,
-                 convert_to_string, style_output)
+preprocessors = (override_missing_value, format_numbers, convert_to_string,
+                 align_decimals, style_output)
 
 
 def adapter(data, headers, table_format=None, **kwargs):

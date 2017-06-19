@@ -13,8 +13,8 @@ supported_table_formats = ('plain', 'simple', 'grid', 'fancy_grid', 'pipe',
                            'orgtbl', 'psql', 'rst')
 supported_formats = supported_markup_formats + supported_table_formats
 
-preprocessors = (align_decimals, override_missing_value, format_numbers,
-                 convert_to_string, style_output)
+preprocessors = (override_missing_value, format_numbers, convert_to_string,
+                 align_decimals, style_output)
 
 
 def adapter(data, headers, table_format=None, preserve_whitespace=False,

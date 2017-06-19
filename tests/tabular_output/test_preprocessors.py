@@ -46,21 +46,22 @@ def test_bytes_to_string():
 
 def test_align_decimals():
     """Test the align_decimals() function."""
-    data = [[Decimal('200'), Decimal('1')], [
-        Decimal('1.00002'), Decimal('1.0')]]
+    data = [['200', '1'], ['1.00002', '1.0']]
     headers = ['num1', 'num2']
+    column_types = (float, float)
     expected = ([['200', '1'], ['  1.00002', '1.0']], ['num1', 'num2'])
 
-    assert expected == align_decimals(data, headers)
+    assert expected == align_decimals(data, headers, column_types=column_types)
 
 
 def test_align_decimals_empty_result():
     """Test align_decimals() with no results."""
     data = []
     headers = ['num1', 'num2']
+    column_types = ()
     expected = ([], ['num1', 'num2'])
 
-    assert expected == align_decimals(data, headers)
+    assert expected == align_decimals(data, headers, column_types=column_types)
 
 
 def test_quote_whitespaces():

@@ -28,6 +28,15 @@ def to_string(value):
         return text_type(value)
 
 
+def is_number(value):
+    """Check if a string can be converted to a float."""
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
+
+
 def intlen(n):
     """Find the length of the integer part of a number *n*."""
     pos = n.find('.')
