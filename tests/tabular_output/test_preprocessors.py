@@ -129,6 +129,17 @@ def test_format_float():
     assert expected, headers == result
 
 
+def test_format_integer_only():
+    """Test that providing one format string works."""
+    data = [[1, 1.0], [1000, 1000.0], [1000000, 1000000.0]]
+    headers = ['h1', 'h2']
+    result = format_numbers(data, headers, column_types=(int, float),
+                            decimal_format=',d')
+
+    expected = [['1', 1.0], ['1,000', 1000.0], ['1,000,000', 1000000.0]]
+    assert expected, headers == result
+
+
 def test_format_numbers_no_format_strings():
     """Test that numbers aren't formatted without format strings."""
     data = ((1), (1000), (1000000))
