@@ -98,7 +98,7 @@ def test_format_integer():
                             decimal_format=',d',
                             float_format=',')
 
-    expected = [[u'1'], [u'1,000'], [u'1,000,000']]
+    expected = [['1'], ['1,000'], ['1,000,000']]
     assert expected == result[0]
 
 
@@ -112,7 +112,7 @@ def test_format_decimal():
                             decimal_format=',d',
                             float_format=',')
 
-    expected = [[u'1.0000'], [u'1,000.0000'], [u'1,000,000.0000']]
+    expected = [['1.0000'], ['1,000.0000'], ['1,000,000.0000']]
     assert expected == result[0]
 
 
@@ -125,5 +125,5 @@ def test_format_float():
                             column_types=(float,),
                             decimal_format=',d',
                             float_format=',')
-    expected = [[u'1.0'], [u'1,000.0'], [u'1,000,000.0']]
+    expected = [['1.0'], ['1,000.0'], ['1,000,000.0']]
     assert expected == result[0]
