@@ -146,15 +146,18 @@ class TabularOutputFormatter(object):
         return formatter(data, headers, column_types=column_types, **fkwargs)
 
     def _get_column_types(self, data):
+        """Get a list of the data types for each column in *data*."""
         columns = list(zip(*data))
         return [self._get_column_type(column) for column in columns]
 
     def _get_column_type(self, column):
+        """Get the most generic data type for iterable *column*."""
         type_values = [TYPES[self._get_type(v)] for v in column]
         inverse_types = {v: k for k, v in TYPES.items()}
         return inverse_types[max(type_values)]
 
     def _get_type(self, value):
+        """Get the data type for *value*."""
         if value is None:
             return type(None)
         elif type(value) in int_types:
