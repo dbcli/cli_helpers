@@ -4,10 +4,11 @@
 from __future__ import unicode_literals
 
 from cli_helpers.utils import filter_dict_by_key
-from .preprocessors import convert_to_string, override_missing_value
+from .preprocessors import (convert_to_string, override_missing_value,
+                            style_output)
 
 supported_formats = ('vertical', )
-preprocessors = (override_missing_value, convert_to_string)
+preprocessors = (override_missing_value, convert_to_string, style_output)
 
 
 def _get_separator(num, sep_title, sep_character, sep_length):

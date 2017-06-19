@@ -4,12 +4,16 @@
 from __future__ import unicode_literals
 from decimal import Decimal
 
-from cli_helpers.tabular_output.preprocessors import (align_decimals,
-                                                      bytes_to_string,
-                                                      convert_to_string,
-                                                      quote_whitespaces,
-                                                      override_missing_value,
-                                                      format_numbers)
+import pytest
+
+from cli_helpers.compat import HAS_PYGMENTS
+from cli_helpers.tabular_output.preprocessors import (
+    align_decimals, bytes_to_string, convert_to_string, quote_whitespaces,
+    override_missing_value, style_output, format_numbers)
+
+if HAS_PYGMENTS:
+    from pygments.style import Style
+    from pygments.token import Token
 
 
 def test_convert_to_string():
@@ -86,6 +90,76 @@ def test_quote_whitespaces_non_spaces():
                 ['h1', 'h2'])
 
     assert expected == quote_whitespaces(data, headers)
+
+
+@pytest.mark.skipif(not HAS_PYGMENTS, reason='requires the Pygments library')
+def test_style_output_no_styles():
+    """Test that *style_output()* does not style without styles."""
+    headers = ['h1', 'h2']
+    data = [['1', '2'], ['a', 'b']]
+
+    assert (data, headers) == style_output(data, headers)
+
+
+@pytest.mark.skipif(HAS_PYGMENTS,
+                    reason='requires the Pygments library be missing')
+def test_style_output_no_pygments():
+    """Test that *style_output()* does not try to style without Pygments."""
+    headers = ['h1', 'h2']
+    data = [['1', '2'], ['a', 'b']]
+
+    assert (data, headers) == style_output(data, headers)
+
+
+@pytest.mark.skipif(not HAS_PYGMENTS, reason='requires the Pygments library')
+def test_style_output():
+    """Test that *style_output()* styles output."""
+
+    class CliStyle(Style):
+        default_style = ""
+        styles = {
+            Token.Output.Header: 'bold #ansired',
+            Token.Output.OddRow: 'bg:#eee #111',
+            Token.Output.EvenRow: '#0f0'
+        }
+    headers = ['h1', 'h2']
+    data = [['1', '2'], ['a', 'b']]
+
+    expected_headers = ['\x1b[31;01mh1\x1b[39;00m', '\x1b[31;01mh2\x1b[39;00m']
+    expected_data = [['\x1b[38;5;233;48;5;7m1\x1b[39;49m',
+                      '\x1b[38;5;233;48;5;7m2\x1b[39;49m'],
+                     ['\x1b[38;5;10ma\x1b[39m', '\x1b[38;5;10mb\x1b[39m']]
+
+    assert (expected_data, expected_headers) == style_output(data, headers,
+                                                             style=CliStyle)
+
+
+@pytest.mark.skipif(not HAS_PYGMENTS, reason='requires the Pygments library')
+def test_style_output_custom_tokens():
+    """Test that *style_output()* styles output with custom token names."""
+
+    class CliStyle(Style):
+        default_style = ""
+        styles = {
+            Token.Results.Headers: 'bold #ansired',
+            Token.Results.OddRows: 'bg:#eee #111',
+            Token.Results.EvenRows: '#0f0'
+        }
+    headers = ['h1', 'h2']
+    data = [['1', '2'], ['a', 'b']]
+
+    expected_headers = ['\x1b[31;01mh1\x1b[39;00m', '\x1b[31;01mh2\x1b[39;00m']
+    expected_data = [['\x1b[38;5;233;48;5;7m1\x1b[39;49m',
+                      '\x1b[38;5;233;48;5;7m2\x1b[39;49m'],
+                     ['\x1b[38;5;10ma\x1b[39m', '\x1b[38;5;10mb\x1b[39m']]
+
+    output = style_output(
+        data, headers, style=CliStyle,
+        header_token='Token.Results.Headers',
+        odd_row_token='Token.Results.OddRows',
+        even_row_token='Token.Results.EvenRows')
+
+    assert (expected_data, expected_headers) == output
 
 
 def test_format_integer():

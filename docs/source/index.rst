@@ -11,7 +11,6 @@ You can get the library directly from `PyPI <https://pypi.org/>`_::
 
     $ pip install cli_helpers
 
-
 User Guide
 ----------
 .. toctree::
