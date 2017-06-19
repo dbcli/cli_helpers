@@ -95,7 +95,7 @@ def test_format_integer():
     result = format_numbers(data,
                             headers,
                             column_types=(int,),
-                            decimal_format=',',
+                            integer_format=',',
                             float_format=',')
 
     expected = [['1'], ['1,000'], ['1,000,000']]
@@ -109,7 +109,7 @@ def test_format_decimal():
     result = format_numbers(data,
                             headers,
                             column_types=(float,),
-                            decimal_format=',',
+                            integer_format=',',
                             float_format=',')
 
     expected = [['1.0000'], ['1,000.0000'], ['1,000,000.0000']]
@@ -123,7 +123,7 @@ def test_format_float():
     result = format_numbers(data,
                             headers,
                             column_types=(float,),
-                            decimal_format=',',
+                            integer_format=',',
                             float_format=',')
     expected = [['1.0'], ['1,000.0'], ['1,000,000.0']]
     assert expected, headers == result
@@ -134,7 +134,7 @@ def test_format_integer_only():
     data = [[1, 1.0], [1000, 1000.0], [1000000, 1000000.0]]
     headers = ['h1', 'h2']
     result = format_numbers(data, headers, column_types=(int, float),
-                            decimal_format=',')
+                            integer_format=',')
 
     expected = [['1', 1.0], ['1,000', 1000.0], ['1,000,000', 1000000.0]]
     assert expected, headers == result
@@ -152,6 +152,6 @@ def test_format_numbers_no_column_types():
     """Test that numbers aren't formatted without column types."""
     data = ((1), (1000), (1000000))
     headers = ('h1',)
-    result = format_numbers(data, headers, decimal_format=',',
+    result = format_numbers(data, headers, integer_format=',',
                             float_format=',')
     assert data, headers == result
