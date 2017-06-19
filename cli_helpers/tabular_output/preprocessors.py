@@ -139,6 +139,26 @@ def quote_whitespaces(data, headers, quotestyle="'", **_):
 
 def format_numbers(data, headers, column_types=(), integer_format=None,
                    float_format=None, **_):
+    """Format numbers according to a format specification.
+
+    This uses Python's format specification to format numbers of the following
+    types: :class:`int`, :class:`py2:long` (Python 2), :class:`float`, and
+    :class:`~decimal.Decimal`. See the :ref:`python:formatspec` for more
+    information about the format strings.
+
+    .. NOTE::
+       A column is only formatted if all of its values are the same type
+       (except for :data:`None`).
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :param iterable column_types: The columns' type objects (e.g. int or float).
+    :param str integer_format: The format string to use for integer columns.
+    :param str float_format: The format string to use for float columns.
+    :return: The processed data and headers.
+    :rtype: tuple
+
+    """
     if (integer_format is None and float_format is None) or not column_types:
         return data, headers
 
