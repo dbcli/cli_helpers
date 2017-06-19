@@ -51,3 +51,18 @@ def test_filter_dict_by_key():
     fd = utils.filter_dict_by_key(d, keys)
     assert len(fd) == 1
     assert all([k in keys for k in fd])
+
+
+def test_is_number_int():
+    """Test that is_number returns True for integers."""
+    assert utils.is_number('2') is True
+
+
+def test_is_number_float():
+    """Test that is_number returns True for floats."""
+    assert utils.is_number('1.000') is True
+
+
+def test_is_number_string():
+    """Test that is_number returns False for non-number strings."""
+    assert utils.is_number('foo') is False
