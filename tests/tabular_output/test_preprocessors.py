@@ -99,7 +99,7 @@ def test_format_integer():
                             float_format=',')
 
     expected = [['1'], ['1,000'], ['1,000,000']]
-    assert expected == result[0]
+    assert expected, headers == result
 
 
 def test_format_decimal():
@@ -113,7 +113,7 @@ def test_format_decimal():
                             float_format=',')
 
     expected = [['1.0000'], ['1,000.0000'], ['1,000,000.0000']]
-    assert expected == result[0]
+    assert expected, headers == result
 
 
 def test_format_float():
@@ -126,7 +126,7 @@ def test_format_float():
                             decimal_format=',d',
                             float_format=',')
     expected = [['1.0'], ['1,000.0'], ['1,000,000.0']]
-    assert expected == result[0]
+    assert expected, headers == result
 
 
 def test_format_numbers_no_format_strings():
