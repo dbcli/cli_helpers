@@ -127,3 +127,20 @@ def test_format_float():
                             float_format=',')
     expected = [['1.0'], ['1,000.0'], ['1,000,000.0']]
     assert expected == result[0]
+
+
+def test_format_numbers_no_format_strings():
+    """Test that numbers aren't formatted without format strings."""
+    data = ((1), (1000), (1000000))
+    headers = ('h1',)
+    result = format_numbers(data, headers, column_types=(int,))
+    assert data, headers == result
+
+
+def test_format_numbers_no_column_types():
+    """Test that numbers aren't formatted without column types."""
+    data = ((1), (1000), (1000000))
+    headers = ('h1',)
+    result = format_numbers(data, headers, decimal_format=',d',
+                            float_format=',')
+    assert data, headers == result
