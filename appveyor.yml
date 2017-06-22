@@ -14,3 +14,4 @@ before_test:
   - pip install -e .
 test_script:
   - python setup.py test --coverage
+  - codecov
