@@ -15,6 +15,7 @@ Version TBD
 * Coverage for tox tests.
 * Style formatted output with Pygments (optional).
 * Fix issue where tabulate can't handle ANSI escape codes in default values.
+* Run tests on Windows via Appveyor.
 
 
 Version 0.1.0
