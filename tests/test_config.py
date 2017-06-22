@@ -120,24 +120,28 @@ def test_config_reading_no_default():
 
 
 def test_config_reading_default_file():
-    """Test that the Config constructor will work with a default file."""
+    """Test that the Config will work with a default file."""
     config = Config(APP_NAME, APP_AUTHOR, 'test_config',
                     default=os.path.join(TEST_DATA_DIR, 'configrc'))
+    config.read_default_config()
     assert config.data == DEFAULT_CONFIG
 
 
 def test_config_reading_configspec():
-    """Test that the Config constructor will work with a configspec."""
+    """Test that the Config default file will work with a configspec."""
     config = Config(APP_NAME, APP_AUTHOR, 'test_config', validate=True,
                     default=os.path.join(TEST_DATA_DIR, 'configspecrc'))
+    config.read_default_config()
     assert config.data == DEFAULT_VALID_CONFIG
 
 
 def test_config_reading_configspec_with_error():
     """Test that reading an invalid configspec raises and exception."""
     with pytest.raises(ConfigValidationError):
-        Config(APP_NAME, APP_AUTHOR, 'test_config', validate=True,
-               default=os.path.join(TEST_DATA_DIR, 'invalid_configspecrc'))
+        config = Config(APP_NAME, APP_AUTHOR, 'test_config', validate=True,
+                        default=os.path.join(TEST_DATA_DIR,
+                                             'invalid_configspecrc'))
+        config.read_default_config()
 
 
 @with_temp_dir
@@ -148,6 +152,7 @@ def test_write_and_read_default_config(temp_dir=None):
 
     config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
                                  default=default_file)
+    config.read_default_config()
     config.write_default_config()
 
     user_config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR,
@@ -172,6 +177,7 @@ def test_write_and_read_default_config_from_configspec(temp_dir=None):
 
     config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
                                  default=default_file, validate=True)
+    config.read_default_config()
     config.write_default_config()
 
     user_config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR,
@@ -197,6 +203,7 @@ def test_overwrite_default_config_from_configspec(temp_dir=None):
 
     config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
                                  default=default_file, validate=True)
+    config.read_default_config()
     config.write_default_config()
 
     with open(temp_config_file, 'a') as f:
@@ -233,6 +240,7 @@ def test_write_to_user_config(temp_dir=None):
 
     config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
                                  default=default_file)
+    config.read_default_config()
     config.write_default_config()
 
     with open(temp_config_file) as f:
@@ -253,6 +261,7 @@ def test_write_to_outfile(temp_dir=None):
 
     config = _mocked_user_config(temp_dir, APP_NAME, APP_AUTHOR, config_file,
                                  default=default_file)
+    config.read_default_config()
     config.write_default_config()
 
     config['section']['test_boolean_default'] = False

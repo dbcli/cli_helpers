@@ -79,9 +79,6 @@ class Config(UserDict, object):
             raise ValueError('Cannot use "validate" without specifying a '
                              'default file.')
 
-        if self.default_file:
-            self.read_default_config()
-
     def read_default_config(self):
         if self.validate:
             self.default_config = ConfigObj(configspec=self.default_file,
@@ -104,6 +101,8 @@ class Config(UserDict, object):
         self.update(self.default_config)
 
     def read(self):
+        if self.default_file:
+            self.read_default_config()
         return self.read_config_files(self.all_config_files())
 
     def user_config_file(self):
