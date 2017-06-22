@@ -20,3 +20,11 @@ else:
 
     from collections import UserDict
     from io import StringIO
+
+
+HAS_PYGMENTS = True
+try:
+    from pygments.formatters.terminal256 import Terminal256Formatter
+except ImportError:
+    HAS_PYGMENTS = False
+    Terminal256Formatter = None

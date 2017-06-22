@@ -8,6 +8,7 @@ from textwrap import dedent
 import pytest
 
 from cli_helpers.tabular_output import format_output, TabularOutputFormatter
+from tests.utils import strip_ansi
 
 
 def test_tabular_output_formatter():
@@ -91,3 +92,17 @@ def test_unsupported_format():
 
     with pytest.raises(ValueError):
         formatter.format_output((), (), format_name='foobar')
+
+
+def test_tabulate_ansi_escape_in_default_value():
+    """Test that ANSI escape codes work with tabulate."""
+
+    data = [['1', None], ['2', 'Sam'],
+            ['3', 'Joe']]
+    headers = ['id', 'name']
+
+    styled = format_output(data, headers, format_name='psql',
+                           missing_value='\x1b[38;5;10mNULL\x1b[39m')
+    unstyled = format_output(data, headers, format_name='psql',
+                             missing_value='NULL')
+    assert strip_ansi(styled) == unstyled

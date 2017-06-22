@@ -36,6 +36,9 @@ setup(
         'configobj >= 5.0.5',
         'terminaltables >= 3.0.0'
     ],
+    extras_require={
+        'styles':  ['Pygments >= 1.6'],
+    },
     entry_points={
         'distutils.commands': [
             'lint = tasks:lint',
