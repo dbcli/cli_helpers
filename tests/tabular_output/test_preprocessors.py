@@ -65,6 +65,16 @@ def test_align_decimals_empty_result():
     assert expected == align_decimals(data, headers, column_types=column_types)
 
 
+def test_align_decimals_non_decimals():
+    """Test align_decimals() with non-decimals."""
+    data = [[Decimal('200.000'), Decimal('1.000')], [None, None]]
+    headers = ['num1', 'num2']
+    column_types = (float, float)
+    expected = ([['200.000', '1.000'], [None, None]], ['num1', 'num2'])
+
+    assert expected == align_decimals(data, headers, column_types=column_types)
+
+
 def test_quote_whitespaces():
     """Test the quote_whitespaces() function."""
     data = [["  before", "after  "], ["  both  ", "none"]]
