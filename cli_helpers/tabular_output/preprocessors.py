@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """These preprocessor functions are used to process data prior to output."""
 
-from decimal import Decimal
 import string
 
 from cli_helpers import utils
