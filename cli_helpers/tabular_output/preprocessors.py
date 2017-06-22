@@ -85,14 +85,14 @@ def align_decimals(data, headers, column_types=(), **_):
     pointpos = len(headers) * [0]
     for row in data:
         for i, v in enumerate(row):
-            if column_types[i] is float and isinstance(v, Decimal):
+            if column_types[i] is float and type(v) in float_types:
                 v = text_type(v)
                 pointpos[i] = max(utils.intlen(v), pointpos[i])
     results = []
     for row in data:
         result = []
         for i, v in enumerate(row):
-            if column_types[i] is float and isinstance(v, Decimal):
+            if column_types[i] is float and type(v) in float_types:
                 v = text_type(v)
                 result.append((pointpos[i] - utils.intlen(v)) * " " + v)
             else:
