@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """These preprocessor functions are used to process data prior to output."""
 
+from decimal import Decimal
 import string
 
 from cli_helpers import utils
@@ -60,8 +61,7 @@ def align_decimals(data, headers, column_types=(), **_):
     """Align numbers in *data* on their decimal points.
 
     Whitespace padding is added before a number so that all numbers in a
-    column are aligned. Numbers are expected to be passed as strings to this
-    preprocessor.
+    column are aligned.
 
     Outputting data before aligning the decimals::
 
@@ -85,13 +85,15 @@ def align_decimals(data, headers, column_types=(), **_):
     pointpos = len(headers) * [0]
     for row in data:
         for i, v in enumerate(row):
-            if column_types[i] is float and utils.is_number(v):
+            if column_types[i] is float and isinstance(v, Decimal):
+                v = text_type(v)
                 pointpos[i] = max(utils.intlen(v), pointpos[i])
     results = []
     for row in data:
         result = []
         for i, v in enumerate(row):
-            if column_types[i] is float and utils.is_number(v):
+            if column_types[i] is float and isinstance(v, Decimal):
+                v = text_type(v)
                 result.append((pointpos[i] - utils.intlen(v)) * " " + v)
             else:
                 result.append(v)
