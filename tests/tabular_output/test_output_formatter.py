@@ -21,9 +21,9 @@ def test_tabular_output_formatter():
         +------+---------+
         | text | numeric |
         +------+---------+
-        | abc  |  1      |
+        | abc  | 1       |
         | defg | 11.1    |
-        | hi   |  1.1    |
+        | hi   | 1.1     |
         +------+---------+''')
 
     assert expected == TabularOutputFormatter().format_output(

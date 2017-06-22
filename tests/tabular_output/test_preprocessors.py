@@ -46,7 +46,8 @@ def test_bytes_to_string():
 
 def test_align_decimals():
     """Test the align_decimals() function."""
-    data = [['200', '1'], ['1.00002', '1.0']]
+    data = [[Decimal('200'), Decimal('1')], [
+        Decimal('1.00002'), Decimal('1.0')]]
     headers = ['num1', 'num2']
     column_types = (float, float)
     expected = ([['200', '1'], ['  1.00002', '1.0']], ['num1', 'num2'])
