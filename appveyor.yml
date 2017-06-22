@@ -9,7 +9,8 @@ environment:
 build: off
 
 before_test:
-  - "%PYTHON%\\python.exe -m pip install -r requirements-dev.txt"
-  - "%PYTHON%\\python.exe -m pip install -e ."
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  - pip install -r requirements-dev.txt
+  - pip install -e .
 test_script:
-  - "%PYTHON%\\python.exe -m pytest"
+  - python setup.py test --coverage
