@@ -265,8 +265,7 @@ def test_write_to_outfile(temp_dir=None):
     config.write_default_config()
 
     config['section']['test_boolean_default'] = False
-    with open(outfile, 'wb') as f:
-        config.write(outfile=f)
+    config.write(outfile=outfile)
 
     with open(outfile) as f:
         assert 'test_boolean_default = False' in f.read()
