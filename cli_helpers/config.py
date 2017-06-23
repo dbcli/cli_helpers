@@ -87,18 +87,21 @@ class Config(UserDict, object):
             valid = self.default_config.validate(Validator(), copy=True,
                                                  preserve_errors=True)
             if valid is not True:
-                for name, section in valid.items():
-                    if section is True:
-                        continue
-                    for key, value in section.items():
-                        if isinstance(value, ValidateError):
-                            raise ConfigValidationError(
-                                'section [{}], key "{}": {}'.format(
-                                    name, key, value))
+                self._raise_validation_errors(valid)
         elif self.default_file:
             self.default_config, _ = self.read_config_file(self.default_file)
 
         self.update(self.default_config)
+
+    def _raise_validation_errors(self, valid):
+        for name, section in valid.items():
+            if section is True:
+                continue
+            for key, value in section.items():
+                if isinstance(value, ValidateError):
+                    raise ConfigValidationError(
+                        'section [{}], key "{}": {}'.format(
+                            name, key, value))
 
     def read(self):
         if self.default_file:
