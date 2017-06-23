@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """These preprocessor functions are used to process data prior to output."""
 
-from decimal import Decimal
 import string
 
 from cli_helpers import utils
-from cli_helpers.compat import (StringIO, text_type, HAS_PYGMENTS,
-                                Terminal256Formatter)
+from cli_helpers.compat import (StringIO, text_type, int_types, float_types,
+                                HAS_PYGMENTS, Terminal256Formatter)
 
 
 def convert_to_string(data, headers, **_):
@@ -57,7 +56,7 @@ def bytes_to_string(data, headers, **_):
             [utils.bytes_to_string(h) for h in headers])
 
 
-def align_decimals(data, headers, **_):
+def align_decimals(data, headers, column_types=(), **_):
     """Align numbers in *data* on their decimal points.
 
     Whitespace padding is added before a number so that all numbers in a
@@ -77,6 +76,7 @@ def align_decimals(data, headers, **_):
 
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
+    :param iterable column_types: The columns' type objects (e.g. int or float).
     :return: The processed data and headers.
     :rtype: tuple
 
@@ -84,14 +84,14 @@ def align_decimals(data, headers, **_):
     pointpos = len(headers) * [0]
     for row in data:
         for i, v in enumerate(row):
-            if isinstance(v, Decimal):
+            if column_types[i] is float and type(v) in float_types:
                 v = text_type(v)
                 pointpos[i] = max(utils.intlen(v), pointpos[i])
     results = []
     for row in data:
         result = []
         for i, v in enumerate(row):
-            if isinstance(v, Decimal):
+            if column_types[i] is float and type(v) in float_types:
                 v = text_type(v)
                 result.append((pointpos[i] - utils.intlen(v)) * " " + v)
             else:
@@ -192,4 +192,40 @@ def style_output(data, headers, style=None,
         data = [[style_field(odd_row_token if i % 2 else even_row_token, f)
                  for f in r] for i, r in enumerate(data, 1)]
 
+    return data, headers
+
+
+def format_numbers(data, headers, column_types=(), integer_format=None,
+                   float_format=None, **_):
+    """Format numbers according to a format specification.
+
+    This uses Python's format specification to format numbers of the following
+    types: :class:`int`, :class:`py2:long` (Python 2), :class:`float`, and
+    :class:`~decimal.Decimal`. See the :ref:`python:formatspec` for more
+    information about the format strings.
+
+    .. NOTE::
+       A column is only formatted if all of its values are the same type
+       (except for :data:`None`).
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :param iterable column_types: The columns' type objects (e.g. int or float).
+    :param str integer_format: The format string to use for integer columns.
+    :param str float_format: The format string to use for float columns.
+    :return: The processed data and headers.
+    :rtype: tuple
+
+    """
+    if (integer_format is None and float_format is None) or not column_types:
+        return data, headers
+
+    def _format_number(field, column_type):
+        if integer_format and column_type is int and type(field) in int_types:
+            return format(field, integer_format)
+        elif float_format and column_type is float and type(field) in float_types:
+            return format(field, float_format)
+        return field
+
+    data = [[_format_number(v, column_types[i]) for i, v in enumerate(row)] for row in data]
     return data, headers
