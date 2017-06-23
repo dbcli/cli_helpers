@@ -1,0 +1,17 @@
+environment:
+  matrix:
+    - PYTHON: "C:\\Python27"
+    - PYTHON: "C:\\Python33"
+    - PYTHON: "C:\\Python34"
+    - PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python36"
+
+build: off
+
+before_test:
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  - pip install -r requirements-dev.txt
+  - pip install -e .
+test_script:
+  - python setup.py test --coverage
+  - codecov

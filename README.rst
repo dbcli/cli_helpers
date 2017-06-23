@@ -5,6 +5,9 @@ CLI Helpers
 .. image:: https://travis-ci.org/dbcli/cli_helpers.svg?branch=master
     :target: https://travis-ci.org/dbcli/cli_helpers
 
+.. image:: https://ci.appveyor.com/api/projects/status/37a1ri2nbcp237tr/branch/master?svg=true
+    :target: https://ci.appveyor.com/project/dbcli/cli-helpers
+
 .. image:: https://codecov.io/gh/dbcli/cli_helpers/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/dbcli/cli_helpers
 
