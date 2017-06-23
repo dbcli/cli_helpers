@@ -8,6 +8,7 @@ from textwrap import dedent
 import pytest
 
 from cli_helpers.tabular_output import format_output, TabularOutputFormatter
+from cli_helpers.compat import binary_type, text_type
 from tests.utils import strip_ansi
 
 
@@ -20,9 +21,9 @@ def test_tabular_output_formatter():
         +------+---------+
         | text | numeric |
         +------+---------+
-        | abc  |  1      |
+        | abc  | 1       |
         | defg | 11.1    |
-        | hi   |  1.1    |
+        | hi   | 1.1     |
         +------+---------+''')
 
     assert expected == TabularOutputFormatter().format_output(
@@ -106,3 +107,14 @@ def test_tabulate_ansi_escape_in_default_value():
     unstyled = format_output(data, headers, format_name='psql',
                              missing_value='NULL')
     assert strip_ansi(styled) == unstyled
+
+
+def test_get_type():
+    """Test that _get_type returns the expected type."""
+    formatter = TabularOutputFormatter()
+
+    tests = ((1, int), (2.0, float), (b'binary', binary_type),
+             ('text', text_type), (None, type(None)), ((), text_type))
+
+    for value, data_type in tests:
+        assert data_type is formatter._get_type(value)
