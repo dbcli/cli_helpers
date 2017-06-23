@@ -125,7 +125,7 @@ class Config(UserDict, object):
                 [self.user_config_file()])
 
     def write_default_config(self, overwrite=False):
-        destination = os.path.expanduser(self.user_config_file())
+        destination = self.user_config_file()
         if not overwrite and os.path.exists(destination):
             return
 
