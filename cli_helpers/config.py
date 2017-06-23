@@ -61,6 +61,17 @@ class Config(UserDict, object):
         self.validate = validate
         self.additional_dirs = additional_dirs
 
+        self._set_default(default)
+
+        if self.write_default and not self.default_file:
+            raise ValueError('Cannot use "write_default" without specifying '
+                             'a default file.')
+
+        if self.validate and not self.default_file:
+            raise ValueError('Cannot use "validate" without specifying a '
+                             'default file.')
+
+    def _set_default(self, default):
         if isinstance(default, dict):
             self.default = default
             self.update(default)
@@ -70,14 +81,6 @@ class Config(UserDict, object):
             raise TypeError(
                 '"default" must be a dict or {}, not {}'.format(
                     text_type.__name__, type(default)))
-
-        if self.write_default and not self.default_file:
-            raise ValueError('Cannot use "write_default" without specifying '
-                             'a default file.')
-
-        if self.validate and not self.default_file:
-            raise ValueError('Cannot use "validate" without specifying a '
-                             'default file.')
 
     def read_default_config(self):
         if self.validate:
