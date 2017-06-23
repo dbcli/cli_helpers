@@ -1,10 +1,10 @@
 Changelog
 =========
 
-Version TBD
------------
+Version 0.2.0
+-------------
 
-(released on TBD)
+(released on 2017-06-23)
 
 * Make vertical table separator more customizable.
 * Add format numbers preprocessor.
