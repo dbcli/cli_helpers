@@ -134,12 +134,9 @@ class Config(UserDict, object):
 
     def write(self, outfile=None, section=None):
         """Write the current config to a file (defaults to user config)."""
-        f = None
-        if not outfile:
-            outfile = f = open(self.user_config_file(), 'wb')
+        outfile = outfile or open(self.user_config_file(), 'wb')
         self.data.write(outfile=outfile, section=section)
-        if f:
-            f.close()
+        outfile.close()
 
     def read_config_file(self, f, **kwargs):
         """Read a config file."""
