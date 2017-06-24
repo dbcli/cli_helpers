@@ -25,25 +25,25 @@ class ConfigError(Exception):
     pass
 
 
-class ConfigValidationError(ConfigError):
+class DefaultConfigValidationError(ConfigError):
+    """Indicates the default config file did not validate correctly."""
     pass
 
 
 class Config(UserDict, object):
-    """Config class.
+    """Config reader/writer class.
 
     :param str app_name: The application's name.
     :param str app_author: The application author/organization.
-    :param str filename: The config filename to look for.
-    :param dict/str default: The default config values or config file path.
+    :param str filename: The config filename to look for (e.g. ``config``).
+    :param dict/str default: The default config values or absolute path to
+                             config file.
     :param bool validate: Whether or not to validate the config file.
     :param bool write_default: Whether or not to write the default config
                                file to the user config directory if it doesn't
                                already exist.
     :param tuple additional_dirs: Additional directories to check for a config
                                   file.
-    :raises ConfigValidationError: There was a validation error with the
-                                   *default* file.
     """
 
     def __init__(self, app_name, app_author, filename, default=None,
@@ -83,6 +83,11 @@ class Config(UserDict, object):
                     text_type.__name__, type(default)))
 
     def read_default_config(self):
+        """Read the default config file.
+
+        :raises DefaultConfigValidationError: There was a validation error with
+                                              the *default* file.
+        """
         if self.validate:
             self.default_config = ConfigObj(configspec=self.default_file,
                                             list_values=False, _inspec=True,
@@ -102,32 +107,45 @@ class Config(UserDict, object):
                 continue
             for key, value in section.items():
                 if isinstance(value, ValidateError):
-                    raise ConfigValidationError(
+                    raise DefaultConfigValidationError(
                         'section [{}], key "{}": {}'.format(
                             name, key, value))
 
     def read(self):
+        """Read the default, additional, system, and user config files.
+
+        :raises DefaultConfigValidationError: There was a validation error with
+                                              the *default* file.
+        """
         if self.default_file:
             self.read_default_config()
         return self.read_config_files(self.all_config_files())
 
     def user_config_file(self):
+        """Get the absolute path to the user config file."""
         return os.path.join(
             get_user_config_dir(self.app_name, self.app_author),
             self.filename)
 
     def system_config_files(self):
+        """Get a list of absolute paths to the system config files."""
         return [os.path.join(f, self.filename) for f in get_system_config_dirs(
             self.app_name, self.app_author)]
 
     def additional_files(self):
+        """Get a list of absolute paths to the additional config files."""
         return [os.path.join(f, self.filename) for f in self.additional_dirs]
 
     def all_config_files(self):
+        """Get a list of absolute paths to all the config files."""
         return (self.additional_files() + self.system_config_files() +
                 [self.user_config_file()])
 
     def write_default_config(self, overwrite=False):
+        """Write the default config to the user's config file.
+
+        :param bool overwrite: Write over an existing config if it exists.
+        """
         destination = self.user_config_file()
         if not overwrite and os.path.exists(destination):
             return
@@ -136,12 +154,20 @@ class Config(UserDict, object):
             self.default_config.write(f)
 
     def write(self, outfile=None, section=None):
-        """Write the current config to a file (defaults to user config)."""
+        """Write the current config to a file (defaults to user config).
+
+        :param str outfile: The path to the file to write to.
+        :param None/str section: The config section to write, or :data:`None`
+                                 to write the entire config.
+        """
         with io.open(outfile or self.user_config_file(), 'wb') as f:
             self.data.write(outfile=f, section=section)
 
-    def read_config_file(self, f, **kwargs):
-        """Read a config file."""
+    def read_config_file(self, f):
+        """Read a config file *f*.
+
+        :param str f: The path to a file to read.
+        """
         configspec = self.default_file if self.validate else None
         try:
             config = ConfigObj(infile=f, configspec=configspec,
@@ -162,7 +188,10 @@ class Config(UserDict, object):
         return config, valid
 
     def read_config_files(self, files):
-        """Read a list of config files."""
+        """Read a list of config files.
+
+        :param iterable files: An iterable (e.g. list) of files to read.
+        """
         errors = {}
         for _file in files:
             config, valid = self.read_config_file(_file)
@@ -176,19 +205,19 @@ def get_user_config_dir(app_name, app_author, roaming=True, force_xdg=True):
     """Returns the config folder for the application.  The default behavior
     is to return whatever is most appropriate for the operating system.
 
-    To give you an idea, for an app called ``"Foo Bar"`` by ``"Acme"``,
+    For an example application called ``"My App"`` by ``"Acme"``,
     something like the following folders could be returned:
 
     macOS (non-XDG):
-      ``~/Library/Application Support/Foo Bar``
+      ``~/Library/Application Support/My App``
     Mac OS X (XDG):
-      ``~/.config/foo-bar``
+      ``~/.config/my-app``
     Unix:
-      ``~/.config/foo-bar``
-    Win 7 (roaming):
-      ``C:\\Users\<user>\AppData\Roaming\Acme\Foo Bar``
-    Win 7 (not roaming):
-      ``C:\\Users\<user>\AppData\Local\Acme\Foo Bar``
+      ``~/.config/my-app``
+    Windows 7 (roaming):
+      ``C:\\Users\<user>\AppData\Roaming\Acme\My App``
+    Windows 7 (not roaming):
+      ``C:\\Users\<user>\AppData\Local\Acme\My App``
 
     :param app_name: the application name. This should be properly capitalized
                      and can contain whitespace.
@@ -216,17 +245,17 @@ def get_user_config_dir(app_name, app_author, roaming=True, force_xdg=True):
 def get_system_config_dirs(app_name, app_author, force_xdg=True):
     r"""Returns a list of system-wide config folders for the application.
 
-    To give you an idea, for an app called ``"Foo Bar"`` by ``"Acme"``,
+    For an example application called ``"My App"`` by ``"Acme"``,
     something like the following folders could be returned:
 
     macOS (non-XDG):
-      ``['/Library/Application Support/Foo Bar']``
+      ``['/Library/Application Support/My App']``
     Mac OS X (XDG):
-      ``['/etc/xdg/foo-bar']``
+      ``['/etc/xdg/my-app']``
     Unix:
-      ``['/etc/xdg/foo-bar']``
-    Win 7:
-      ``['C:\ProgramData\Acme\Foo Bar']``
+      ``['/etc/xdg/my-app']``
+    Windows 7:
+      ``['C:\ProgramData\Acme\My App']``
 
     :param app_name: the application name. This should be properly capitalized
                      and can contain whitespace.
