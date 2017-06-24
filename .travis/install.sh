@@ -25,4 +25,7 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
     python -m pip install --user virtualenv
 fi
 
+pip install virtualenv
+python -m virtualenv ~/.venv
+source ~/.venv/bin/activate
 pip install tox
