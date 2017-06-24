@@ -27,3 +27,9 @@ matrix:
     - os: linux
       python: 3.6
       env: TOXENV=packaging
+    - os: osx
+      language: generic
+      env: TOXENV=py27
+    - os: osx
+      language: generic
+      env: TOXENV=py36
