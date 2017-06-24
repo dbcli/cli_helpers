@@ -2,7 +2,9 @@ sudo: false
 language: python
 cache: pip
 install: ./.travis/install.sh
-script: tox
+script:
+  - source ~/.venv/bin/activate
+  - tox
 
 matrix:
   include:
