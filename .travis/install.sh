@@ -6,8 +6,8 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
     sw_vers
 
     git clone --depth 1 https://github.com/pyenv/pyenv ~/.pyenv
-    PYENV_ROOT="$HOME/.pyenv"
-    PATH="$PYENV_ROOT/bin:$PATH"
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
 
     case "${TOXENV}" in
