@@ -13,14 +13,14 @@ if PY2:
     long_type = long
     int_types = (int, long)
 
-    from cStringIO import StringIO
+    from backports import csv
 else:
     text_type = str
     binary_type = bytes
     long_type = int
     int_types = (int,)
 
-    from io import StringIO
+    import csv
 
 
 HAS_PYGMENTS = True
