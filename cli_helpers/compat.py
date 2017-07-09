@@ -15,8 +15,8 @@ if PY2:
     long_type = long
     int_types = (int, long)
 
-    from cStringIO import StringIO
     from UserDict import UserDict
+    from backports import csv
 else:
     text_type = str
     binary_type = bytes
@@ -24,7 +24,7 @@ else:
     int_types = (int,)
 
     from collections import UserDict
-    from io import StringIO
+    import csv
 
 
 HAS_PYGMENTS = True

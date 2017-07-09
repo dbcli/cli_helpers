@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """A delimited data output adapter (e.g. CSV, TSV)."""
 
+from __future__ import unicode_literals
 import contextlib
-import csv
+from io import StringIO
 
-from cli_helpers.compat import StringIO
+from cli_helpers.compat import csv
 from cli_helpers.utils import filter_dict_by_key
 from .preprocessors import bytes_to_string, override_missing_value
 

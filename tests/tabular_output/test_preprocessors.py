@@ -135,12 +135,12 @@ def test_style_output():
             Token.Output.EvenRow: '#0f0'
         }
     headers = ['h1', 'h2']
-    data = [['1', '2'], ['a', 'b']]
+    data = [['观音', '2'], ['Ποσειδῶν', 'b']]
 
     expected_headers = ['\x1b[31;01mh1\x1b[39;00m', '\x1b[31;01mh2\x1b[39;00m']
-    expected_data = [['\x1b[38;5;233;48;5;7m1\x1b[39;49m',
+    expected_data = [['\x1b[38;5;233;48;5;7m观音\x1b[39;49m',
                       '\x1b[38;5;233;48;5;7m2\x1b[39;49m'],
-                     ['\x1b[38;5;10ma\x1b[39m', '\x1b[38;5;10mb\x1b[39m']]
+                     ['\x1b[38;5;10mΠοσειδῶν\x1b[39m', '\x1b[38;5;10mb\x1b[39m']]
 
     assert (expected_data, expected_headers) == style_output(data, headers,
                                                              style=CliStyle)
