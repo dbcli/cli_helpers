@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """These preprocessor functions are used to process data prior to output."""
 
+from io import StringIO
 import string
 
 from cli_helpers import utils
-from cli_helpers.compat import (StringIO, text_type, int_types, float_types,
+from cli_helpers.compat import (text_type, int_types, float_types,
                                 HAS_PYGMENTS, Terminal256Formatter)
 
 

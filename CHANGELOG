@@ -3,7 +3,8 @@ Changelog
 
 Version TBD
 -----------
-Run tests on macOS via Travis.
+* Run tests on macOS via Travis.
+* Fix unicode issues on Python 2 (csv and styling output).
 
 
 Version 0.2.0
