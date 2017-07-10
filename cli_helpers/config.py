@@ -49,6 +49,7 @@ class Config(UserDict, object):
     def __init__(self, app_name, app_author, filename, default=None,
                  validate=False, write_default=False, additional_dirs=()):
         super(Config, self).__init__()
+        #: The :class:`ConfigObj` instance.
         self.data = ConfigObj()
 
         self.default = {}
