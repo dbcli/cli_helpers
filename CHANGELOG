@@ -1,8 +1,11 @@
 Changelog
 =========
 
-Version TBD
------------
+Version 0.2.1
+-------------
+
+(released on 2017-07-11)
+
 * Run tests on macOS via Travis.
 * Fix unicode issues on Python 2 (csv and styling output).
 
