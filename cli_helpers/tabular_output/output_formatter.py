@@ -9,6 +9,8 @@ from cli_helpers.utils import unique_items
 from . import (delimited_output_adapter, vertical_table_adapter,
                tabulate_adapter, terminaltables_adapter)
 
+import itertools
+
 MISSING_VALUE = '<null>'
 
 TYPES = {
@@ -114,7 +116,7 @@ class TabularOutputFormatter(object):
             format_name, preprocessors, handler, kwargs or {})
 
     def format_output(self, data, headers, format_name=None,
-                      preprocessors=(), **kwargs):
+                      preprocessors=(), column_types=None, **kwargs):
         """Format the headers and data using a specific formatter.
 
         *format_name* must be a supported formatter (see
@@ -139,7 +141,12 @@ class TabularOutputFormatter(object):
         (_, _preprocessors, formatter,
          fkwargs) = self._output_formats[format_name]
         fkwargs.update(kwargs)
-        column_types = self._get_column_types(data)
+        if column_types is None:
+            data = list(data)
+            column_types = self._get_column_types(data)
+            data = iter(data)
+        else:
+            column_types = [TYPES[v] for v in column_types]
         for f in unique_items(preprocessors + _preprocessors):
             data, headers = f(data, headers, column_types=column_types,
                               **fkwargs)

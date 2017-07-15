@@ -11,7 +11,7 @@ def test_tabulate_wrapper():
     """Test the *output_formatter.tabulate_wrapper()* function."""
     data = [['abc', 1], ['d', 456]]
     headers = ['letters', 'number']
-    output = tabulate_adapter.adapter(data, headers, table_format='psql')
+    output = tabulate_adapter.adapter(iter(data), headers, table_format='psql')
     assert output == dedent('''\
         +-----------+----------+
         | letters   |   number |
@@ -25,7 +25,7 @@ def test_markup_format():
     """Test that markup formats do not have number align or string align."""
     data = [['abc', 1], ['d', 456]]
     headers = ['letters', 'number']
-    output = tabulate_adapter.adapter(data, headers, table_format='mediawiki')
+    output = tabulate_adapter.adapter(iter(data), headers, table_format='mediawiki')
     assert output == dedent('''\
         {| class="wikitable" style="text-align: left;"
         |+ <!-- caption -->

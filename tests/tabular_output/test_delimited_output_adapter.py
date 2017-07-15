@@ -14,7 +14,7 @@ def test_csv_wrapper():
     # Test comma-delimited output.
     data = [['abc', '1'], ['d', '456']]
     headers = ['letters', 'number']
-    output = delimited_output_adapter.adapter(data, headers)
+    output = delimited_output_adapter.adapter(iter(data), headers)
     assert output == dedent('''\
         letters,number\r\n\
         abc,1\r\n\
@@ -24,7 +24,7 @@ def test_csv_wrapper():
     data = [['abc', '1'], ['d', '456']]
     headers = ['letters', 'number']
     output = delimited_output_adapter.adapter(
-        data, headers, table_format='tsv')
+        iter(data), headers, table_format='tsv')
     assert output == dedent('''\
         letters\tnumber\r\n\
         abc\t1\r\n\
@@ -32,7 +32,7 @@ def test_csv_wrapper():
 
     with pytest.raises(ValueError):
         output = delimited_output_adapter.adapter(
-            data, headers, table_format='foobar')
+            iter(data), headers, table_format='foobar')
 
 
 def test_unicode_with_csv():

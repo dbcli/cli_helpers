@@ -83,6 +83,7 @@ def align_decimals(data, headers, column_types=(), **_):
 
     """
     pointpos = len(headers) * [0]
+    data = list(data)
     for row in data:
         for i, v in enumerate(row):
             if column_types[i] is float and type(v) in float_types:
