@@ -8,6 +8,7 @@ from cli_helpers.compat import text_type, binary_type, int_types, float_types
 from cli_helpers.utils import unique_items
 from . import (delimited_output_adapter, vertical_table_adapter,
                tabulate_adapter, terminaltables_adapter)
+from decimal import Decimal
 
 import itertools
 
@@ -18,6 +19,7 @@ TYPES = {
     bool: 1,
     int: 2,
     float: 3,
+    Decimal: 3,
     binary_type: 4,
     text_type: 5
 }
