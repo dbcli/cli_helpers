@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version TBD
+-------------
+
+(released on TBD)
+
+* Fix IndexError from being raised with uneven rows.
+
 Version 0.2.1
 -------------
 
