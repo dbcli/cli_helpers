@@ -1,12 +1,13 @@
 Changelog
 =========
 
-Version TBD
+Version 0.2.2
 -------------
 
-(released on TBD)
+(released on 2017-07-16)
 
 * Fix IndexError from being raised with uneven rows.
+
 
 Version 0.2.1
 -------------
