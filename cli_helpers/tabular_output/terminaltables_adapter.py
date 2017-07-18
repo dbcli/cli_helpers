@@ -24,5 +24,5 @@ def adapter(data, headers, table_format=None, **kwargs):
 
     table = table_format_handler[table_format]
 
-    t = table(list(itertools.chain([headers], data)), **filter_dict_by_key(kwargs, keys))
+    t = table(headers + data, **filter_dict_by_key(kwargs, keys))
     return t.table
