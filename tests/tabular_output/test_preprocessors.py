@@ -158,13 +158,13 @@ def test_style_output_with_newlines():
             Token.Output.EvenRow: '#0f0'
         }
     headers = ['h1', 'h2']
-    data = [['Line1\nLine2', '2']]
+    data = [['观音\nLine2', 'Ποσειδῶν']]
 
     expected_headers = ['\x1b[31;01mh1\x1b[39;00m', '\x1b[31;01mh2\x1b[39;00m']
     expected_data = [
-        ['\x1b[38;5;233;48;5;7mLine1\x1b[39;49m\n\x1b[38;5;233;48;5;7m'
+        ['\x1b[38;5;233;48;5;7m观音\x1b[39;49m\n\x1b[38;5;233;48;5;7m'
          'Line2\x1b[39;49m',
-         '\x1b[38;5;233;48;5;7m2\x1b[39;49m']]
+         '\x1b[38;5;233;48;5;7mΠοσειδῶν\x1b[39;49m']]
 
     assert (expected_data, expected_headers) == style_output(data, headers,
                                                              style=CliStyle)
