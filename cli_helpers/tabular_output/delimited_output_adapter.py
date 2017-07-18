@@ -3,9 +3,8 @@
 
 from __future__ import unicode_literals
 import contextlib
-from io import StringIO
 
-from cli_helpers.compat import csv
+from cli_helpers.compat import csv, StringIO
 from cli_helpers.utils import filter_dict_by_key
 from .preprocessors import bytes_to_string, override_missing_value
 
