@@ -14,6 +14,9 @@ if PY2:
     int_types = (int, long)
 
     from backports import csv
+
+    from StringIO import StringIO
+    from itertools import izip_longest as zip_longest
 else:
     text_type = str
     binary_type = bytes
@@ -21,6 +24,8 @@ else:
     int_types = (int,)
 
     import csv
+    from io import StringIO
+    from itertools import zip_longest
 
 
 HAS_PYGMENTS = True

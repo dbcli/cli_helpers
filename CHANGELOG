@@ -1,12 +1,22 @@
 Changelog
 =========
 
-Version ?
+Version TBD
 -------------
 
-(not yet released)
+(released on TBD)
 
-* fixes to accept iterator
+* Fix unicode error on Python 2 with newlines in output row.
+* Fixes to accept iterator
+
+
+Version 0.2.2
+-------------
+
+(released on 2017-07-16)
+
+* Fix IndexError from being raised with uneven rows.
+
 
 Version 0.2.1
 -------------

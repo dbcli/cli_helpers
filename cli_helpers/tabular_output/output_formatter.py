@@ -4,7 +4,8 @@
 from __future__ import unicode_literals
 from collections import namedtuple
 
-from cli_helpers.compat import text_type, binary_type, int_types, float_types
+from cli_helpers.compat import (text_type, binary_type, int_types, float_types,
+                                zip_longest)
 from cli_helpers.utils import unique_items
 from . import (delimited_output_adapter, vertical_table_adapter,
                tabulate_adapter, terminaltables_adapter)
@@ -156,7 +157,7 @@ class TabularOutputFormatter(object):
 
     def _get_column_types(self, data):
         """Get a list of the data types for each column in *data*."""
-        columns = list(zip(*data))
+        columns = list(zip_longest(*data))
         return [self._get_column_type(column) for column in columns]
 
     def _get_column_type(self, column):
