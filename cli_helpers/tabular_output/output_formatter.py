@@ -153,7 +153,7 @@ class TabularOutputFormatter(object):
         for f in unique_items(preprocessors + _preprocessors):
             data, headers = f(data, headers, column_types=column_types,
                               **fkwargs)
-        return formatter(data, headers, column_types=column_types, **fkwargs)
+        return formatter(list(data), headers, column_types=column_types, **fkwargs)
 
     def _get_column_types(self, data):
         """Get a list of the data types for each column in *data*."""
