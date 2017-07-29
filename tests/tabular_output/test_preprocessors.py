@@ -15,14 +15,19 @@ if HAS_PYGMENTS:
     from pygments.style import Style
     from pygments.token import Token
 
+import inspect
+import cli_helpers.tabular_output.preprocessors
+import types
+
 
 def test_convert_to_string():
     """Test the convert_to_string() function."""
     data = [[1, 'John'], [2, 'Jill']]
     headers = [0, 'name']
     expected = ([['1', 'John'], ['2', 'Jill']], ['0', 'name'])
+    results = convert_to_string(data, headers)
 
-    assert expected == convert_to_string(data, headers)
+    assert expected == (list(results[0]), results[1])
 
 
 def test_override_missing_values():
@@ -30,18 +35,18 @@ def test_override_missing_values():
     data = [[1, None], [2, 'Jill']]
     headers = [0, 'name']
     expected = ([[1, '<EMPTY>'], [2, 'Jill']], [0, 'name'])
+    results = override_missing_value(data, headers, missing_value='<EMPTY>')
 
-    assert expected == override_missing_value(data, headers,
-                                              missing_value='<EMPTY>')
-
+    assert expected == (list(results[0]), results[1])
 
 def test_bytes_to_string():
     """Test the bytes_to_string() function."""
     data = [[1, 'John'], [2, b'Jill']]
     headers = [0, 'name']
     expected = ([[1, 'John'], [2, 'Jill']], [0, 'name'])
+    results = bytes_to_string(data, headers)
 
-    assert expected == bytes_to_string(data, headers)
+    assert expected == (list(results[0]), results[1])
 
 
 def test_align_decimals():
@@ -51,8 +56,9 @@ def test_align_decimals():
     headers = ['num1', 'num2']
     column_types = (float, float)
     expected = ([['200', '1'], ['  1.00002', '1.0']], ['num1', 'num2'])
+    results = align_decimals(data, headers, column_types=column_types)
 
-    assert expected == align_decimals(data, headers, column_types=column_types)
+    assert expected == (list(results[0]), results[1])
 
 
 def test_align_decimals_empty_result():
@@ -61,8 +67,9 @@ def test_align_decimals_empty_result():
     headers = ['num1', 'num2']
     column_types = ()
     expected = ([], ['num1', 'num2'])
+    results = align_decimals(data, headers, column_types=column_types)
 
-    assert expected == align_decimals(data, headers, column_types=column_types)
+    assert expected == (list(results[0]), results[1])
 
 
 def test_align_decimals_non_decimals():
@@ -71,8 +78,9 @@ def test_align_decimals_non_decimals():
     headers = ['num1', 'num2']
     column_types = (float, float)
     expected = ([['200.000', '1.000'], [None, None]], ['num1', 'num2'])
+    results = align_decimals(data, headers, column_types=column_types)
 
-    assert expected == align_decimals(data, headers, column_types=column_types)
+    assert expected == (list(results[0]), results[1])
 
 
 def test_quote_whitespaces():
@@ -81,8 +89,9 @@ def test_quote_whitespaces():
     headers = ['h1', 'h2']
     expected = ([["'  before'", "'after  '"], ["'  both  '", "'none'"]],
                 ['h1', 'h2'])
+    results = quote_whitespaces(data, headers)
 
-    assert expected == quote_whitespaces(data, headers)
+    assert expected == (list(results[0]), results[1])
 
 
 def test_quote_whitespaces_empty_result():
@@ -90,8 +99,9 @@ def test_quote_whitespaces_empty_result():
     data = []
     headers = ['h1', 'h2']
     expected = ([], ['h1', 'h2'])
+    results = quote_whitespaces(data, headers)
 
-    assert expected == quote_whitespaces(data, headers)
+    assert expected == (list(results[0]), results[1])
 
 
 def test_quote_whitespaces_non_spaces():
@@ -100,8 +110,9 @@ def test_quote_whitespaces_non_spaces():
     headers = ['h1', 'h2']
     expected = ([["'\tbefore'", "'after \r'"], ["'\n both  '", "'none'"]],
                 ['h1', 'h2'])
+    results = quote_whitespaces(data, headers)
 
-    assert expected == quote_whitespaces(data, headers)
+    assert expected == (list(results[0]), results[1])
 
 
 @pytest.mark.skipif(not HAS_PYGMENTS, reason='requires the Pygments library')
@@ -109,8 +120,9 @@ def test_style_output_no_styles():
     """Test that *style_output()* does not style without styles."""
     headers = ['h1', 'h2']
     data = [['1', '2'], ['a', 'b']]
+    results = style_output(data, headers)
 
-    assert (data, headers) == style_output(data, headers)
+    assert (data, headers) == (list(results[0]), results[1])
 
 
 @pytest.mark.skipif(HAS_PYGMENTS,
@@ -119,8 +131,9 @@ def test_style_output_no_pygments():
     """Test that *style_output()* does not try to style without Pygments."""
     headers = ['h1', 'h2']
     data = [['1', '2'], ['a', 'b']]
+    results = style_output(data, headers)
 
-    assert (data, headers) == style_output(data, headers)
+    assert (data, headers) == (list(results[0]), results[1])
 
 
 @pytest.mark.skipif(not HAS_PYGMENTS, reason='requires the Pygments library')
@@ -265,3 +278,17 @@ def test_format_numbers_no_column_types():
     result = format_numbers(data, headers, integer_format=',',
                             float_format=',')
     assert data, headers == result
+
+def test_enforce_iterable():
+    preprocessors = inspect.getmembers(cli_helpers.tabular_output.preprocessors, inspect.isfunction)
+    loremipsum = 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod'.split(' ')
+    for name, preprocessor in preprocessors:
+        preprocessed = preprocessor(zip(loremipsum), ['lorem'], column_types=(str,))
+        try:
+            first = next(preprocessed[0])
+        except StopIteration:
+            assert False, "{} gives no output with iterator data".format(name)
+        except TypeError:
+            assert False, "{} doesn't return iterator".format(name)
+        if isinstance(preprocessed[1], types.GeneratorType):
+            assert False, "{} returns headers as iterator".format(name)
