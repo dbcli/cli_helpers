@@ -193,10 +193,10 @@ def style_output(data, headers, style=None,
             return s.getvalue()
 
         headers = [style_field(header_token, header) for header in headers]
-        data = [[style_field(odd_row_token if i % 2 else even_row_token, f)
-                 for f in r] for i, r in enumerate(data, 1)]
+        data = ([style_field(odd_row_token if i % 2 else even_row_token, f)
+                 for f in r] for i, r in enumerate(data, 1))
 
-    return data, headers
+    return iter(data), headers
 
 
 def format_numbers(data, headers, column_types=(), integer_format=None,
@@ -222,7 +222,7 @@ def format_numbers(data, headers, column_types=(), integer_format=None,
 
     """
     if (integer_format is None and float_format is None) or not column_types:
-        return data, headers
+        return iter(data), headers
 
     def _format_number(field, column_type):
         if integer_format and column_type is int and type(field) in int_types:
@@ -231,5 +231,5 @@ def format_numbers(data, headers, column_types=(), integer_format=None,
             return format(field, float_format)
         return field
 
-    data = [[_format_number(v, column_types[i]) for i, v in enumerate(row)] for row in data]
+    data = ([_format_number(v, column_types[i]) for i, v in enumerate(row)] for row in data)
     return data, headers

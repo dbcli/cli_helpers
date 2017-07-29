@@ -154,10 +154,9 @@ def test_style_output():
     expected_data = [['\x1b[38;5;233;48;5;7m观音\x1b[39;49m',
                       '\x1b[38;5;233;48;5;7m2\x1b[39;49m'],
                      ['\x1b[38;5;10mΠοσειδῶν\x1b[39m', '\x1b[38;5;10mb\x1b[39m']]
+    results = style_output(data, headers, style=CliStyle)
 
-    assert (expected_data, expected_headers) == style_output(data, headers,
-                                                             style=CliStyle)
-
+    assert (expected_data, expected_headers) == (list(results[0]), results[1])
 
 @pytest.mark.skipif(not HAS_PYGMENTS, reason='requires the Pygments library')
 def test_style_output_with_newlines():
@@ -178,10 +177,10 @@ def test_style_output_with_newlines():
         ['\x1b[38;5;233;48;5;7m观音\x1b[39;49m\n\x1b[38;5;233;48;5;7m'
          'Line2\x1b[39;49m',
          '\x1b[38;5;233;48;5;7mΠοσειδῶν\x1b[39;49m']]
+    results = style_output(data, headers, style=CliStyle)
 
-    assert (expected_data, expected_headers) == style_output(data, headers,
-                                                             style=CliStyle)
 
+    assert (expected_data, expected_headers) == (list(results[0]), results[1])
 
 @pytest.mark.skipif(not HAS_PYGMENTS, reason='requires the Pygments library')
 def test_style_output_custom_tokens():
@@ -208,7 +207,7 @@ def test_style_output_custom_tokens():
         odd_row_token='Token.Results.OddRows',
         even_row_token='Token.Results.EvenRows')
 
-    assert (expected_data, expected_headers) == output
+    assert (expected_data, expected_headers) == (list(output[0]), output[1])
 
 
 def test_format_integer():
@@ -289,6 +288,6 @@ def test_enforce_iterable():
         except StopIteration:
             assert False, "{} gives no output with iterator data".format(name)
         except TypeError:
-            assert False, "{} doesn't return iterator".format(name)
+            assert False, "{} doesn't return iterable".format(name)
         if isinstance(preprocessed[1], types.GeneratorType):
             assert False, "{} returns headers as iterator".format(name)
