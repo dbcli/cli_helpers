@@ -120,3 +120,14 @@ def test_get_type():
 
     for value, data_type in tests:
         assert data_type is formatter._get_type(value)
+
+
+def test_enforce_iterable():
+    """Test that all output formatters accept iterable"""
+    formatter = TabularOutputFormatter()
+    loremipsum = 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod'.split(' ')
+
+    for format_name in formatter.supported_formats:
+        formatter.format_name = format_name
+        formatted = formatter.format_output(zip(loremipsum), ['lorem'])
+        assert len(formatted) > 0
