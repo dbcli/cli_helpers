@@ -221,7 +221,7 @@ def test_format_integer():
                             float_format=',')
 
     expected = [['1'], ['1,000'], ['1,000,000']]
-    assert expected, headers == result
+    assert expected, headers == (list(result[0]), result[1])
 
 
 def test_format_decimal():
@@ -235,7 +235,7 @@ def test_format_decimal():
                             float_format=',')
 
     expected = [['1.0000'], ['1,000.0000'], ['1,000,000.0000']]
-    assert expected, headers == result
+    assert expected, headers == (list(result[0]), result[1])
 
 
 def test_format_float():
@@ -248,7 +248,7 @@ def test_format_float():
                             integer_format=',',
                             float_format=',')
     expected = [['1.0'], ['1,000.0'], ['1,000,000.0']]
-    assert expected, headers == result
+    assert expected, headers == (list(result[0]), result[1])
 
 
 def test_format_integer_only():
@@ -259,7 +259,7 @@ def test_format_integer_only():
                             integer_format=',')
 
     expected = [['1', 1.0], ['1,000', 1000.0], ['1,000,000', 1000000.0]]
-    assert expected, headers == result
+    assert expected, headers == (list(result[0]), result[1])
 
 
 def test_format_numbers_no_format_strings():
@@ -267,7 +267,7 @@ def test_format_numbers_no_format_strings():
     data = ((1), (1000), (1000000))
     headers = ('h1',)
     result = format_numbers(data, headers, column_types=(int,))
-    assert data, headers == result
+    assert data, headers == (list(result[0]), result[1])
 
 
 def test_format_numbers_no_column_types():
@@ -276,7 +276,7 @@ def test_format_numbers_no_column_types():
     headers = ('h1',)
     result = format_numbers(data, headers, integer_format=',',
                             float_format=',')
-    assert data, headers == result
+    assert data, headers == (list(result[0]), result[1])
 
 def test_enforce_iterable():
     preprocessors = inspect.getmembers(cli_helpers.tabular_output.preprocessors, inspect.isfunction)
