@@ -7,6 +7,7 @@ Version TBD
 (released on TBD)
 
 * Fix unicode error on Python 2 with newlines in output row.
+* Fixes to accept iterator
 
 
 Version 0.2.2
