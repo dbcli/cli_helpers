@@ -132,16 +132,9 @@ def test_provide_column_types():
         assert expected_column_types == column_types
         return data, headers
 
-    def adapter(*args, **_):
-        return ''
-
-    TabularOutputFormatter.register_new_formatter(
-        'test_column_types', adapter, (preprocessor, ))
-
-    format_output(data, headers, 'test_column_types',
-                  column_types=expected_column_types)
-
-    del TabularOutputFormatter._output_formats['test_column_types']
+    format_output(data, headers, 'csv',
+                  column_types=expected_column_types,
+                  preprocessors=(preprocessor,))
 
 
 def test_enforce_iterable():
