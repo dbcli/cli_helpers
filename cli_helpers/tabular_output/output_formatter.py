@@ -147,8 +147,6 @@ class TabularOutputFormatter(object):
         if column_types is None:
             data = list(data)
             column_types = self._get_column_types(data)
-        else:
-            column_types = [TYPES[v] for v in column_types]
         for f in unique_items(preprocessors + _preprocessors):
             data, headers = f(data, headers, column_types=column_types,
                               **fkwargs)

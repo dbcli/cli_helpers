@@ -122,6 +122,28 @@ def test_get_type():
         assert data_type is formatter._get_type(value)
 
 
+def test_provide_column_types():
+    """Test that provided column types are passed to preprocessors."""
+    expected_column_types = (bool, float)
+    data = ((1, 1.0), (0, 2))
+    headers = ('a', 'b')
+
+    def preprocessor(data, headers, column_types=(), **_):
+        assert expected_column_types == column_types
+        return data, headers
+
+    def adapter(*args, **_):
+        return ''
+
+    TabularOutputFormatter.register_new_formatter(
+        'test_column_types', adapter, (preprocessor, ))
+
+    format_output(data, headers, 'test_column_types',
+                  column_types=expected_column_types)
+
+    del TabularOutputFormatter._output_formats['test_column_types']
+
+
 def test_enforce_iterable():
     """Test that all output formatters accept iterable"""
     formatter = TabularOutputFormatter()
