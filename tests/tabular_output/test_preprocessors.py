@@ -214,69 +214,75 @@ def test_format_integer():
     """Test formatting for an INTEGER datatype."""
     data = [[1], [1000], [1000000]]
     headers = ['h1']
-    result = format_numbers(data,
-                            headers,
-                            column_types=(int,),
-                            integer_format=',',
-                            float_format=',')
+    result_data, result_headers = format_numbers(data,
+                                                 headers,
+                                                 column_types=(int,),
+                                                 integer_format=',',
+                                                 float_format=',')
 
     expected = [['1'], ['1,000'], ['1,000,000']]
-    assert expected, headers == (list(result[0]), result[1])
+    assert expected == list(result_data)
+    assert headers == result_headers
 
 
 def test_format_decimal():
     """Test formatting for a DECIMAL(12, 4) datatype."""
     data = [[Decimal('1.0000')], [Decimal('1000.0000')], [Decimal('1000000.0000')]]
     headers = ['h1']
-    result = format_numbers(data,
-                            headers,
-                            column_types=(float,),
-                            integer_format=',',
-                            float_format=',')
+    result_data, result_headers = format_numbers(data,
+                                                 headers,
+                                                 column_types=(float,),
+                                                 integer_format=',',
+                                                 float_format=',')
 
     expected = [['1.0000'], ['1,000.0000'], ['1,000,000.0000']]
-    assert expected, headers == (list(result[0]), result[1])
+    assert expected == list(result_data)
+    assert headers == result_headers
 
 
 def test_format_float():
     """Test formatting for a REAL datatype."""
     data = [[1.0], [1000.0], [1000000.0]]
     headers = ['h1']
-    result = format_numbers(data,
-                            headers,
-                            column_types=(float,),
-                            integer_format=',',
-                            float_format=',')
+    result_data, result_headers = format_numbers(data,
+                                                 headers,
+                                                 column_types=(float,),
+                                                 integer_format=',',
+                                                 float_format=',')
     expected = [['1.0'], ['1,000.0'], ['1,000,000.0']]
-    assert expected, headers == (list(result[0]), result[1])
+    assert expected == list(result_data)
+    assert headers == result_headers
 
 
 def test_format_integer_only():
     """Test that providing one format string works."""
     data = [[1, 1.0], [1000, 1000.0], [1000000, 1000000.0]]
     headers = ['h1', 'h2']
-    result = format_numbers(data, headers, column_types=(int, float),
-                            integer_format=',')
+    result_data, result_headers = format_numbers(data, headers, column_types=(int, float),
+                                                 integer_format=',')
 
     expected = [['1', 1.0], ['1,000', 1000.0], ['1,000,000', 1000000.0]]
-    assert expected, headers == (list(result[0]), result[1])
+    assert expected == list(result_data)
+    assert headers == result_headers
 
 
 def test_format_numbers_no_format_strings():
     """Test that numbers aren't formatted without format strings."""
     data = ((1), (1000), (1000000))
     headers = ('h1',)
-    result = format_numbers(data, headers, column_types=(int,))
-    assert data, headers == (list(result[0]), result[1])
+    result_data, result_headers = format_numbers(data, headers, column_types=(int,))
+    assert list(data) == list(result_data)
+    assert headers == result_headers
 
 
 def test_format_numbers_no_column_types():
     """Test that numbers aren't formatted without column types."""
     data = ((1), (1000), (1000000))
     headers = ('h1',)
-    result = format_numbers(data, headers, integer_format=',',
-                            float_format=',')
-    assert data, headers == (list(result[0]), result[1])
+    result_data, result_headers = format_numbers(data, headers, integer_format=',',
+                                  float_format=',')
+    assert list(data) == list(result_data)
+    assert headers == result_headers
 
 def test_enforce_iterable():
     preprocessors = inspect.getmembers(cli_helpers.tabular_output.preprocessors, inspect.isfunction)
