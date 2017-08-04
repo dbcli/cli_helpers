@@ -8,7 +8,7 @@ from mock import MagicMock
 import pytest
 
 from cli_helpers.compat import MAC, text_type, WIN
-from cli_helpers.config import (Config, ConfigValidationError,
+from cli_helpers.config import (Config, DefaultConfigValidationError,
                                 get_system_config_dirs, get_user_config_dir,
                                 _pathify)
 from .utils import with_temp_dir
@@ -137,7 +137,7 @@ def test_config_reading_configspec():
 
 def test_config_reading_configspec_with_error():
     """Test that reading an invalid configspec raises and exception."""
-    with pytest.raises(ConfigValidationError):
+    with pytest.raises(DefaultConfigValidationError):
         config = Config(APP_NAME, APP_AUTHOR, 'test_config', validate=True,
                         default=os.path.join(TEST_DATA_DIR,
                                              'invalid_configspecrc'))
