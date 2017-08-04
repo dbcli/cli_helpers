@@ -27,7 +27,7 @@ def test_tabular_output_formatter():
         +------+---------+''')
 
     assert expected == TabularOutputFormatter().format_output(
-        data, headers, format_name='ascii')
+        iter(data), headers, format_name='ascii')
 
 
 def test_tabular_format_output_wrapper():
@@ -44,18 +44,20 @@ def test_tabular_format_output_wrapper():
         | 3  | Joe  |
         +----+------+''')
 
-    assert expected == format_output(data, headers, format_name='ascii',
+    assert expected == format_output(iter(data), headers, format_name='ascii',
                                      missing_value='N/A')
 
 
 def test_additional_preprocessors():
     """Test that additional preprocessors are run."""
     def hello_world(data, headers, **_):
-        for row in data:
-            for i, value in enumerate(row):
-                if value == 'hello':
-                    row[i] = "{}, world".format(value)
-        return data, headers
+        def hello_world_data(data):
+            for row in data:
+                for i, value in enumerate(row):
+                    if value == 'hello':
+                        row[i] = "{}, world".format(value)
+                yield row
+        return hello_world_data(data), headers
 
     data = [['foo', None], ['hello!', 'hello']]
     headers = 'ab'
@@ -69,7 +71,7 @@ def test_additional_preprocessors():
         +--------+--------------+''')
 
     assert expected == TabularOutputFormatter().format_output(
-        data, headers, format_name='ascii', preprocessors=(hello_world,),
+        iter(data), headers, format_name='ascii', preprocessors=(hello_world,),
         missing_value='hello')
 
 
@@ -102,9 +104,9 @@ def test_tabulate_ansi_escape_in_default_value():
             ['3', 'Joe']]
     headers = ['id', 'name']
 
-    styled = format_output(data, headers, format_name='psql',
+    styled = format_output(iter(data), headers, format_name='psql',
                            missing_value='\x1b[38;5;10mNULL\x1b[39m')
-    unstyled = format_output(data, headers, format_name='psql',
+    unstyled = format_output(iter(data), headers, format_name='psql',
                              missing_value='NULL')
     assert strip_ansi(styled) == unstyled
 
@@ -118,3 +120,29 @@ def test_get_type():
 
     for value, data_type in tests:
         assert data_type is formatter._get_type(value)
+
+
+def test_provide_column_types():
+    """Test that provided column types are passed to preprocessors."""
+    expected_column_types = (bool, float)
+    data = ((1, 1.0), (0, 2))
+    headers = ('a', 'b')
+
+    def preprocessor(data, headers, column_types=(), **_):
+        assert expected_column_types == column_types
+        return data, headers
+
+    format_output(data, headers, 'csv',
+                  column_types=expected_column_types,
+                  preprocessors=(preprocessor,))
+
+
+def test_enforce_iterable():
+    """Test that all output formatters accept iterable"""
+    formatter = TabularOutputFormatter()
+    loremipsum = 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod'.split(' ')
+
+    for format_name in formatter.supported_formats:
+        formatter.format_name = format_name
+        formatted = formatter.format_output(zip(loremipsum), ['lorem'])
+        assert len(formatted) > 0

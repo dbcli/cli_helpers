@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """These preprocessor functions are used to process data prior to output."""
 
-from io import StringIO
 import string
 
 from cli_helpers import utils
 from cli_helpers.compat import (text_type, int_types, float_types,
-                                HAS_PYGMENTS, Terminal256Formatter)
+                                HAS_PYGMENTS, Terminal256Formatter, StringIO)
 
 
 def convert_to_string(data, headers, **_):
@@ -21,7 +20,7 @@ def convert_to_string(data, headers, **_):
     :rtype: tuple
 
     """
-    return ([[utils.to_string(v) for v in row] for row in data],
+    return (([utils.to_string(v) for v in row] for row in data),
             [utils.to_string(h) for h in headers])
 
 
@@ -37,7 +36,7 @@ def override_missing_value(data, headers, missing_value='', **_):
     :rtype: tuple
 
     """
-    return ([[missing_value if v is None else v for v in row] for row in data],
+    return (([missing_value if v is None else v for v in row] for row in data),
             headers)
 
 
@@ -53,7 +52,7 @@ def bytes_to_string(data, headers, **_):
     :rtype: tuple
 
     """
-    return ([[utils.bytes_to_string(v) for v in row] for row in data],
+    return (([utils.bytes_to_string(v) for v in row] for row in data),
             [utils.bytes_to_string(h) for h in headers])
 
 
@@ -83,22 +82,25 @@ def align_decimals(data, headers, column_types=(), **_):
 
     """
     pointpos = len(headers) * [0]
+    data = list(data)
     for row in data:
         for i, v in enumerate(row):
             if column_types[i] is float and type(v) in float_types:
                 v = text_type(v)
                 pointpos[i] = max(utils.intlen(v), pointpos[i])
-    results = []
-    for row in data:
-        result = []
-        for i, v in enumerate(row):
-            if column_types[i] is float and type(v) in float_types:
-                v = text_type(v)
-                result.append((pointpos[i] - utils.intlen(v)) * " " + v)
-            else:
-                result.append(v)
-        results.append(result)
-    return results, headers
+
+    def results(data):
+        for row in data:
+            result = []
+            for i, v in enumerate(row):
+                if column_types[i] is float and type(v) in float_types:
+                    v = text_type(v)
+                    result.append((pointpos[i] - utils.intlen(v)) * " " + v)
+                else:
+                    result.append(v)
+            yield result
+
+    return results(data), headers
 
 
 def quote_whitespaces(data, headers, quotestyle="'", **_):
@@ -122,21 +124,22 @@ def quote_whitespaces(data, headers, quotestyle="'", **_):
     """
     whitespace = tuple(string.whitespace)
     quote = len(headers) * [False]
+    data = list(data)
     for row in data:
         for i, v in enumerate(row):
             v = text_type(v)
             if v.startswith(whitespace) or v.endswith(whitespace):
                 quote[i] = True
 
-    results = []
-    for row in data:
-        result = []
-        for i, v in enumerate(row):
-            quotation = quotestyle if quote[i] else ''
-            result.append('{quotestyle}{value}{quotestyle}'.format(
-                quotestyle=quotation, value=v))
-        results.append(result)
-    return results, headers
+    def results(data):
+        for row in data:
+            result = []
+            for i, v in enumerate(row):
+                quotation = quotestyle if quote[i] else ''
+                result.append('{quotestyle}{value}{quotestyle}'.format(
+                    quotestyle=quotation, value=v))
+            yield result
+    return results(data), headers
 
 
 def style_output(data, headers, style=None,
@@ -190,10 +193,10 @@ def style_output(data, headers, style=None,
             return s.getvalue()
 
         headers = [style_field(header_token, header) for header in headers]
-        data = [[style_field(odd_row_token if i % 2 else even_row_token, f)
-                 for f in r] for i, r in enumerate(data, 1)]
+        data = ([style_field(odd_row_token if i % 2 else even_row_token, f)
+                 for f in r] for i, r in enumerate(data, 1))
 
-    return data, headers
+    return iter(data), headers
 
 
 def format_numbers(data, headers, column_types=(), integer_format=None,
@@ -219,7 +222,7 @@ def format_numbers(data, headers, column_types=(), integer_format=None,
 
     """
     if (integer_format is None and float_format is None) or not column_types:
-        return data, headers
+        return iter(data), headers
 
     def _format_number(field, column_type):
         if integer_format and column_type is int and type(field) in int_types:
@@ -228,5 +231,5 @@ def format_numbers(data, headers, column_types=(), integer_format=None,
             return format(field, float_format)
         return field
 
-    data = [[_format_number(v, column_types[i]) for i, v in enumerate(row)] for row in data]
+    data = ([_format_number(v, column_types[i]) for i, v in enumerate(row)] for row in data)
     return data, headers

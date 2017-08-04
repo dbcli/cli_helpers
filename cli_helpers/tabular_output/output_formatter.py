@@ -4,10 +4,14 @@
 from __future__ import unicode_literals
 from collections import namedtuple
 
-from cli_helpers.compat import text_type, binary_type, int_types, float_types
+from cli_helpers.compat import (text_type, binary_type, int_types, float_types,
+                                zip_longest)
 from cli_helpers.utils import unique_items
 from . import (delimited_output_adapter, vertical_table_adapter,
                tabulate_adapter, terminaltables_adapter)
+from decimal import Decimal
+
+import itertools
 
 MISSING_VALUE = '<null>'
 
@@ -16,6 +20,7 @@ TYPES = {
     bool: 1,
     int: 2,
     float: 3,
+    Decimal: 3,
     binary_type: 4,
     text_type: 5
 }
@@ -114,7 +119,7 @@ class TabularOutputFormatter(object):
             format_name, preprocessors, handler, kwargs or {})
 
     def format_output(self, data, headers, format_name=None,
-                      preprocessors=(), **kwargs):
+                      preprocessors=(), column_types=None, **kwargs):
         """Format the headers and data using a specific formatter.
 
         *format_name* must be a supported formatter (see
@@ -139,15 +144,17 @@ class TabularOutputFormatter(object):
         (_, _preprocessors, formatter,
          fkwargs) = self._output_formats[format_name]
         fkwargs.update(kwargs)
-        column_types = self._get_column_types(data)
+        if column_types is None:
+            data = list(data)
+            column_types = self._get_column_types(data)
         for f in unique_items(preprocessors + _preprocessors):
             data, headers = f(data, headers, column_types=column_types,
                               **fkwargs)
-        return formatter(data, headers, column_types=column_types, **fkwargs)
+        return formatter(list(data), headers, column_types=column_types, **fkwargs)
 
     def _get_column_types(self, data):
         """Get a list of the data types for each column in *data*."""
-        columns = list(zip(*data))
+        columns = list(zip_longest(*data))
         return [self._get_column_type(column) for column in columns]
 
     def _get_column_type(self, column):

@@ -2,6 +2,7 @@
 """Format adapter for the terminaltables module."""
 
 import terminaltables
+import itertools
 
 from cli_helpers.utils import filter_dict_by_key
 from .preprocessors import (convert_to_string, override_missing_value,
@@ -23,5 +24,5 @@ def adapter(data, headers, table_format=None, **kwargs):
 
     table = table_format_handler[table_format]
 
-    t = table([headers] + data, **filter_dict_by_key(kwargs, keys))
+    t = table([headers] + list(data), **filter_dict_by_key(kwargs, keys))
     return t.table

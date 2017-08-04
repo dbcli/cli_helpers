@@ -17,6 +17,9 @@ if PY2:
 
     from UserDict import UserDict
     from backports import csv
+
+    from StringIO import StringIO
+    from itertools import izip_longest as zip_longest
 else:
     text_type = str
     binary_type = bytes
@@ -25,6 +28,8 @@ else:
 
     from collections import UserDict
     import csv
+    from io import StringIO
+    from itertools import zip_longest
 
 
 HAS_PYGMENTS = True
