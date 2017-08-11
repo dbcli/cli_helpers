@@ -27,4 +27,4 @@ def adapter(data, headers, table_format=None, preserve_whitespace=False,
 
     tabulate.PRESERVE_WHITESPACE = preserve_whitespace
 
-    return tabulate.tabulate(data, headers, **tkwargs)
+    return iter(tabulate.tabulate(data, headers, **tkwargs).split('\n'))

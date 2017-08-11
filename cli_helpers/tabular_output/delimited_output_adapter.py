@@ -12,11 +12,21 @@ supported_formats = ('csv', 'tsv')
 preprocessors = (override_missing_value, bytes_to_string)
 
 
+class linewriter(object):
+    def __init__(self):
+        self.reset()
+
+    def reset(self):
+        self.line = None
+
+    def write(self, d):
+        self.line = d
+
+
 def adapter(data, headers, table_format='csv', **kwargs):
     """Wrap the formatting inside a function for TabularOutputFormatter."""
     keys = ('dialect', 'delimiter', 'doublequote', 'escapechar',
-            'lineterminator', 'quotechar', 'quoting', 'skipinitialspace',
-            'strict')
+            'quotechar', 'quoting', 'skipinitialspace', 'strict')
     if table_format == 'csv':
         delimiter = ','
     elif table_format == 'tsv':
@@ -24,13 +34,15 @@ def adapter(data, headers, table_format='csv', **kwargs):
     else:
         raise ValueError('Invalid table_format specified.')
 
-    ckwargs = {'delimiter': delimiter}
+    ckwargs = {'delimiter': delimiter, 'lineterminator': ''}
     ckwargs.update(filter_dict_by_key(kwargs, keys))
 
-    with contextlib.closing(StringIO()) as content:
-        writer = csv.writer(content, **ckwargs)
-        writer.writerow(headers)
-        for row in data:
-            writer.writerow(row)
+    l = linewriter()
+    writer = csv.writer(l, **ckwargs)
+    writer.writerow(headers)
+    yield l.line
 
-        return content.getvalue()
+    for row in data:
+        l.reset()
+        writer.writerow(row)
+        yield l.line

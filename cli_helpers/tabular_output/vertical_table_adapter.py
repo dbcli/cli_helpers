@@ -57,11 +57,7 @@ def vertical_table(data, headers, sep_title='{n}. row', sep_character='*',
 
     output = []
     for i, result in enumerate(formatted_rows):
-        output.append(_get_separator(i, sep_title, sep_character, sep_length))
-        output.append(result)
-        output.append('\n')
-
-    return ''.join(output)
+        yield _get_separator(i, sep_title, sep_character, sep_length) + result
 
 
 def adapter(data, headers, **kwargs):

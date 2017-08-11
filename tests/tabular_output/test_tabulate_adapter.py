@@ -12,7 +12,7 @@ def test_tabulate_wrapper():
     data = [['abc', 1], ['d', 456]]
     headers = ['letters', 'number']
     output = tabulate_adapter.adapter(iter(data), headers, table_format='psql')
-    assert output == dedent('''\
+    assert "\n".join(output) == dedent('''\
         +-----------+----------+
         | letters   |   number |
         |-----------+----------|
@@ -26,7 +26,7 @@ def test_markup_format():
     data = [['abc', 1], ['d', 456]]
     headers = ['letters', 'number']
     output = tabulate_adapter.adapter(iter(data), headers, table_format='mediawiki')
-    assert output == dedent('''\
+    assert "\n".join(output) == dedent('''\
         {| class="wikitable" style="text-align: left;"
         |+ <!-- caption -->
         |-
