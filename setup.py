@@ -41,9 +41,9 @@ setup(
     },
     entry_points={
         'distutils.commands': [
-            'lint = tasks:lint',
-            'test = tasks:test',
-            'docs = tasks:docs',
+            'lint = cli_helpers.tasks:lint',
+            'test = cli_helpers.tasks:test',
+            'docs = cli_helpers.tasks:docs',
         ],
     },
     classifiers=[

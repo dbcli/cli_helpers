@@ -1,6 +1,7 @@
 include *.txt *.rst *.py
 include AUTHORS CHANGELOG LICENSE
 include tox.ini
+include .coveragerc
 recursive-include docs *.py
 recursive-include docs *.rst
 recursive-include docs Makefile

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version TBD
+-----------
+
+(not yet released)
+
+* Add package name to task entrypoints in setup.py
+
+
 Version 0.2.3
 -------------
 
