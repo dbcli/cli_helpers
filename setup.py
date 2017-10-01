@@ -33,6 +33,7 @@ setup(
     description='Helpers for building command-line apps',
     long_description=readme,
     install_requires=[
+        'tabulate >= 0.8.0',
         'terminaltables >= 3.0.0',
         'backports.csv >= 1.0.0'
     ],

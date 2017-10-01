@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """Format adapter for the tabulate module."""
 
-from cli_helpers.packages import tabulate
 from cli_helpers.utils import filter_dict_by_key
 from .preprocessors import (convert_to_string, override_missing_value,
                             style_output)
+
+import tabulate
 
 supported_markup_formats = ('mediawiki', 'html', 'latex', 'latex_booktabs',
                             'textile', 'moinmoin', 'jira')
