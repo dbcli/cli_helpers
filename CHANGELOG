@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version TBD
+-------------
+
+(released on TBD)
+
+* Require tabulate as a dependency instead of using vendored module.
+
 Version 0.2.3
 -------------
 
