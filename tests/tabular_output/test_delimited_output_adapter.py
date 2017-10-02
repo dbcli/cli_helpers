@@ -15,24 +15,25 @@ def test_csv_wrapper():
     data = [['abc', '1'], ['d', '456']]
     headers = ['letters', 'number']
     output = delimited_output_adapter.adapter(iter(data), headers)
-    assert output == dedent('''\
-        letters,number\r\n\
-        abc,1\r\n\
-        d,456\r\n''')
+    assert "\n".join(output) == dedent('''\
+        letters,number\n\
+        abc,1\n\
+        d,456''')
 
     # Test tab-delimited output.
     data = [['abc', '1'], ['d', '456']]
     headers = ['letters', 'number']
     output = delimited_output_adapter.adapter(
         iter(data), headers, table_format='tsv')
-    assert output == dedent('''\
-        letters\tnumber\r\n\
-        abc\t1\r\n\
-        d\t456\r\n''')
+    assert "\n".join(output) == dedent('''\
+        letters\tnumber\n\
+        abc\t1\n\
+        d\t456''')
 
     with pytest.raises(ValueError):
         output = delimited_output_adapter.adapter(
             iter(data), headers, table_format='foobar')
+        list(output)
 
 
 def test_unicode_with_csv():
@@ -40,8 +41,8 @@ def test_unicode_with_csv():
     data = [['观音', '1'], ['Ποσειδῶν', '456']]
     headers = ['letters', 'number']
     output = delimited_output_adapter.adapter(data, headers)
-    assert output == dedent('''\
-        letters,number\r\n\
-        观音,1\r\n\
-        Ποσειδῶν,456\r\n''')
+    assert "\n".join(output) == dedent('''\
+        letters,number\n\
+        观音,1\n\
+        Ποσειδῶν,456''')
 
