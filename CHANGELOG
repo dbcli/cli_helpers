@@ -6,8 +6,9 @@ Version TBD
 
 (released on TBD)
 
-* Require tabulate as a dependency instead of using vendored module.
 * Output as generator
+* Use backports.csv only for py2
+* Require tabulate as a dependency instead of using vendored module.
 
 
 Version 0.2.3

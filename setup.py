@@ -4,6 +4,7 @@
 import ast
 from io import open
 import re
+import sys
 
 from setuptools import find_packages, setup
 
@@ -22,6 +23,11 @@ def open_file(filename):
 
 readme = open_file('README.rst')
 
+if sys.version_info[0] == 2:
+    py2_reqs = [ 'backports.csv >= 1.0.0', ]
+else:
+    py2_reqs = []
+
 setup(
     name='cli_helpers',
     author='dbcli',
@@ -35,8 +41,7 @@ setup(
     install_requires=[
         'tabulate >= 0.8.0',
         'terminaltables >= 3.0.0',
-        'backports.csv >= 1.0.0'
-    ],
+    ] + py2_reqs,
     extras_require={
         'styles':  ['Pygments >= 1.6'],
     },
