@@ -4,7 +4,11 @@ Changelog
 TBD
 ---
 
+(to be released)
+
 * Output as generator
+* Use backports.csv only for py2
+
 
 Version 0.2.3
 -------------
