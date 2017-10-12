@@ -45,13 +45,6 @@ setup(
     extras_require={
         'styles':  ['Pygments >= 1.6'],
     },
-    entry_points={
-        'distutils.commands': [
-            'lint = tasks:lint',
-            'test = tasks:test',
-            'docs = tasks:docs',
-        ],
-    },
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
