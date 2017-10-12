@@ -61,16 +61,17 @@ Running the Tests
 While you work on CLI Helpers, it's important to run the tests to make sure your code
 hasn't broken any existing functionality. To run the tests, just type in::
 
-    $ ./setup.py test
+    $ pytest
 
 CLI Helpers supports Python 2.7 and 3.3+. You can test against multiple versions of
 Python by running::
 
-    $ ./setup.py test --all
+    $ tox
 
 You can also measure CLI Helper's test coverage by running::
 
-    $ ./setup.py test --coverage
+    $ pytest --cov-report= --cov=cli_helpers
+    $ coverage report
 
 
 Coding Style
@@ -80,11 +81,11 @@ CLI Helpers requires code submissions to adhere to
 `PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_.
 It's easy to check the style of your code, just run::
 
-    $ ./setup.py lint
+    $ pep8radius master
 
 If you see any PEP 8 style issues, you can automatically fix them by running::
 
-    $ ./setup.py lint --fix
+    $ pep8radius master --in-place
 
 Be sure to commit and push any PEP 8 fixes.
 
@@ -95,6 +96,7 @@ Documentation
 If your work in CLI Helpers requires a documentation change or addition, you can
 build the documentation by running::
 
-    $ ./setup.py docs
+    $ make -C docs clean html
+    $ open docs/build/html/index.html
 
 That will build the documentation and open it in your web browser.
