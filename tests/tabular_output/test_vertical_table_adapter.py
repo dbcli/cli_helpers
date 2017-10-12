@@ -17,9 +17,9 @@ def test_vertical_table():
         age  | 123
         ***************************[ 2. row ]***************************
         name | world
-        age  | 456
-        """)
-    assert expected == vertical_table_adapter.adapter(results, ('name', 'age'))
+        age  | 456""")
+    assert expected == "\n".join(
+        vertical_table_adapter.adapter(results, ('name', 'age')))
 
 
 def test_vertical_table_customized():
@@ -32,8 +32,7 @@ def test_vertical_table_customized():
         age  | 47
         -[ PERSON 2 ]-----
         name | jill
-        age  | 50
-        """)
-    assert expected == vertical_table_adapter.adapter(
+        age  | 50""")
+    assert expected == "\n".join(vertical_table_adapter.adapter(
         results, ('name', 'age'), sep_title='PERSON {n}',
-        sep_character='-', sep_length=(1, 5))
+        sep_character='-', sep_length=(1, 5)))

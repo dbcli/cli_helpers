@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version TBD
+-------------
+
+(released on TBD)
+
+* Output as generator
+* Use backports.csv only for py2
+* Require tabulate as a dependency instead of using vendored module.
+* Drop support for Python 3.3.
+
+
 Version 0.2.3
 -------------
 

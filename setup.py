@@ -4,6 +4,7 @@
 import ast
 from io import open
 import re
+import sys
 
 from setuptools import find_packages, setup
 
@@ -22,6 +23,11 @@ def open_file(filename):
 
 readme = open_file('README.rst')
 
+if sys.version_info[0] == 2:
+    py2_reqs = [ 'backports.csv >= 1.0.0', ]
+else:
+    py2_reqs = []
+
 setup(
     name='cli_helpers',
     author='dbcli',
@@ -33,9 +39,9 @@ setup(
     description='Helpers for building command-line apps',
     long_description=readme,
     install_requires=[
+        'tabulate >= 0.8.0',
         'terminaltables >= 3.0.0',
-        'backports.csv >= 1.0.0'
-    ],
+    ] + py2_reqs,
     extras_require={
         'styles':  ['Pygments >= 1.6'],
     },
@@ -46,7 +52,6 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',

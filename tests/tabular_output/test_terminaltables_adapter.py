@@ -13,7 +13,7 @@ def test_terminal_tables_adapter():
     headers = ['letters', 'number']
     output = terminaltables_adapter.adapter(
         iter(data), headers, table_format='ascii')
-    assert output == dedent('''\
+    assert "\n".join(output) == dedent('''\
         +---------+--------+
         | letters | number |
         +---------+--------+
