@@ -4,7 +4,7 @@ Changelog
 Version 1.0.0
 -------------
 
-(released on TBD)
+(released on 2017-10-11)
 
 * Output as generator
 * Use backports.csv only for py2
