@@ -31,4 +31,4 @@ def adapter(data, headers, table_format=None, **kwargs):
         t.padding_left,
         t.padding_right)[:3]
     for r in t.gen_table(*dimensions):
-        yield ''.join(r)
+        yield u''.join(r)

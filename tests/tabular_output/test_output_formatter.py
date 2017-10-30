@@ -152,3 +152,13 @@ def test_enforce_iterable():
                 zip(loremipsum), ['lorem']))
         except TypeError:
             assert False, "{0} doesn't return iterable".format(format_name)
+
+
+def test_all_text_type():
+    """Test the TabularOutputFormatter class."""
+    data = [[1, u"", None, Decimal(2)]]
+    headers = ['col1', 'col2', 'col3', 'col4']
+    output_formatter = TabularOutputFormatter()
+    for format_name in output_formatter.supported_formats:
+        for row in output_formatter.format_output(iter(data), headers, format_name=format_name):
+            assert isinstance(row, text_type), "not unicode for {}".format(format_name)
