@@ -1,12 +1,12 @@
 Changelog
 =========
 
-TBD
+Version 1.0.1
 -------------
 
-(to be released)
+(released on 2017-11-27)
 
-* Output all unicode for terminaltables, add unit test
+* Output all unicode for terminaltables, add unit test.
 
 Version 1.0.0
 -------------
