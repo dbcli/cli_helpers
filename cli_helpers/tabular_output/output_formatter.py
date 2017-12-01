@@ -8,7 +8,7 @@ from cli_helpers.compat import (text_type, binary_type, int_types, float_types,
                                 zip_longest)
 from cli_helpers.utils import unique_items
 from . import (delimited_output_adapter, vertical_table_adapter,
-               tabulate_adapter, terminaltables_adapter)
+               tabulate_adapter, terminaltables_adapter, sql_adapter)
 from decimal import Decimal
 
 import itertools
@@ -217,3 +217,9 @@ for terminaltables_format in terminaltables_adapter.supported_formats:
         terminaltables_format, terminaltables_adapter.adapter,
         terminaltables_adapter.preprocessors,
         {'table_format': terminaltables_format, 'missing_value': MISSING_VALUE})
+
+for sql_format in sql_adapter.supported_formats:
+    TabularOutputFormatter.register_new_formatter(
+        sql_format, sql_adapter.adapter,
+        sql_adapter.preprocessors,
+        {'table_format': sql_format, 'missing_value': 'NULL'})
