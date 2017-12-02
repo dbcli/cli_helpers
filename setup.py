@@ -39,7 +39,7 @@ setup(
     description='Helpers for building command-line apps',
     long_description=readme,
     install_requires=[
-        'tabulate >= 0.8.0',
+        'tabulate[widechars] >= 0.8.2',
         'terminaltables >= 3.0.0',
     ] + py2_reqs,
     extras_require={
