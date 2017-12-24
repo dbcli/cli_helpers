@@ -33,7 +33,7 @@ def adapter(data, headers, table_format=None, **kwargs):
     table_format_handler = {
         'ascii': terminaltables.AsciiTable,
         'double': terminaltables.DoubleTable,
-        'github': terminaltables.GithubFlavoredMarkdownTable
+        'github': terminaltables.GithubFlavoredMarkdownTable,
     }
 
     for tablefmt in table_format_handler.keys():
