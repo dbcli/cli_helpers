@@ -41,6 +41,7 @@ setup(
     install_requires=[
         'tabulate[widechars] >= 0.8.2',
         'terminaltables >= 3.0.0',
+        'click >= 4.1',
     ] + py2_reqs,
     extras_require={
         'styles':  ['Pygments >= 1.6'],
