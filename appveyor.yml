@@ -1,7 +1,6 @@
 environment:
   matrix:
     - PYTHON: "C:\\Python27"
-    - PYTHON: "C:\\Python33"
     - PYTHON: "C:\\Python34"
     - PYTHON: "C:\\Python35"
     - PYTHON: "C:\\Python36"
@@ -13,5 +12,6 @@ before_test:
   - pip install -r requirements-dev.txt
   - pip install -e .
 test_script:
-  - python setup.py test --coverage
+  - pytest --cov-report= --cov=cli_helpers
+  - coverage report
   - codecov

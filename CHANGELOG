@@ -1,6 +1,31 @@
 Changelog
 =========
 
+TBD
+---
+
+(to be released)
+
+* Copy unit test from pgcli
+
+Version 1.0.1
+-------------
+
+(released on 2017-11-27)
+
+* Output all unicode for terminaltables, add unit test.
+
+Version 1.0.0
+-------------
+
+(released on 2017-10-11)
+
+* Output as generator
+* Use backports.csv only for py2
+* Require tabulate as a dependency instead of using vendored module.
+* Drop support for Python 3.3.
+
+
 Version 0.2.3
 -------------
 

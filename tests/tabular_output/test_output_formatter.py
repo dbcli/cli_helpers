@@ -26,8 +26,8 @@ def test_tabular_output_formatter():
         | hi   | 1.1     |
         +------+---------+''')
 
-    assert expected == TabularOutputFormatter().format_output(
-        iter(data), headers, format_name='ascii')
+    assert expected == "\n".join(TabularOutputFormatter().format_output(
+        iter(data), headers, format_name='ascii'))
 
 
 def test_tabular_format_output_wrapper():
@@ -44,8 +44,8 @@ def test_tabular_format_output_wrapper():
         | 3  | Joe  |
         +----+------+''')
 
-    assert expected == format_output(iter(data), headers, format_name='ascii',
-                                     missing_value='N/A')
+    assert expected == "\n".join(format_output(iter(data), headers, format_name='ascii',
+                                               missing_value='N/A'))
 
 
 def test_additional_preprocessors():
@@ -70,9 +70,9 @@ def test_additional_preprocessors():
         | hello! | hello, world |
         +--------+--------------+''')
 
-    assert expected == TabularOutputFormatter().format_output(
+    assert expected == "\n".join(TabularOutputFormatter().format_output(
         iter(data), headers, format_name='ascii', preprocessors=(hello_world,),
-        missing_value='hello')
+        missing_value='hello'))
 
 
 def test_format_name_attribute():
@@ -108,7 +108,10 @@ def test_tabulate_ansi_escape_in_default_value():
                            missing_value='\x1b[38;5;10mNULL\x1b[39m')
     unstyled = format_output(iter(data), headers, format_name='psql',
                              missing_value='NULL')
-    assert strip_ansi(styled) == unstyled
+
+    stripped_styled = [strip_ansi(s) for s in styled]
+
+    assert list(unstyled) == stripped_styled
 
 
 def test_get_type():
@@ -144,5 +147,18 @@ def test_enforce_iterable():
 
     for format_name in formatter.supported_formats:
         formatter.format_name = format_name
-        formatted = formatter.format_output(zip(loremipsum), ['lorem'])
-        assert len(formatted) > 0
+        try:
+            formatted = next(formatter.format_output(
+                zip(loremipsum), ['lorem']))
+        except TypeError:
+            assert False, "{0} doesn't return iterable".format(format_name)
+
+
+def test_all_text_type():
+    """Test the TabularOutputFormatter class."""
+    data = [[1, u"", None, Decimal(2)]]
+    headers = ['col1', 'col2', 'col3', 'col4']
+    output_formatter = TabularOutputFormatter()
+    for format_name in output_formatter.supported_formats:
+        for row in output_formatter.format_output(iter(data), headers, format_name=format_name):
+            assert isinstance(row, text_type), "not unicode for {}".format(format_name)

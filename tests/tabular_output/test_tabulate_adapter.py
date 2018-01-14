@@ -12,7 +12,7 @@ def test_tabulate_wrapper():
     data = [['abc', 1], ['d', 456]]
     headers = ['letters', 'number']
     output = tabulate_adapter.adapter(iter(data), headers, table_format='psql')
-    assert output == dedent('''\
+    assert "\n".join(output) == dedent('''\
         +-----------+----------+
         | letters   |   number |
         |-----------+----------|
@@ -20,13 +20,24 @@ def test_tabulate_wrapper():
         | d         |      456 |
         +-----------+----------+''')
 
+    data = [['{1,2,3}', '{{1,2},{3,4}}', '{å,魚,текст}'], ['{}', '<null>', '{<null>}']]
+    headers = ['bigint_array', 'nested_numeric_array', '配列']
+    output = tabulate_adapter.adapter(iter(data), headers, table_format='psql')
+    assert "\n".join(output) == dedent('''\
+        +----------------+------------------------+--------------+
+        | bigint_array   | nested_numeric_array   | 配列         |
+        |----------------+------------------------+--------------|
+        | {1,2,3}        | {{1,2},{3,4}}          | {å,魚,текст} |
+        | {}             | <null>                 | {<null>}     |
+        +----------------+------------------------+--------------+''')
+
 
 def test_markup_format():
     """Test that markup formats do not have number align or string align."""
     data = [['abc', 1], ['d', 456]]
     headers = ['letters', 'number']
     output = tabulate_adapter.adapter(iter(data), headers, table_format='mediawiki')
-    assert output == dedent('''\
+    assert "\n".join(output) == dedent('''\
         {| class="wikitable" style="text-align: left;"
         |+ <!-- caption -->
         |-
