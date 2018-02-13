@@ -6,6 +6,7 @@ TBD
 
 (to be released)
 
+* Adds config file reading/writing.
 * Copy unit test from pgcli
 
 Version 1.0.1
