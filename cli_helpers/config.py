@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Read an app's config file.
-
-Goal: single interface to reading all your app's config files
-
-Write default file
-
-"""
+"""Read and write an application's config files."""
 
 from __future__ import unicode_literals
 import io
