@@ -8,6 +8,7 @@ TBD
 
 * Copy unit test from pgcli
 * Use safe float for unit test
+* Move strip_ansi from tests.utils to cli_helpers.utils
 
 Version 1.0.1
 -------------
