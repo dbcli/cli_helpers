@@ -56,17 +56,6 @@ class Config(UserDict, object):
         self.validate = validate
         self.additional_dirs = additional_dirs
 
-        self._set_default(default)
-
-        if self.write_default and not self.default_file:
-            raise ValueError('Cannot use "write_default" without specifying '
-                             'a default file.')
-
-        if self.validate and not self.default_file:
-            raise ValueError('Cannot use "validate" without specifying a '
-                             'default file.')
-
-    def _set_default(self, default):
         if isinstance(default, dict):
             self.default = default
             self.update(default)
@@ -76,6 +65,14 @@ class Config(UserDict, object):
             raise TypeError(
                 '"default" must be a dict or {}, not {}'.format(
                     text_type.__name__, type(default)))
+
+        if self.write_default and not self.default_file:
+            raise ValueError('Cannot use "write_default" without specifying '
+                             'a default file.')
+
+        if self.validate and not self.default_file:
+            raise ValueError('Cannot use "validate" without specifying a '
+                             'default file.')
 
     def read_default_config(self):
         """Read the default config file.
@@ -90,21 +87,18 @@ class Config(UserDict, object):
             valid = self.default_config.validate(Validator(), copy=True,
                                                  preserve_errors=True)
             if valid is not True:
-                self._raise_validation_errors(valid)
+                for name, section in valid.items():
+                    if section is True:
+                        continue
+                    for key, value in section.items():
+                        if isinstance(value, ValidateError):
+                            raise DefaultConfigValidationError(
+                                'section [{}], key "{}": {}'.format(
+                                    name, key, value))
         elif self.default_file:
             self.default_config, _ = self.read_config_file(self.default_file)
 
         self.update(self.default_config)
-
-    def _raise_validation_errors(self, valid):
-        for name, section in valid.items():
-            if section is True:
-                continue
-            for key, value in section.items():
-                if isinstance(value, ValidateError):
-                    raise DefaultConfigValidationError(
-                        'section [{}], key "{}": {}'.format(
-                            name, key, value))
 
     def read(self):
         """Read the default, additional, system, and user config files.
