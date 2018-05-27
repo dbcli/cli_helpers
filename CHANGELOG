@@ -1,13 +1,15 @@
 Changelog
 =========
 
-TBD
----
+Version 1.0.2
+-------------
 
-(to be released)
+(released on 2018-04-07)
 
 * Adds config file reading/writing.
 * Copy unit test from pgcli
+* Use safe float for unit test
+* Move strip_ansi from tests.utils to cli_helpers.utils
 
 Version 1.0.1
 -------------

@@ -9,7 +9,7 @@ import pytest
 
 from cli_helpers.tabular_output import format_output, TabularOutputFormatter
 from cli_helpers.compat import binary_type, text_type
-from tests.utils import strip_ansi
+from cli_helpers.utils import strip_ansi
 
 
 def test_tabular_output_formatter():
