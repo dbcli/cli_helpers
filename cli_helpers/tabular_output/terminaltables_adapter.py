@@ -20,8 +20,8 @@ table_format_handler = {
 
 def style_output_table(format_name=""):
     def style_output(data, headers, style=None,
-                     separator_table_token='Token.Output.SeparatorTable', **_):
-        """Style the *table* a(e.g. bold, italic, and colors)
+                     table_separator_token='Token.Output.TableSeparator', **_):
+        """Style the *table* (e.g. bold, italic, and colors)
 
         .. NOTE::
             This requires the `Pygments <http://pygments.org/>`_ library to
@@ -30,26 +30,28 @@ def style_output_table(format_name=""):
 
         Example usage::
 
-            from cli_helpers.tabular_output.preprocessors import style_output
+            from cli_helpers.tabular_output import terminaltables_adapter
             from pygments.style import Style
             from pygments.token import Token
 
             class YourStyle(Style):
                 default_style = ""
                 styles = {
-                    Token.Output.SeparatorTable: '#ansigray'
+                    Token.Output.TableSeparator: '#ansigray'
                 }
 
             headers = ('First Name', 'Last Name')
             data = [['Fred', 'Roberts'], ['George', 'Smith']]
+            style_output_table = terminaltables_adapter.style_output_table('psql')
+            style_output_table(data, headers, style=CliStyle)
 
-            data, headers = style_output(data, headers, style=YourStyle)
+            output = terminaltables_adapter.adapter(data, headers, style=YourStyle)
 
         :param iterable data: An :term:`iterable` (e.g. list) of rows.
         :param iterable headers: The column headers.
         :param str/pygments.style.Style style: A Pygments style. You can `create
             your own styles <http://pygments.org/docs/styles/#creating-own-styles>`_.
-        :param str separator_table_token: The token type to be used for the separator table.
+        :param str table_separator_token: The token type to be used for the table separator.
         :return: data and headers.
         :rtype: tuple
 
@@ -66,7 +68,7 @@ def style_output_table(format_name=""):
             clss = table_format_handler[format_name]
             for char in [char for char in terminaltables.base_table.BaseTable.__dict__ if char.startswith("CHAR_")]:
                 setattr(clss, char, style_field(
-                    separator_table_token, getattr(clss, char)))
+                    table_separator_token, getattr(clss, char)))
 
         return iter(data), headers
     return style_output
