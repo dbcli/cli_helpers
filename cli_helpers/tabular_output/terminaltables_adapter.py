@@ -37,7 +37,7 @@ def style_output_table(format_name=""):
             class YourStyle(Style):
                 default_style = ""
                 styles = {
-                    oken.Output.SeparatorTable: '#ansigray'
+                    Token.Output.SeparatorTable: '#ansigray'
                 }
 
             headers = ('First Name', 'Last Name')
