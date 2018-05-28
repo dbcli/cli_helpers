@@ -30,7 +30,7 @@ def test_to_string_bytes():
 def test_to_string_non_bytes():
     """Test that to_string() converts non-bytes to a string."""
     assert utils.to_string(1) == '1'
-    assert utils.to_string(2.33) == '2.33'
+    assert utils.to_string(2.29) == '2.29'
 
 
 def test_intlen_with_decimal():

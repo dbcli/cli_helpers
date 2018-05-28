@@ -2,6 +2,7 @@
 """Various utility functions and helpers."""
 
 import binascii
+import re
 
 from cli_helpers.compat import binary_type, text_type
 
@@ -43,3 +44,10 @@ def unique_items(seq):
     """Return the unique items from iterable *seq* (in order)."""
     seen = set()
     return [x for x in seq if not (x in seen or seen.add(x))]
+
+
+_ansi_re = re.compile('\033\[((?:\d|;)*)([a-zA-Z])')
+
+def strip_ansi(value):
+    """Strip the ANSI escape sequences from a string."""
+    return _ansi_re.sub('', value)
