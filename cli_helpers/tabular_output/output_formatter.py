@@ -209,11 +209,13 @@ for delimited_format in delimited_output_adapter.supported_formats:
 for tabulate_format in tabulate_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
         tabulate_format, tabulate_adapter.adapter,
-        tabulate_adapter.preprocessors,
+        tabulate_adapter.preprocessors +
+        (tabulate_adapter.style_output_table(tabulate_format),),
         {'table_format': tabulate_format, 'missing_value': MISSING_VALUE})
 
 for terminaltables_format in terminaltables_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
         terminaltables_format, terminaltables_adapter.adapter,
-        terminaltables_adapter.preprocessors,
+        terminaltables_adapter.preprocessors +
+        (terminaltables_adapter.style_output_table(terminaltables_format),),
         {'table_format': terminaltables_format, 'missing_value': MISSING_VALUE})
