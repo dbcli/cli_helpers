@@ -18,7 +18,7 @@ preprocessors = (override_missing_value, convert_to_string, style_output)
 
 def style_output_table(format_name=""):
     def style_output(data, headers, style=None,
-                     separator_table_token='Token.Output.SeparatorTable', **_):
+                     table_separator_token='Token.Output.TableSeparator', **_):
         """Style the *table* a(e.g. bold, italic, and colors)
 
         .. NOTE::
@@ -28,26 +28,29 @@ def style_output_table(format_name=""):
 
         Example usage::
 
-            from cli_helpers.tabular_output.preprocessors import style_output
+            from cli_helpers.tabular_output import tabulate_adapter
             from pygments.style import Style
             from pygments.token import Token
 
             class YourStyle(Style):
                 default_style = ""
                 styles = {
-                    oken.Output.SeparatorTable: '#ansigray'
+                    Token.Output.TableSeparator: '#ansigray'
                 }
 
             headers = ('First Name', 'Last Name')
             data = [['Fred', 'Roberts'], ['George', 'Smith']]
+            style_output_table = tabulate_adapter.style_output_table('psql')
+            style_output_table(data, headers, style=CliStyle)
 
             data, headers = style_output(data, headers, style=YourStyle)
+            output = tabulate_adapter.adapter(data, headers, style=YourStyle)
 
         :param iterable data: An :term:`iterable` (e.g. list) of rows.
         :param iterable headers: The column headers.
         :param str/pygments.style.Style style: A Pygments style. You can `create
             your own styles <http://pygments.org/docs/styles/#creating-own-styles>`_.
-        :param str separator_table_token: The token type to be used for the separator table.
+        :param str table_separator_token: The token type to be used for the table separator.
         :return: data and headers.
         :rtype: tuple
 
@@ -65,9 +68,9 @@ def style_output_table(format_name=""):
                 if not elt:
                     return elt
                 if elt.__class__ == tabulate.Line:
-                    return tabulate.Line(*(style_field(separator_table_token, val) for val in elt))
+                    return tabulate.Line(*(style_field(table_separator_token, val) for val in elt))
                 if elt.__class__ == tabulate.DataRow:
-                    return tabulate.DataRow(*(style_field(separator_table_token, val) for val in elt))
+                    return tabulate.DataRow(*(style_field(table_separator_token, val) for val in elt))
                 return elt
 
             srcfmt = tabulate._table_formats[format_name]
