@@ -6,6 +6,14 @@ Version TBD
 
 (released on TBD)
 
+* TBD
+
+Version 1.1.0
+-------------
+
+(released on 2018-10-18)
+
+* Adds config file reading/writing.
 * Style formatted tables with Pygments (optional).
 * Run tests on Python 3.7.
 
@@ -14,7 +22,6 @@ Version 1.0.2
 
 (released on 2018-04-07)
 
-* Adds config file reading/writing.
 * Copy unit test from pgcli
 * Use safe float for unit test
 * Move strip_ansi from tests.utils to cli_helpers.utils
