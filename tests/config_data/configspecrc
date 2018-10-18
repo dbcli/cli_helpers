@@ -1,0 +1,20 @@
+# vi: ft=dosini
+# Test file comment
+
+[section]
+# Test section comment
+
+# Test field comment
+test_boolean_default = boolean(default=True)
+
+test_boolean = boolean()
+
+# Test field commented out
+# Uncomment to enable
+# test_boolean = True
+
+test_string_file = string(default='~/myfile')
+
+test_option = option('foo', 'bar', 'foobar', default='foobar')
+
+[section2]

@@ -39,6 +39,7 @@ setup(
     description='Helpers for building command-line apps',
     long_description=readme,
     install_requires=[
+        'configobj >= 5.0.5',
         'tabulate[widechars] >= 0.8.2',
         'terminaltables >= 3.0.0',
     ] + py2_reqs,

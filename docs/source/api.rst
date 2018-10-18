@@ -15,3 +15,9 @@ Preprocessors
 
 .. automodule:: cli_helpers.tabular_output.preprocessors
    :members:
+
+Config
+------
+
+.. automodule:: cli_helpers.config
+   :members:

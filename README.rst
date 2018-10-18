@@ -31,7 +31,7 @@ easy to extend.
 What's included in CLI Helpers?
 
 - Prettyprinting of tabular data with custom pre-processing
-- *[in progress]* config file reading/writing
+- Config file reading/writing
 
 .. end-body
 

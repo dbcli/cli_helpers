@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Python 2/3 compatibility support."""
+"""OS and Python compatibility support."""
 
 from decimal import Decimal
 import sys
 
 PY2 = sys.version_info[0] == 2
+WIN = sys.platform.startswith('win')
+MAC = sys.platform == 'darwin'
 
 
 if PY2:
@@ -13,6 +15,7 @@ if PY2:
     long_type = long
     int_types = (int, long)
 
+    from UserDict import UserDict
     from backports import csv
 
     from StringIO import StringIO
@@ -23,6 +26,7 @@ else:
     long_type = int
     int_types = (int,)
 
+    from collections import UserDict
     import csv
     from io import StringIO
     from itertools import zip_longest
