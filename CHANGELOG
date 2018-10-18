@@ -6,7 +6,7 @@ Version TBD
 
 (released on TBD)
 
-* TBD
+* Run tests on Python 3.7.
 
 Version 1.1.0
 -------------
@@ -15,7 +15,6 @@ Version 1.1.0
 
 * Adds config file reading/writing.
 * Style formatted tables with Pygments (optional).
-* Run tests on Python 3.7.
 
 Version 1.0.2
 -------------
