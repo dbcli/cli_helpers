@@ -24,7 +24,7 @@ def open_file(filename):
 readme = open_file('README.rst')
 
 if sys.version_info[0] == 2:
-    py2_reqs = [ 'backports.csv >= 1.0.0', ]
+    py2_reqs = ['backports.csv >= 1.0.0']
 else:
     py2_reqs = []
 
@@ -56,6 +56,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Terminals :: Terminal Emulators/X Terminals',
