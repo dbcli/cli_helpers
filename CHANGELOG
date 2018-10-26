@@ -7,6 +7,7 @@ Version TBD
 (released on TBD)
 
 * Run tests on Python 3.7.
+* Use twine check during packaging tests.
 
 Version 1.1.0
 -------------
