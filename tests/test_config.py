@@ -198,7 +198,6 @@ def test_write_and_read_default_config_from_configspec(temp_dir=None):
         temp_dir, APP_NAME, APP_AUTHOR, config_file, default=default_file, validate=True
     )
     config.read_default_config()
-    assert config.default_config.encoding == 'utf8'
     config.write_default_config()
 
     user_config = _mocked_user_config(
