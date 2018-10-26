@@ -38,6 +38,7 @@ setup(
     include_package_data=True,
     description='Helpers for building command-line apps',
     long_description=readme,
+    long_description_content_type='text/x-rst',
     install_requires=[
         'configobj >= 5.0.5',
         'tabulate[widechars] >= 0.8.2',
