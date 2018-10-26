@@ -48,6 +48,7 @@ Version 1.2.0
 
 (released on 2019-04-05)
 
+* Fix issue with writing non-ASCII characters to config files.
 * Run tests on Python 3.7.
 * Use twine check during packaging tests.
 * Rename old tsv format to csv-tab (because it add quotes), introduce new tsv output adapter.
