@@ -14,21 +14,21 @@ def test_csv_wrapper():
     # Test comma-delimited output.
     data = [['abc', '1'], ['d', '456']]
     headers = ['letters', 'number']
-    output = delimited_output_adapter.adapter(iter(data), headers)
+    output = delimited_output_adapter.adapter(iter(data), headers, dialect='unix')
     assert "\n".join(output) == dedent('''\
-        letters,number\n\
-        abc,1\n\
-        d,456''')
+        "letters","number"\n\
+        "abc","1"\n\
+        "d","456"''')
 
     # Test tab-delimited output.
     data = [['abc', '1'], ['d', '456']]
     headers = ['letters', 'number']
     output = delimited_output_adapter.adapter(
-        iter(data), headers, table_format='tsv')
+        iter(data), headers, table_format='csv-tab', dialect='unix')
     assert "\n".join(output) == dedent('''\
-        letters\tnumber\n\
-        abc\t1\n\
-        d\t456''')
+        "letters"\t"number"\n\
+        "abc"\t"1"\n\
+        "d"\t"456"''')
 
     with pytest.raises(ValueError):
         output = delimited_output_adapter.adapter(
