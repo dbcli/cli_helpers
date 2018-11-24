@@ -51,3 +51,9 @@ _ansi_re = re.compile('\033\[((?:\d|;)*)([a-zA-Z])')
 def strip_ansi(value):
     """Strip the ANSI escape sequences from a string."""
     return _ansi_re.sub('', value)
+
+def replace(s, replace):
+    """Replace multiple values in a string"""
+    for r in replace:
+        s = s.replace(*r)
+    return s
