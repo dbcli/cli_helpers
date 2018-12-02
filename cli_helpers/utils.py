@@ -7,26 +7,32 @@ import re
 from cli_helpers.compat import binary_type, text_type
 
 
-def bytes_to_string(b):
-    """Convert bytes *b* to a string.
+def bytes_to_string(b, max_width=None):
+    """Convert bytes *b* to a string. Optionally truncate.
 
     Hexlify bytes that can't be decoded.
 
     """
     if isinstance(b, binary_type):
         try:
-            return b.decode('utf8')
+            val = b.decode('utf8')
         except UnicodeDecodeError:
-            return '0x' + binascii.hexlify(b).decode('ascii')
+            val = '0x' + binascii.hexlify(b).decode('ascii')
+        if max_width is not None:
+            val = val[:max_width]
+        return val
     return b
 
 
-def to_string(value):
-    """Convert *value* to a string."""
+def to_string(value, max_width=None):
+    """Convert *value* to a string. Optionally truncate."""
     if isinstance(value, binary_type):
-        return bytes_to_string(value)
+        val = bytes_to_string(value)
     else:
-        return text_type(value)
+        val = text_type(value)
+    if max_width is not None:
+        val = val[:max_width]
+    return val
 
 
 def intlen(n):
@@ -48,9 +54,11 @@ def unique_items(seq):
 
 _ansi_re = re.compile('\033\[((?:\d|;)*)([a-zA-Z])')
 
+
 def strip_ansi(value):
     """Strip the ANSI escape sequences from a string."""
     return _ansi_re.sub('', value)
+
 
 def replace(s, replace):
     """Replace multiple values in a string"""

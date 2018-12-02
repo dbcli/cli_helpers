@@ -8,7 +8,7 @@ from cli_helpers.compat import (text_type, int_types, float_types,
                                 HAS_PYGMENTS, Terminal256Formatter, StringIO)
 
 
-def convert_to_string(data, headers, **_):
+def convert_to_string(data, headers, max_field_width=None, **_):
     """Convert all *data* and *headers* to strings.
 
     Binary data that cannot be decoded is converted to a hexadecimal
@@ -16,12 +16,13 @@ def convert_to_string(data, headers, **_):
 
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
+    :param int max_field_width: Width to truncate field for display
     :return: The processed data and headers.
     :rtype: tuple
 
     """
-    return (([utils.to_string(v) for v in row] for row in data),
-            [utils.to_string(h) for h in headers])
+    return (([utils.to_string(v, max_field_width) for v in row] for row in data),
+            [utils.to_string(h, max_field_width) for h in headers])
 
 
 def override_missing_value(data, headers, missing_value='', **_):
@@ -40,7 +41,7 @@ def override_missing_value(data, headers, missing_value='', **_):
             headers)
 
 
-def bytes_to_string(data, headers, **_):
+def bytes_to_string(data, headers, max_field_width=None, **_):
     """Convert all *data* and *headers* bytes to strings.
 
     Binary data that cannot be decoded is converted to a hexadecimal
@@ -48,12 +49,13 @@ def bytes_to_string(data, headers, **_):
 
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
+    :param int max_field_width: Width to truncate field for display
     :return: The processed data and headers.
     :rtype: tuple
 
     """
-    return (([utils.bytes_to_string(v) for v in row] for row in data),
-            [utils.bytes_to_string(h) for h in headers])
+    return (([utils.bytes_to_string(v, max_field_width) for v in row] for row in data),
+            [utils.bytes_to_string(h, max_field_width) for h in headers])
 
 
 def align_decimals(data, headers, column_types=(), **_):

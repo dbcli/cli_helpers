@@ -22,6 +22,12 @@ def test_bytes_to_string_non_bytes():
     assert utils.bytes_to_string(1) == 1
 
 
+def test_bytes_to_string_truncate():
+    """Test that bytes_to_string() truncates if requested."""
+    byte_val = bytes('x' * 1000, 'utf-8')
+    assert utils.bytes_to_string(byte_val, 10) == 'x' * 10
+
+
 def test_to_string_bytes():
     """Test that to_string() converts bytes to a string."""
     assert utils.to_string(b"foo") == 'foo'
@@ -31,6 +37,12 @@ def test_to_string_non_bytes():
     """Test that to_string() converts non-bytes to a string."""
     assert utils.to_string(1) == '1'
     assert utils.to_string(2.29) == '2.29'
+
+
+def test_to_string_truncate():
+    """Test that to_string() truncates if requested."""
+    val = 'x' * 1000
+    assert utils.to_string(val, 10) == 'x' * 10
 
 
 def test_intlen_with_decimal():
