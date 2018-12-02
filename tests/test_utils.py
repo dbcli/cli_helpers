@@ -24,7 +24,7 @@ def test_bytes_to_string_non_bytes():
 
 def test_bytes_to_string_truncate():
     """Test that bytes_to_string() truncates if requested."""
-    byte_val = bytes('x' * 1000, 'utf-8')
+    byte_val = ('x' * 1000).encode('utf-8')
     assert utils.bytes_to_string(byte_val, 10) == 'x' * 10
 
 
