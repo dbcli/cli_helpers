@@ -8,7 +8,8 @@ Version TBD
 
 * Run tests on Python 3.7.
 * Use twine check during packaging tests.
-* Rename old tsv format to csv-tab (because it add quotes), introduce new tsv output adapter
+* Rename old tsv format to csv-tab (because it add quotes), introduce new tsv output adapter.
+* Truncate long fields for tabular display.
 
 Version 1.1.0
 -------------
