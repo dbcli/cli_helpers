@@ -8,7 +8,23 @@ from cli_helpers.compat import (text_type, int_types, float_types,
                                 HAS_PYGMENTS, Terminal256Formatter, StringIO)
 
 
-def convert_to_string(data, headers, max_field_width=None, **_):
+def truncate_string(data, headers, max_field_width=None, **_):
+    """Truncate very long strings. Only needed for tabular
+    representation, because trying to tabulate very long data
+    is problematic in terms of performance, and does not make any
+    sense visually.
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :param int max_field_width: Width to truncate field for display
+    :return: The processed data and headers.
+    :rtype: tuple
+    """
+    return (([utils.truncate_string(v, max_field_width) for v in row] for row in data),
+            [utils.truncate_string(h, max_field_width) for h in headers])
+
+
+def convert_to_string(data, headers, **_):
     """Convert all *data* and *headers* to strings.
 
     Binary data that cannot be decoded is converted to a hexadecimal
@@ -21,8 +37,8 @@ def convert_to_string(data, headers, max_field_width=None, **_):
     :rtype: tuple
 
     """
-    return (([utils.to_string(v, max_field_width) for v in row] for row in data),
-            [utils.to_string(h, max_field_width) for h in headers])
+    return (([utils.to_string(v) for v in row] for row in data),
+            [utils.to_string(h) for h in headers])
 
 
 def override_missing_value(data, headers, missing_value='', **_):
@@ -41,7 +57,7 @@ def override_missing_value(data, headers, missing_value='', **_):
             headers)
 
 
-def bytes_to_string(data, headers, max_field_width=None, **_):
+def bytes_to_string(data, headers, **_):
     """Convert all *data* and *headers* bytes to strings.
 
     Binary data that cannot be decoded is converted to a hexadecimal
@@ -49,13 +65,12 @@ def bytes_to_string(data, headers, max_field_width=None, **_):
 
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
-    :param int max_field_width: Width to truncate field for display
     :return: The processed data and headers.
     :rtype: tuple
 
     """
-    return (([utils.bytes_to_string(v, max_field_width) for v in row] for row in data),
-            [utils.bytes_to_string(h, max_field_width) for h in headers])
+    return (([utils.bytes_to_string(v) for v in row] for row in data),
+            [utils.bytes_to_string(h) for h in headers])
 
 
 def align_decimals(data, headers, column_types=(), **_):

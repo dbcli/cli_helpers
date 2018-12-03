@@ -2,7 +2,7 @@
 """Format adapter for the tabulate module."""
 
 from cli_helpers.utils import filter_dict_by_key
-from .preprocessors import (convert_to_string, override_missing_value,
+from .preprocessors import (convert_to_string, truncate_string, override_missing_value,
                             style_output, HAS_PYGMENTS, Terminal256Formatter, StringIO)
 
 import tabulate
@@ -13,7 +13,7 @@ supported_table_formats = ('plain', 'simple', 'grid', 'fancy_grid', 'pipe',
                            'orgtbl', 'psql', 'rst')
 supported_formats = supported_markup_formats + supported_table_formats
 
-preprocessors = (override_missing_value, convert_to_string, style_output)
+preprocessors = (override_missing_value, convert_to_string, truncate_string, style_output)
 
 
 def style_output_table(format_name=""):

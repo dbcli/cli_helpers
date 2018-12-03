@@ -7,32 +7,33 @@ import re
 from cli_helpers.compat import binary_type, text_type
 
 
-def bytes_to_string(b, max_width=None):
-    """Convert bytes *b* to a string. Optionally truncate.
+def bytes_to_string(b):
+    """Convert bytes *b* to a string.
 
     Hexlify bytes that can't be decoded.
 
     """
     if isinstance(b, binary_type):
         try:
-            val = b.decode('utf8')
+            return b.decode('utf8')
         except UnicodeDecodeError:
-            val = '0x' + binascii.hexlify(b).decode('ascii')
-        if max_width is not None:
-            val = val[:max_width]
-        return val
+            return '0x' + binascii.hexlify(b).decode('ascii')
     return b
 
 
-def to_string(value, max_width=None):
-    """Convert *value* to a string. Optionally truncate."""
+def to_string(value):
+    """Convert *value* to a string."""
     if isinstance(value, binary_type):
-        val = bytes_to_string(value)
+        return bytes_to_string(value)
     else:
-        val = text_type(value)
-    if max_width is not None:
-        val = val[:max_width]
-    return val
+        return text_type(value)
+
+
+def truncate_string(value, max_width=None):
+    """Truncate string values."""
+    if isinstance(value, text_type) and max_width is not None and len(value) > max_width:
+        return value[:max_width]
+    return value
 
 
 def intlen(n):
