@@ -14,7 +14,7 @@ from decimal import Decimal
 import itertools
 
 MISSING_VALUE = '<null>'
-MAX_FIELD_WIDTH = 5000
+MAX_FIELD_WIDTH = 500
 
 TYPES = {
     type(None): 0,
