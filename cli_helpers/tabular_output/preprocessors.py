@@ -32,7 +32,6 @@ def convert_to_string(data, headers, **_):
 
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
-    :param int max_field_width: Width to truncate field for display
     :return: The processed data and headers.
     :rtype: tuple
 
