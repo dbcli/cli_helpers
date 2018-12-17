@@ -14,6 +14,7 @@ from decimal import Decimal
 import itertools
 
 MISSING_VALUE = '<null>'
+MAX_FIELD_WIDTH = 500
 
 TYPES = {
     type(None): 0,
@@ -198,30 +199,30 @@ for vertical_format in vertical_table_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
         vertical_format, vertical_table_adapter.adapter,
         vertical_table_adapter.preprocessors,
-        {'table_format': vertical_format, 'missing_value': MISSING_VALUE})
+        {'table_format': vertical_format, 'missing_value': MISSING_VALUE, 'max_field_width': None})
 
 for delimited_format in delimited_output_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
         delimited_format, delimited_output_adapter.adapter,
         delimited_output_adapter.preprocessors,
-        {'table_format': delimited_format, 'missing_value': ''})
+        {'table_format': delimited_format, 'missing_value': '', 'max_field_width': None})
 
 for tabulate_format in tabulate_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
         tabulate_format, tabulate_adapter.adapter,
         tabulate_adapter.preprocessors +
         (tabulate_adapter.style_output_table(tabulate_format),),
-        {'table_format': tabulate_format, 'missing_value': MISSING_VALUE})
+        {'table_format': tabulate_format, 'missing_value': MISSING_VALUE, 'max_field_width': MAX_FIELD_WIDTH})
 
 for terminaltables_format in terminaltables_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
         terminaltables_format, terminaltables_adapter.adapter,
         terminaltables_adapter.preprocessors +
         (terminaltables_adapter.style_output_table(terminaltables_format),),
-        {'table_format': terminaltables_format, 'missing_value': MISSING_VALUE})
+        {'table_format': terminaltables_format, 'missing_value': MISSING_VALUE, 'max_field_width': MAX_FIELD_WIDTH})
 
 for tsv_format in tsv_output_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
         tsv_format, tsv_output_adapter.adapter,
         tsv_output_adapter.preprocessors,
-        {'table_format': tsv_format, 'missing_value': ''})
+        {'table_format': tsv_format, 'missing_value': '', 'max_field_width': None})

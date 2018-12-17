@@ -29,6 +29,13 @@ def to_string(value):
         return text_type(value)
 
 
+def truncate_string(value, max_width=None):
+    """Truncate string values."""
+    if isinstance(value, text_type) and max_width is not None and len(value) > max_width:
+        return value[:max_width]
+    return value
+
+
 def intlen(n):
     """Find the length of the integer part of a number *n*."""
     pos = n.find('.')
@@ -48,9 +55,11 @@ def unique_items(seq):
 
 _ansi_re = re.compile('\033\[((?:\d|;)*)([a-zA-Z])')
 
+
 def strip_ansi(value):
     """Strip the ANSI escape sequences from a string."""
     return _ansi_re.sub('', value)
+
 
 def replace(s, replace):
     """Replace multiple values in a string"""
