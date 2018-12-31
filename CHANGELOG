@@ -10,6 +10,7 @@ Version TBD
 * Use twine check during packaging tests.
 * Rename old tsv format to csv-tab (because it add quotes), introduce new tsv output adapter.
 * Truncate long fields for tabular display.
+* Return the supported table formats as unicode. 
 
 Version 1.1.0
 -------------
