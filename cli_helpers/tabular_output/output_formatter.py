@@ -2,7 +2,6 @@
 """A generic tabular data output formatter interface."""
 
 from __future__ import unicode_literals
-from six import text_type
 from collections import namedtuple
 
 from cli_helpers.compat import (text_type, binary_type, int_types, float_types,
@@ -103,7 +102,7 @@ class TabularOutputFormatter(object):
     @property
     def supported_formats(self):
         """The names of the supported output formats in a :class:`tuple`."""
-        return tuple(map(text_type, self._output_formats.keys()))
+        return tuple(self._output_formats.keys())
 
     @classmethod
     def register_new_formatter(cls, format_name, handler, preprocessors=(),

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Format adapter for the terminaltables module."""
 
+from __future__ import unicode_literals
+
 import terminaltables
 import itertools
 
