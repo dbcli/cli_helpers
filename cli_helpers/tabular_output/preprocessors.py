@@ -56,6 +56,21 @@ def override_missing_value(data, headers, missing_value='', **_):
             headers)
 
 
+def override_tab_value(data, headers, new_value='    ', **_):
+    """Override tab values in the *data* with *new_value*.
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :param new_value: The new value to use for tab.
+    :return: The processed data and headers.
+    :rtype: tuple
+
+    """
+    return (([v.replace('\t', new_value) if isinstance(v, text_type) else v
+              for v in row] for row in data),
+            headers)
+
+
 def bytes_to_string(data, headers, **_):
     """Convert all *data* and *headers* bytes to strings.
 

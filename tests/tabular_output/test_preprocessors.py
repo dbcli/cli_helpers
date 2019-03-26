@@ -9,7 +9,7 @@ import pytest
 from cli_helpers.compat import HAS_PYGMENTS
 from cli_helpers.tabular_output.preprocessors import (
     align_decimals, bytes_to_string, convert_to_string, quote_whitespaces,
-    override_missing_value, style_output, format_numbers)
+    override_missing_value, override_tab_value, style_output, format_numbers)
 
 if HAS_PYGMENTS:
     from pygments.style import Style
@@ -38,6 +38,17 @@ def test_override_missing_values():
     results = override_missing_value(data, headers, missing_value='<EMPTY>')
 
     assert expected == (list(results[0]), results[1])
+
+
+def test_override_tab_value():
+    """Test the override_tab_value() function."""
+    data = [[1, '\tJohn'], [2, 'Jill']]
+    headers = ['id', 'name']
+    expected = ([[1, '    John'], [2, 'Jill']], ['id', 'name'])
+    results = override_tab_value(data, headers)
+
+    assert expected == (list(results[0]), results[1])
+
 
 def test_bytes_to_string():
     """Test the bytes_to_string() function."""
