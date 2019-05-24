@@ -63,7 +63,7 @@ def test_style_output_table():
     class CliStyle(Style):
         default_style = ""
         styles = {
-            Token.Output.TableSeparator: '#ansired',
+            Token.Output.TableSeparator: 'ansibrightred',
         }
     headers = ['h1', 'h2']
     data = [['观音', '2'], ['Ποσειδῶν', 'b']]
