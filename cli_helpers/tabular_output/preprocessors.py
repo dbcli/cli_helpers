@@ -193,7 +193,7 @@ def style_output(data, headers, style=None,
         class YourStyle(Style):
             default_style = ""
             styles = {
-                Token.Output.Header: 'bold #ansired',
+                Token.Output.Header: 'bold ansibrightred',
                 Token.Output.OddRow: 'bg:#eee #111',
                 Token.Output.EvenRow: '#0f0'
             }

@@ -154,7 +154,7 @@ def test_style_output():
     class CliStyle(Style):
         default_style = ""
         styles = {
-            Token.Output.Header: 'bold #ansired',
+            Token.Output.Header: 'bold ansibrightred',
             Token.Output.OddRow: 'bg:#eee #111',
             Token.Output.EvenRow: '#0f0'
         }
@@ -176,7 +176,7 @@ def test_style_output_with_newlines():
     class CliStyle(Style):
         default_style = ""
         styles = {
-            Token.Output.Header: 'bold #ansired',
+            Token.Output.Header: 'bold ansibrightred',
             Token.Output.OddRow: 'bg:#eee #111',
             Token.Output.EvenRow: '#0f0'
         }
@@ -200,7 +200,7 @@ def test_style_output_custom_tokens():
     class CliStyle(Style):
         default_style = ""
         styles = {
-            Token.Results.Headers: 'bold #ansired',
+            Token.Results.Headers: 'bold ansibrightred',
             Token.Results.OddRows: 'bg:#eee #111',
             Token.Results.EvenRows: '#0f0'
         }
