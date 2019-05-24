@@ -1,6 +1,11 @@
 Changelog
 =========
 
+TBD
+---
+
+* Pin Pygments to >= 2.4.0 for tests.
+
 Version 1.2.0
 -------------
 
