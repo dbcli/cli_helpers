@@ -29,9 +29,11 @@ def to_string(value):
         return text_type(value)
 
 
-def truncate_string(value, max_width=None):
+def truncate_string(value, max_width=None, skip_multiline_string=True):
     """Truncate string values."""
-    if isinstance(value, text_type) and max_width is not None and len(value) > max_width:
+    if skip_multiline_string and isinstance(value, text_type) and '\n' in value:
+        return value
+    elif isinstance(value, text_type) and max_width is not None and len(value) > max_width:
         return value[:max_width]
     return value
 
