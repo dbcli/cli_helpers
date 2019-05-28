@@ -8,7 +8,7 @@ from cli_helpers.compat import (text_type, int_types, float_types,
                                 HAS_PYGMENTS, Terminal256Formatter, StringIO)
 
 
-def truncate_string(data, headers, max_field_width=None, **_):
+def truncate_string(data, headers, max_field_width=None, skip_multiline_string=True, **_):
     """Truncate very long strings. Only needed for tabular
     representation, because trying to tabulate very long data
     is problematic in terms of performance, and does not make any
@@ -20,8 +20,8 @@ def truncate_string(data, headers, max_field_width=None, **_):
     :return: The processed data and headers.
     :rtype: tuple
     """
-    return (([utils.truncate_string(v, max_field_width) for v in row] for row in data),
-            [utils.truncate_string(h, max_field_width) for h in headers])
+    return (([utils.truncate_string(v, max_field_width, skip_multiline_string) for v in row] for row in data),
+            [utils.truncate_string(h, max_field_width, skip_multiline_string) for h in headers])
 
 
 def convert_to_string(data, headers, **_):
