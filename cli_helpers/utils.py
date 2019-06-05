@@ -3,6 +3,7 @@
 
 import binascii
 import re
+import textwrap
 
 from cli_helpers.compat import binary_type, text_type
 
@@ -34,7 +35,7 @@ def truncate_string(value, max_width=None, skip_multiline_string=True):
     if skip_multiline_string and isinstance(value, text_type) and '\n' in value:
         return value
     elif isinstance(value, text_type) and max_width is not None and len(value) > max_width:
-        return value[:max_width]
+        return textwrap.shorten(value, max_width, placeholder="...")
     return value
 
 
