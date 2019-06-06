@@ -36,7 +36,10 @@ def test_to_string_non_bytes():
 def test_truncate_string():
     """Test string truncate preprocessor."""
     val = 'x' * 100
-    assert utils.truncate_string(val, 10) == 'x' * 10
+    assert utils.truncate_string(val, 10) == 'xxxxxxx...'
+    
+    val = 'x ' * 100
+    assert utils.truncate_string(val, 10) == 'x x x x...'
 
     val = 'x' * 100
     assert utils.truncate_string(val) == 'x' * 100

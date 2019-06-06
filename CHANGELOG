@@ -7,6 +7,7 @@ TBD
 * Pin Pygments to >= 2.4.0 for tests.
 * Remove Python 3.4 from tests and Trove classifier.
 * Add an option to skip truncating multi-line strings.
+* When truncating long strings, add ellipsis.
 
 Version 1.2.0
 -------------
