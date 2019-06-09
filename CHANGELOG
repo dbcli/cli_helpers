@@ -1,8 +1,10 @@
 Changelog
 =========
 
-TBD
----
+Version 1.2.1
+-------------
+
+(released on 2019-06-09)
 
 * Pin Pygments to >= 2.4.0 for tests.
 * Remove Python 3.4 from tests and Trove classifier.
