@@ -206,7 +206,7 @@ def style_output(data, headers, style=None,
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
     :param str/pygments.style.Style style: A Pygments style. You can `create
-        your own styles <http://pygments.org/docs/styles/#creating-own-styles>`_.
+        your own styles <https://pygments.org/docs/styles/#creating-own-styles>`_.
     :param str header_token: The token type to be used for the headers.
     :param str odd_row_token: The token type to be used for odd rows.
     :param str even_row_token: The token type to be used for even rows.

@@ -51,7 +51,7 @@ def style_output_table(format_name=""):
         :param iterable data: An :term:`iterable` (e.g. list) of rows.
         :param iterable headers: The column headers.
         :param str/pygments.style.Style style: A Pygments style. You can `create
-            your own styles <http://pygments.org/docs/styles/#creating-own-styles>`_.
+            your own styles <https://pygments.org/docs/styles/#creating-own-styles>`_.
         :param str table_separator_token: The token type to be used for the table separator.
         :return: data and headers.
         :rtype: tuple
