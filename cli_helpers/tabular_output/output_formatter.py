@@ -121,7 +121,7 @@ class TabularOutputFormatter(object):
 
     def format_output(self, data, headers, format_name=None,
                       preprocessors=(), column_types=None, **kwargs):
-        """Format the headers and data using a specific formatter.
+        r"""Format the headers and data using a specific formatter.
 
         *format_name* must be a supported formatter (see
         :attr:`supported_formats`).
@@ -179,7 +179,7 @@ class TabularOutputFormatter(object):
 
 
 def format_output(data, headers, format_name, **kwargs):
-    """Format output using *format_name*.
+    r"""Format output using *format_name*.
 
     This is a wrapper around the :class:`TabularOutputFormatter` class.
 

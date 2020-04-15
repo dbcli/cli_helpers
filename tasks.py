@@ -48,7 +48,7 @@ class BaseCommand(Command, object):
     def apply_option(self, cmd, option, active=True):
         """Apply a command-line option."""
         return re.sub(r'{{{}\:(?P<option>[^}}]*)}}'.format(option),
-                      '\g<option>' if active else '', cmd)
+                      r'\g<option>' if active else '', cmd)
 
 
 class lint(BaseCommand):
