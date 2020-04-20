@@ -204,9 +204,9 @@ def get_user_config_dir(app_name, app_author, roaming=True, force_xdg=True):
     Unix:
       ``~/.config/my-app``
     Windows 7 (roaming):
-      ``C:\\Users\<user>\AppData\Roaming\Acme\My App``
+      ``C:\\Users\\<user>\\AppData\\Roaming\\Acme\\My App``
     Windows 7 (not roaming):
-      ``C:\\Users\<user>\AppData\Local\Acme\My App``
+      ``C:\\Users\\<user>\\AppData\\Local\\Acme\\My App``
 
     :param app_name: the application name. This should be properly capitalized
                      and can contain whitespace.

@@ -55,7 +55,7 @@ def unique_items(seq):
     return [x for x in seq if not (x in seen or seen.add(x))]
 
 
-_ansi_re = re.compile('\033\[((?:\d|;)*)([a-zA-Z])')
+_ansi_re = re.compile('\033\\[((?:\\d|;)*)([a-zA-Z])')
 
 
 def strip_ansi(value):
