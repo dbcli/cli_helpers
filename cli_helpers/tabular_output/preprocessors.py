@@ -59,8 +59,9 @@ def override_missing_value(data, headers, style=None,
         for row in data:
             processed = []
             for field in row:
-                if field is None and style:
-                    processed.append(utils.style_field(missing_value_token, missing_value, style))
+                if field is None and style and HAS_PYGMENTS:
+                    styled = utils.style_field(missing_value_token, missing_value, style)
+                    processed.append(styled)
                 elif field is None:
                     processed.append(missing_value)
                 else:

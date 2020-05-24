@@ -40,6 +40,29 @@ def test_override_missing_values():
     assert expected == (list(results[0]), results[1])
 
 
+@pytest.mark.skipif(not HAS_PYGMENTS, reason='requires the Pygments library')
+def test_override_missing_value_with_style():
+    """Test that *override_missing_value()* styles output."""
+
+    class NullStyle(Style):
+        styles = {
+            Token.Output.Null: '#0f0'
+        }
+
+    headers = ['h1', 'h2']
+    data = [[None, '2'], ['abc', None]]
+
+    expected_headers = ['h1', 'h2']
+    expected_data = [
+        ['\x1b[38;5;10m<null>\x1b[39m', '2'],
+        ['abc', '\x1b[38;5;10m<null>\x1b[39m']
+    ]
+    results = override_missing_value(data, headers, 
+                                     style=NullStyle, missing_value="<null>")
+
+    assert (expected_data, expected_headers) == (list(results[0]), results[1])
+
+
 def test_override_tab_value():
     """Test the override_tab_value() function."""
     data = [[1, '\tJohn'], [2, 'Jill']]
@@ -168,6 +191,7 @@ def test_style_output():
     results = style_output(data, headers, style=CliStyle)
 
     assert (expected_data, expected_headers) == (list(results[0]), results[1])
+
 
 @pytest.mark.skipif(not HAS_PYGMENTS, reason='requires the Pygments library')
 def test_style_output_with_newlines():
