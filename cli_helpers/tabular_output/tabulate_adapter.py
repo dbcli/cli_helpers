@@ -4,8 +4,9 @@
 from __future__ import unicode_literals
 
 from cli_helpers.utils import filter_dict_by_key
+from cli_helpers.compat import (Terminal256Formatter, StringIO)
 from .preprocessors import (convert_to_string, truncate_string, override_missing_value,
-                            style_output, HAS_PYGMENTS, Terminal256Formatter, StringIO)
+                            style_output, HAS_PYGMENTS)
 
 import tabulate
 

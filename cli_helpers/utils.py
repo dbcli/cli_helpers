@@ -4,7 +4,7 @@
 import binascii
 import re
 
-from cli_helpers.compat import binary_type, text_type
+from cli_helpers.compat import binary_type, text_type, Terminal256Formatter, StringIO
 
 
 def bytes_to_string(b):
@@ -68,3 +68,11 @@ def replace(s, replace):
     for r in replace:
         s = s.replace(*r)
     return s
+
+
+def style_field(token, field, style):
+    """Get the styled text for a *field* using *token* type."""
+    formatter = Terminal256Formatter(style=style)
+    s = StringIO()
+    formatter.format(((token, field),), s)
+    return s.getvalue()

@@ -4,16 +4,7 @@
 import string
 
 from cli_helpers import utils
-from cli_helpers.compat import (text_type, int_types, float_types,
-                                HAS_PYGMENTS, Terminal256Formatter, StringIO)
-
-
-def __style_field(token, field, style):
-    """Get the styled text for a *field* using *token* type."""
-    formatter = Terminal256Formatter(style=style)
-    s = StringIO()
-    formatter.format(((token, field),), s)
-    return s.getvalue()
+from cli_helpers.compat import text_type, int_types, float_types, HAS_PYGMENTS
 
 
 def truncate_string(data, headers, max_field_width=None, skip_multiline_string=True, **_):
@@ -68,8 +59,10 @@ def override_missing_value(data, headers, style=None,
         for row in data:
             processed = []
             for field in row:
-                if field is None:
-                    processed.append(__style_field(missing_value_token, missing_value, style))
+                if field is None and style:
+                    processed.append(utils.style_field(missing_value_token, missing_value, style))
+                elif field is None:
+                    processed.append(missing_value)
                 else:
                     processed.append(field)
             yield processed
@@ -236,9 +229,8 @@ def style_output(data, headers, style=None,
 
     """
     if style and HAS_PYGMENTS:
-
-        headers = [__style_field(header_token, header, style) for header in headers]
-        data = ([__style_field(odd_row_token if i % 2 else even_row_token, f, style)
+        headers = [utils.style_field(header_token, header, style) for header in headers]
+        data = ([utils.style_field(odd_row_token if i % 2 else even_row_token, f, style)
                  for f in r] for i, r in enumerate(data, 1))
 
     return iter(data), headers
