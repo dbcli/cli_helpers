@@ -5,6 +5,7 @@ TBD
 ---
 
 * Remove Python 2.7 and 3.5.
+* Fix newline escaping in plain-text formatters (ascii, double, github)
 
 Version 1.2.1
 -------------

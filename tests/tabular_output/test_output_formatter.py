@@ -14,18 +14,27 @@ from cli_helpers.utils import strip_ansi
 
 def test_tabular_output_formatter():
     """Test the TabularOutputFormatter class."""
-    data = [['abc', Decimal(1)], ['defg', Decimal('11.1')],
-            ['hi', Decimal('1.1')]]
     headers = ['text', 'numeric']
-    expected = dedent('''\
-        +------+---------+
-        | text | numeric |
-        +------+---------+
-        | abc  | 1       |
-        | defg | 11.1    |
-        | hi   | 1.1     |
-        +------+---------+''')
+    data = [
+        ["abc", Decimal(1)],
+        ["defg", Decimal("11.1")],
+        ["hi", Decimal("1.1")],
+        ["Pablo\rß\n", 0],
+    ]
+    expected = dedent("""\
+        +------------+---------+
+        | text       | numeric |
+        +------------+---------+
+        | abc        | 1       |
+        | defg       | 11.1    |
+        | hi         | 1.1     |
+        | Pablo\\rß\\n | 0       |
+        +------------+---------+"""
+    )
 
+    print(expected)
+    print("\n".join(TabularOutputFormatter().format_output(
+        iter(data), headers, format_name='ascii')))
     assert expected == "\n".join(TabularOutputFormatter().format_output(
         iter(data), headers, format_name='ascii'))
 
