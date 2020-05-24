@@ -8,6 +8,14 @@ from cli_helpers.compat import (text_type, int_types, float_types,
                                 HAS_PYGMENTS, Terminal256Formatter, StringIO)
 
 
+def __style_field(token, field, style):
+    """Get the styled text for a *field* using *token* type."""
+    formatter = Terminal256Formatter(style=style)
+    s = StringIO()
+    formatter.format(((token, field),), s)
+    return s.getvalue()
+
+
 def truncate_string(data, headers, max_field_width=None, skip_multiline_string=True, **_):
     """Truncate very long strings. Only needed for tabular
     representation, because trying to tabulate very long data
@@ -40,20 +48,33 @@ def convert_to_string(data, headers, **_):
             [utils.to_string(h) for h in headers])
 
 
-def override_missing_value(data, headers, missing_value='', **_):
+def override_missing_value(data, headers, style=None,
+                           missing_value_token="Token.Output.Null",
+                           missing_value='', **_):
     """Override missing values in the *data* with *missing_value*.
 
     A missing value is any value that is :data:`None`.
 
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
+    :param style: Style for missing_value.
+    :param missing_value_token: The Pygments token used for missing data.
     :param missing_value: The default value to use for missing data.
     :return: The processed data and headers.
     :rtype: tuple
 
     """
-    return (([missing_value if v is None else v for v in row] for row in data),
-            headers)
+    def fields():
+        for row in data:
+            processed = []
+            for field in row:
+                if field is None:
+                    processed.append(__style_field(missing_value_token, missing_value, style))
+                else:
+                    processed.append(field)
+            yield processed
+
+    return (fields(), headers)
 
 
 def override_tab_value(data, headers, new_value='    ', **_):
@@ -215,16 +236,9 @@ def style_output(data, headers, style=None,
 
     """
     if style and HAS_PYGMENTS:
-        formatter = Terminal256Formatter(style=style)
 
-        def style_field(token, field):
-            """Get the styled text for a *field* using *token* type."""
-            s = StringIO()
-            formatter.format(((token, field),), s)
-            return s.getvalue()
-
-        headers = [style_field(header_token, header) for header in headers]
-        data = ([style_field(odd_row_token if i % 2 else even_row_token, f)
+        headers = [__style_field(header_token, header, style) for header in headers]
+        data = ([__style_field(odd_row_token if i % 2 else even_row_token, f, style)
                  for f in r] for i, r in enumerate(data, 1))
 
     return iter(data), headers
