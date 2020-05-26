@@ -5,6 +5,7 @@ TBD
 ---
 
 * Remove Python 2.7 and 3.5.
+* Style config for missing value.
 
 Version 1.2.1
 -------------
