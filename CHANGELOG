@@ -1,8 +1,10 @@
 Changelog
 =========
 
-TBD
----
+Version 2.0.0
+-------------
+
+(released on 2020-05-26)
 
 * Remove Python 2.7 and 3.5.
 * Style config for missing value.
