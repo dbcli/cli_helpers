@@ -10,12 +10,12 @@ from cli_helpers.utils import filter_dict_by_key
 from cli_helpers.compat import (Terminal256Formatter, StringIO)
 from .preprocessors import (convert_to_string, truncate_string, override_missing_value,
                             style_output, HAS_PYGMENTS,
-                            override_tab_value)
+                            override_tab_value, escape_newlines)
 
 supported_formats = ('ascii', 'double', 'github')
 preprocessors = (
     override_missing_value, convert_to_string, override_tab_value,
-    truncate_string, style_output
+    truncate_string, style_output, escape_newlines
 )
 
 table_format_handler = {

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """These preprocessor functions are used to process data prior to output."""
 
+import re
 import string
 
 from cli_helpers import utils
@@ -84,6 +85,29 @@ def override_tab_value(data, headers, new_value='    ', **_):
     return (([v.replace('\t', new_value) if isinstance(v, text_type) else v
               for v in row] for row in data),
             headers)
+
+
+def escape_newlines(data, headers, **_):
+    """Escape newline characters (\n -> \\n, \r -> \\r)
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :return: The processed data and headers.
+    :rtype: tuple
+
+    """
+    return (
+        (
+            [
+                v.replace("\r", r"\r").replace("\n", r"\n")
+                if isinstance(v, text_type)
+                else v
+                for v in row
+            ]
+            for row in data
+        ),
+        headers,
+    )
 
 
 def bytes_to_string(data, headers, **_):

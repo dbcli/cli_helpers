@@ -1,6 +1,11 @@
 Changelog
 =========
 
+TBD
+---
+
+* Fix newline escaping in plain-text formatters (ascii, double, github)
+
 Version 2.0.0
 -------------
 
