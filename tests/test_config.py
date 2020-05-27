@@ -4,7 +4,7 @@
 from __future__ import unicode_literals
 import os
 
-from mock import MagicMock
+from unittest.mock import MagicMock
 import pytest
 
 from cli_helpers.compat import MAC, text_type, WIN
