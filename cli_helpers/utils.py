@@ -3,6 +3,7 @@
 
 import binascii
 import re
+from functools import lru_cache
 
 from cli_helpers.compat import binary_type, text_type, Terminal256Formatter, StringIO
 
@@ -70,9 +71,14 @@ def replace(s, replace):
     return s
 
 
+@lru_cache()
+def _get_formatter(style) -> Terminal256Formatter:
+    return Terminal256Formatter(style=style)
+
+
 def style_field(token, field, style):
     """Get the styled text for a *field* using *token* type."""
-    formatter = Terminal256Formatter(style=style)
+    formatter = _get_formatter(style)
     s = StringIO()
     formatter.format(((token, field),), s)
     return s.getvalue()
