@@ -4,6 +4,11 @@
 import binascii
 import re
 from functools import lru_cache
+from typing import Dict
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from pygments.style import StyleMeta
 
 from cli_helpers.compat import binary_type, text_type, Terminal256Formatter, StringIO
 
@@ -82,3 +87,20 @@ def style_field(token, field, style):
     s = StringIO()
     formatter.format(((token, field),), s)
     return s.getvalue()
+
+
+def filter_style_table(style: "StyleMeta", *relevant_styles: str) -> Dict:
+    """
+    get a dictionary of styles for given tokens. Typical usage:
+
+    filter_style_table(style, 'Token.Output.EvenRow', 'Token.Output.OddRow') == {
+        'Token.Output.EvenRow': "",
+        'Token.Output.OddRow': "",
+    }
+    """
+    _styles_iter = ((str(key), val) for key, val in getattr(style, 'styles', {}).items())
+    _relevant_styles_iter = filter(
+        lambda tpl: tpl[0] in relevant_styles,
+        _styles_iter
+    )
+    return {key: val for key, val in _relevant_styles_iter}

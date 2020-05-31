@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """These preprocessor functions are used to process data prior to output."""
 
-import re
 import string
 
 from cli_helpers import utils
@@ -253,10 +252,14 @@ def style_output(data, headers, style=None,
     :rtype: tuple
 
     """
+    from cli_helpers.utils import filter_style_table
+    relevant_styles = filter_style_table(style, header_token, odd_row_token, even_row_token)
     if style and HAS_PYGMENTS:
-        headers = [utils.style_field(header_token, header, style) for header in headers]
-        data = ([utils.style_field(odd_row_token if i % 2 else even_row_token, f, style)
-                 for f in r] for i, r in enumerate(data, 1))
+        if relevant_styles.get(header_token):
+            headers = [utils.style_field(header_token, header, style) for header in headers]
+        if relevant_styles.get(odd_row_token) or relevant_styles.get(even_row_token):
+            data = ([utils.style_field(odd_row_token if i % 2 else even_row_token, f, style)
+                     for f in r] for i, r in enumerate(data, 1))
 
     return iter(data), headers
 
