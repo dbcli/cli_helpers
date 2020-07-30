@@ -6,17 +6,56 @@ from __future__ import unicode_literals
 from cli_helpers.utils import filter_dict_by_key
 from cli_helpers.compat import (Terminal256Formatter, StringIO)
 from .preprocessors import (convert_to_string, truncate_string, override_missing_value,
-                            style_output, HAS_PYGMENTS)
+                            style_output, HAS_PYGMENTS, escape_newlines)
 
 import tabulate
 
+
+tabulate.MIN_PADDING = 0
+
+tabulate._table_formats['double'] = tabulate.TableFormat(
+    lineabove=tabulate.Line("╔", "═", "╦", "╗"),
+    linebelowheader=tabulate.Line("╠", "═", "╬", "╣"),
+    linebetweenrows=None,
+    linebelow=tabulate.Line("╚", "═", "╩", "╝"),
+    headerrow=tabulate.DataRow("║", "║", "║"),
+    datarow=tabulate.DataRow("║", "║", "║"),
+    padding=1,
+    with_header_hide=None,
+)
+
+tabulate._table_formats["ascii"] = tabulate.TableFormat(
+    lineabove=tabulate.Line("+", "-", "+", "+"),
+    linebelowheader=tabulate.Line("+", "-", "+", "+"),
+    linebetweenrows=None,
+    linebelow=tabulate.Line("+", "-", "+", "+"),
+    headerrow=tabulate.DataRow("|", "|", "|"),
+    datarow=tabulate.DataRow("|", "|", "|"),
+    padding=1,
+    with_header_hide=None,
+)
+
 supported_markup_formats = ('mediawiki', 'html', 'latex', 'latex_booktabs',
                             'textile', 'moinmoin', 'jira')
-supported_table_formats = ('plain', 'simple', 'grid', 'fancy_grid', 'pipe',
-                           'orgtbl', 'psql', 'rst')
+supported_table_formats = ('ascii', 'plain', 'simple', 'grid', 'fancy_grid', 'pipe',
+                           'orgtbl', 'psql', 'rst', 'github', 'double')
+
 supported_formats = supported_markup_formats + supported_table_formats
 
-preprocessors = (override_missing_value, convert_to_string, truncate_string, style_output)
+default_kwargs = {
+    "ascii": {"numalign": "left"}
+}
+
+
+def get_preprocessors(format_name):
+    common_formatters = (
+        override_missing_value, convert_to_string, truncate_string, style_output
+    )
+
+    if tabulate.multiline_formats.get(format_name):
+        return common_formatters + (style_output_table(format_name),)
+    else:
+        return common_formatters + (escape_newlines, style_output_table(format_name))
 
 
 def style_output_table(format_name=""):
@@ -84,6 +123,7 @@ def style_output_table(format_name=""):
         return iter(data), headers
     return style_output
 
+
 def adapter(data, headers, table_format=None, preserve_whitespace=False,
             **kwargs):
     """Wrap tabulate inside a function for TabularOutputFormatter."""
@@ -96,4 +136,5 @@ def adapter(data, headers, table_format=None, preserve_whitespace=False,
 
     tabulate.PRESERVE_WHITESPACE = preserve_whitespace
 
+    tkwargs.update(default_kwargs.get(table_format, {}))
     return iter(tabulate.tabulate(data, headers, **tkwargs).split('\n'))

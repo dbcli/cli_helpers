@@ -8,7 +8,7 @@ from cli_helpers.compat import (text_type, binary_type, int_types, float_types,
                                 zip_longest)
 from cli_helpers.utils import unique_items
 from . import (delimited_output_adapter, vertical_table_adapter,
-               tabulate_adapter, terminaltables_adapter, tsv_output_adapter)
+               tabulate_adapter, tsv_output_adapter)
 from decimal import Decimal
 
 import itertools
@@ -210,16 +210,8 @@ for delimited_format in delimited_output_adapter.supported_formats:
 for tabulate_format in tabulate_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
         tabulate_format, tabulate_adapter.adapter,
-        tabulate_adapter.preprocessors +
-        (tabulate_adapter.style_output_table(tabulate_format),),
-        {'table_format': tabulate_format, 'missing_value': MISSING_VALUE, 'max_field_width': MAX_FIELD_WIDTH})
-
-for terminaltables_format in terminaltables_adapter.supported_formats:
-    TabularOutputFormatter.register_new_formatter(
-        terminaltables_format, terminaltables_adapter.adapter,
-        terminaltables_adapter.preprocessors +
-        (terminaltables_adapter.style_output_table(terminaltables_format),),
-        {'table_format': terminaltables_format, 'missing_value': MISSING_VALUE, 'max_field_width': MAX_FIELD_WIDTH})
+        tabulate_adapter.get_preprocessors(tabulate_format),
+        {'table_format': tabulate_format, 'missing_value': MISSING_VALUE, 'max_field_width': MAX_FIELD_WIDTH}),
 
 for tsv_format in tsv_output_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(

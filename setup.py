@@ -23,11 +23,6 @@ def open_file(filename):
 
 readme = open_file('README.rst')
 
-if sys.version_info[0] == 2:
-    py2_reqs = ['backports.csv >= 1.0.0']
-else:
-    py2_reqs = []
-
 setup(
     name='cli_helpers',
     author='dbcli',
@@ -42,8 +37,7 @@ setup(
     install_requires=[
         'configobj >= 5.0.5',
         'tabulate[widechars] >= 0.8.2',
-        'terminaltables >= 3.0.0',
-    ] + py2_reqs,
+    ],
     extras_require={
         'styles':  ['Pygments >= 1.6'],
     },
