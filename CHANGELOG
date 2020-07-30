@@ -6,6 +6,13 @@ TBD
 
 * Remove dependency on terminaltables
 
+Version 2.1.0
+-------------
+
+(released on 2020-07-29)
+
+* Speed up ouput styling of tables.
+
 Version 2.0.1
 -------------
 
