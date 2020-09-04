@@ -13,6 +13,17 @@ import tabulate
 
 tabulate.MIN_PADDING = 0
 
+tabulate._table_formats['psql_unicode'] = tabulate.TableFormat(
+    lineabove=tabulate.Line("┌", "─", "┬", "┐"),
+    linebelowheader=tabulate.Line("├", "─", "┼", "┤"),
+    linebetweenrows=None,
+    linebelow=tabulate.Line("└", "─", "┴", "┘"),
+    headerrow=tabulate.DataRow("│", "│", "│"),
+    datarow=tabulate.DataRow("│", "│", "│"),
+    padding=1,
+    with_header_hide=None,
+)
+
 tabulate._table_formats['double'] = tabulate.TableFormat(
     lineabove=tabulate.Line("╔", "═", "╦", "╗"),
     linebelowheader=tabulate.Line("╠", "═", "╬", "╣"),
@@ -38,7 +49,7 @@ tabulate._table_formats["ascii"] = tabulate.TableFormat(
 supported_markup_formats = ('mediawiki', 'html', 'latex', 'latex_booktabs',
                             'textile', 'moinmoin', 'jira')
 supported_table_formats = ('ascii', 'plain', 'simple', 'grid', 'fancy_grid', 'pipe',
-                           'orgtbl', 'psql', 'rst', 'github', 'double')
+                           'orgtbl', 'psql', 'psql_unicode', 'rst', 'github', 'double')
 
 supported_formats = supported_markup_formats + supported_table_formats
 
