@@ -24,9 +24,9 @@ Ready to contribute? Here's how to set up CLI Helpers for local development.
     $ pip install virtualenv
     $ virtualenv cli_helpers_dev
 
-   We've just created a virtual environment that we'll use to install all the dependencies
-   and tools we need to work on CLI Helpers. Whenever you want to work on CLI Helpers, you
-   need to activate the virtual environment::
+   We've just created a virtual environment called ``cli_helpers_dev``
+   that we'll use to install all the dependencies and tools we need to work on CLI Helpers.
+   Whenever you want to work on CLI Helpers, you need to activate the virtual environment::
 
     $ source cli_helpers_dev/bin/activate
 
@@ -34,7 +34,7 @@ Ready to contribute? Here's how to set up CLI Helpers for local development.
 
     $ deactivate
 
-5. Install the dependencies and development tools::
+5. From within the virtual environment, install the dependencies and development tools::
 
     $ pip install -r requirements-dev.txt
     $ pip install --editable .
@@ -43,11 +43,14 @@ Ready to contribute? Here's how to set up CLI Helpers for local development.
 
     $ git checkout -b <name-of-bugfix-or-feature> master
 
-7. While you work on your bugfix or feature, be sure to pull the latest changes from ``upstream``. This ensures that your local codebase is up-to-date::
+7. While you work on your bugfix or feature, be sure to pull the latest changes from ``upstream``.
+   This ensures that your local codebase is up-to-date::
 
     $ git pull upstream master
 
-8. When your work is ready for the CLI Helpers team to review it, push your branch to your fork::
+8. When your work is ready for the CLI Helpers team to review it,
+   make sure to add an entry to CHANGELOG file, and add your name to the AUTHORS file.
+   Then, push your branch to your fork::
 
     $ git push origin <name-of-bugfix-or-feature>
 
