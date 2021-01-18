@@ -80,18 +80,24 @@ You can also measure CLI Helper's test coverage by running::
 Coding Style
 ------------
 
-CLI Helpers requires code submissions to adhere to
-`PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_.
-It's easy to check the style of your code, just run::
+When you submit a PR, the changeset is checked for pep8 compliance using
+`black <https://github.com/psf/black>`_. If you see a build failing because
+of these checks, install ``black`` and apply style fixes:
 
-    $ pep8radius master
+::
 
-If you see any PEP 8 style issues, you can automatically fix them by running::
+    $ pip install black
+    $ black .
 
-    $ pep8radius master --in-place
+Then commit and push the fixes.
 
-Be sure to commit and push any PEP 8 fixes.
+To enforce ``black`` applied on every commit, we also suggest installing ``pre-commit`` and
+using the ``pre-commit`` hooks available in this repo:
 
+::
+
+    $ pip install pre-commit
+    $ pre-commit install
 
 Documentation
 -------------

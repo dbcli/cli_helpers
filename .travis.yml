@@ -5,7 +5,7 @@ install: ./.travis/install.sh
 script:
   - source ~/.venv/bin/activate
   - tox
-
+  - if [[ "$TOXENV" == "py37" ]]; then black --check cli_helpers tests ; else echo "Skipping black for $TOXENV"; fi
 matrix:
   include:
     - os: linux
