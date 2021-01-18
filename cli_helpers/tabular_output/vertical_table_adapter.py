@@ -4,10 +4,9 @@
 from __future__ import unicode_literals
 
 from cli_helpers.utils import filter_dict_by_key
-from .preprocessors import (convert_to_string, override_missing_value,
-                            style_output)
+from .preprocessors import convert_to_string, override_missing_value, style_output
 
-supported_formats = ('vertical', )
+supported_formats = ("vertical",)
 preprocessors = (override_missing_value, convert_to_string, style_output)
 
 
@@ -21,17 +20,19 @@ def _get_separator(num, sep_title, sep_character, sep_length):
     title = sep_title.format(n=num + 1)
 
     return "{left_divider}[ {title} ]{right_divider}\n".format(
-        left_divider=left_divider, right_divider=right_divider, title=title)
+        left_divider=left_divider, right_divider=right_divider, title=title
+    )
 
 
 def _format_row(headers, row):
     """Format a row."""
-    formatted_row = [' | '.join(field) for field in zip(headers, row)]
-    return '\n'.join(formatted_row)
+    formatted_row = [" | ".join(field) for field in zip(headers, row)]
+    return "\n".join(formatted_row)
 
 
-def vertical_table(data, headers, sep_title='{n}. row', sep_character='*',
-                   sep_length=27):
+def vertical_table(
+    data, headers, sep_title="{n}. row", sep_character="*", sep_length=27
+):
     """Format *data* and *headers* as an vertical table.
 
     The values in *data* and *headers* must be strings.
@@ -62,5 +63,5 @@ def vertical_table(data, headers, sep_title='{n}. row', sep_character='*',
 
 def adapter(data, headers, **kwargs):
     """Wrap vertical table in a function for TabularOutputFormatter."""
-    keys = ('sep_title', 'sep_character', 'sep_length')
+    keys = ("sep_title", "sep_character", "sep_length")
     return vertical_table(data, headers, **filter_dict_by_key(kwargs, keys))

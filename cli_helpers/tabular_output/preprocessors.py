@@ -7,7 +7,9 @@ from cli_helpers import utils
 from cli_helpers.compat import text_type, int_types, float_types, HAS_PYGMENTS
 
 
-def truncate_string(data, headers, max_field_width=None, skip_multiline_string=True, **_):
+def truncate_string(
+    data, headers, max_field_width=None, skip_multiline_string=True, **_
+):
     """Truncate very long strings. Only needed for tabular
     representation, because trying to tabulate very long data
     is problematic in terms of performance, and does not make any
@@ -19,8 +21,19 @@ def truncate_string(data, headers, max_field_width=None, skip_multiline_string=T
     :return: The processed data and headers.
     :rtype: tuple
     """
-    return (([utils.truncate_string(v, max_field_width, skip_multiline_string) for v in row] for row in data),
-            [utils.truncate_string(h, max_field_width, skip_multiline_string) for h in headers])
+    return (
+        (
+            [
+                utils.truncate_string(v, max_field_width, skip_multiline_string)
+                for v in row
+            ]
+            for row in data
+        ),
+        [
+            utils.truncate_string(h, max_field_width, skip_multiline_string)
+            for h in headers
+        ],
+    )
 
 
 def convert_to_string(data, headers, **_):
@@ -35,13 +48,20 @@ def convert_to_string(data, headers, **_):
     :rtype: tuple
 
     """
-    return (([utils.to_string(v) for v in row] for row in data),
-            [utils.to_string(h) for h in headers])
+    return (
+        ([utils.to_string(v) for v in row] for row in data),
+        [utils.to_string(h) for h in headers],
+    )
 
 
-def override_missing_value(data, headers, style=None,
-                           missing_value_token="Token.Output.Null",
-                           missing_value='', **_):
+def override_missing_value(
+    data,
+    headers,
+    style=None,
+    missing_value_token="Token.Output.Null",
+    missing_value="",
+    **_
+):
     """Override missing values in the *data* with *missing_value*.
 
     A missing value is any value that is :data:`None`.
@@ -55,12 +75,15 @@ def override_missing_value(data, headers, style=None,
     :rtype: tuple
 
     """
+
     def fields():
         for row in data:
             processed = []
             for field in row:
                 if field is None and style and HAS_PYGMENTS:
-                    styled = utils.style_field(missing_value_token, missing_value, style)
+                    styled = utils.style_field(
+                        missing_value_token, missing_value, style
+                    )
                     processed.append(styled)
                 elif field is None:
                     processed.append(missing_value)
@@ -71,7 +94,7 @@ def override_missing_value(data, headers, style=None,
     return (fields(), headers)
 
 
-def override_tab_value(data, headers, new_value='    ', **_):
+def override_tab_value(data, headers, new_value="    ", **_):
     """Override tab values in the *data* with *new_value*.
 
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
@@ -81,9 +104,13 @@ def override_tab_value(data, headers, new_value='    ', **_):
     :rtype: tuple
 
     """
-    return (([v.replace('\t', new_value) if isinstance(v, text_type) else v
-              for v in row] for row in data),
-            headers)
+    return (
+        (
+            [v.replace("\t", new_value) if isinstance(v, text_type) else v for v in row]
+            for row in data
+        ),
+        headers,
+    )
 
 
 def escape_newlines(data, headers, **_):
@@ -121,8 +148,10 @@ def bytes_to_string(data, headers, **_):
     :rtype: tuple
 
     """
-    return (([utils.bytes_to_string(v) for v in row] for row in data),
-            [utils.bytes_to_string(h) for h in headers])
+    return (
+        ([utils.bytes_to_string(v) for v in row] for row in data),
+        [utils.bytes_to_string(h) for h in headers],
+    )
 
 
 def align_decimals(data, headers, column_types=(), **_):
@@ -204,17 +233,26 @@ def quote_whitespaces(data, headers, quotestyle="'", **_):
         for row in data:
             result = []
             for i, v in enumerate(row):
-                quotation = quotestyle if quote[i] else ''
-                result.append('{quotestyle}{value}{quotestyle}'.format(
-                    quotestyle=quotation, value=v))
+                quotation = quotestyle if quote[i] else ""
+                result.append(
+                    "{quotestyle}{value}{quotestyle}".format(
+                        quotestyle=quotation, value=v
+                    )
+                )
             yield result
+
     return results(data), headers
 
 
-def style_output(data, headers, style=None,
-                 header_token='Token.Output.Header',
-                 odd_row_token='Token.Output.OddRow',
-                 even_row_token='Token.Output.EvenRow', **_):
+def style_output(
+    data,
+    headers,
+    style=None,
+    header_token="Token.Output.Header",
+    odd_row_token="Token.Output.OddRow",
+    even_row_token="Token.Output.EvenRow",
+    **_
+):
     """Style the *data* and *headers* (e.g. bold, italic, and colors)
 
     .. NOTE::
@@ -253,19 +291,32 @@ def style_output(data, headers, style=None,
 
     """
     from cli_helpers.utils import filter_style_table
-    relevant_styles = filter_style_table(style, header_token, odd_row_token, even_row_token)
+
+    relevant_styles = filter_style_table(
+        style, header_token, odd_row_token, even_row_token
+    )
     if style and HAS_PYGMENTS:
         if relevant_styles.get(header_token):
-            headers = [utils.style_field(header_token, header, style) for header in headers]
+            headers = [
+                utils.style_field(header_token, header, style) for header in headers
+            ]
         if relevant_styles.get(odd_row_token) or relevant_styles.get(even_row_token):
-            data = ([utils.style_field(odd_row_token if i % 2 else even_row_token, f, style)
-                     for f in r] for i, r in enumerate(data, 1))
+            data = (
+                [
+                    utils.style_field(
+                        odd_row_token if i % 2 else even_row_token, f, style
+                    )
+                    for f in r
+                ]
+                for i, r in enumerate(data, 1)
+            )
 
     return iter(data), headers
 
 
-def format_numbers(data, headers, column_types=(), integer_format=None,
-                   float_format=None, **_):
+def format_numbers(
+    data, headers, column_types=(), integer_format=None, float_format=None, **_
+):
     """Format numbers according to a format specification.
 
     This uses Python's format specification to format numbers of the following
@@ -296,5 +347,7 @@ def format_numbers(data, headers, column_types=(), integer_format=None,
             return format(field, float_format)
         return field
 
-    data = ([_format_number(v, column_types[i]) for i, v in enumerate(row)] for row in data)
+    data = (
+        [_format_number(v, column_types[i]) for i, v in enumerate(row)] for row in data
+    )
     return data, headers

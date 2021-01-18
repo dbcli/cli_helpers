@@ -16,11 +16,13 @@ logger = logging.getLogger(__name__)
 
 class ConfigError(Exception):
     """Base class for exceptions in this module."""
+
     pass
 
 
 class DefaultConfigValidationError(ConfigError):
     """Indicates the default config file did not validate correctly."""
+
     pass
 
 
@@ -40,8 +42,16 @@ class Config(UserDict, object):
                                   file.
     """
 
-    def __init__(self, app_name, app_author, filename, default=None,
-                 validate=False, write_default=False, additional_dirs=()):
+    def __init__(
+        self,
+        app_name,
+        app_author,
+        filename,
+        default=None,
+        validate=False,
+        write_default=False,
+        additional_dirs=(),
+    ):
         super(Config, self).__init__()
         #: The :class:`ConfigObj` instance.
         self.data = ConfigObj()
@@ -64,15 +74,19 @@ class Config(UserDict, object):
         elif default is not None:
             raise TypeError(
                 '"default" must be a dict or {}, not {}'.format(
-                    text_type.__name__, type(default)))
+                    text_type.__name__, type(default)
+                )
+            )
 
         if self.write_default and not self.default_file:
-            raise ValueError('Cannot use "write_default" without specifying '
-                             'a default file.')
+            raise ValueError(
+                'Cannot use "write_default" without specifying ' "a default file."
+            )
 
         if self.validate and not self.default_file:
-            raise ValueError('Cannot use "validate" without specifying a '
-                             'default file.')
+            raise ValueError(
+                'Cannot use "validate" without specifying a ' "default file."
+            )
 
     def read_default_config(self):
         """Read the default config file.
@@ -81,11 +95,15 @@ class Config(UserDict, object):
                                               the *default* file.
         """
         if self.validate:
-            self.default_config = ConfigObj(configspec=self.default_file,
-                                            list_values=False, _inspec=True,
-                                            encoding='utf8')
-            valid = self.default_config.validate(Validator(), copy=True,
-                                                 preserve_errors=True)
+            self.default_config = ConfigObj(
+                configspec=self.default_file,
+                list_values=False,
+                _inspec=True,
+                encoding="utf8",
+            )
+            valid = self.default_config.validate(
+                Validator(), copy=True, preserve_errors=True
+            )
             if valid is not True:
                 for name, section in valid.items():
                     if section is True:
@@ -93,8 +111,8 @@ class Config(UserDict, object):
                     for key, value in section.items():
                         if isinstance(value, ValidateError):
                             raise DefaultConfigValidationError(
-                                'section [{}], key "{}": {}'.format(
-                                    name, key, value))
+                                'section [{}], key "{}": {}'.format(name, key, value)
+                            )
         elif self.default_file:
             self.default_config, _ = self.read_config_file(self.default_file)
 
@@ -113,13 +131,15 @@ class Config(UserDict, object):
     def user_config_file(self):
         """Get the absolute path to the user config file."""
         return os.path.join(
-            get_user_config_dir(self.app_name, self.app_author),
-            self.filename)
+            get_user_config_dir(self.app_name, self.app_author), self.filename
+        )
 
     def system_config_files(self):
         """Get a list of absolute paths to the system config files."""
-        return [os.path.join(f, self.filename) for f in get_system_config_dirs(
-            self.app_name, self.app_author)]
+        return [
+            os.path.join(f, self.filename)
+            for f in get_system_config_dirs(self.app_name, self.app_author)
+        ]
 
     def additional_files(self):
         """Get a list of absolute paths to the additional config files."""
@@ -127,8 +147,11 @@ class Config(UserDict, object):
 
     def all_config_files(self):
         """Get a list of absolute paths to all the config files."""
-        return (self.additional_files() + self.system_config_files() +
-                [self.user_config_file()])
+        return (
+            self.additional_files()
+            + self.system_config_files()
+            + [self.user_config_file()]
+        )
 
     def write_default_config(self, overwrite=False):
         """Write the default config to the user's config file.
@@ -139,7 +162,7 @@ class Config(UserDict, object):
         if not overwrite and os.path.exists(destination):
             return
 
-        with io.open(destination, mode='wb') as f:
+        with io.open(destination, mode="wb") as f:
             self.default_config.write(f)
 
     def write(self, outfile=None, section=None):
@@ -149,7 +172,7 @@ class Config(UserDict, object):
         :param None/str section: The config section to write, or :data:`None`
                                  to write the entire config.
         """
-        with io.open(outfile or self.user_config_file(), 'wb') as f:
+        with io.open(outfile or self.user_config_file(), "wb") as f:
             self.data.write(outfile=f, section=section)
 
     def read_config_file(self, f):
@@ -159,18 +182,18 @@ class Config(UserDict, object):
         """
         configspec = self.default_file if self.validate else None
         try:
-            config = ConfigObj(infile=f, configspec=configspec,
-                               interpolation=False, encoding='utf8')
+            config = ConfigObj(
+                infile=f, configspec=configspec, interpolation=False, encoding="utf8"
+            )
         except ConfigObjError as e:
             logger.warning(
-                'Unable to parse line {} of config file {}'.format(
-                    e.line_number, f))
+                "Unable to parse line {} of config file {}".format(e.line_number, f)
+            )
             config = e.config
 
         valid = True
         if self.validate:
-            valid = config.validate(Validator(), preserve_errors=True,
-                                    copy=True)
+            valid = config.validate(Validator(), preserve_errors=True, copy=True)
         if bool(config):
             self.config_filenames.append(config.filename)
 
@@ -220,15 +243,17 @@ def get_user_config_dir(app_name, app_author, roaming=True, force_xdg=True):
 
     """
     if WIN:
-        key = 'APPDATA' if roaming else 'LOCALAPPDATA'
-        folder = os.path.expanduser(os.environ.get(key, '~'))
+        key = "APPDATA" if roaming else "LOCALAPPDATA"
+        folder = os.path.expanduser(os.environ.get(key, "~"))
         return os.path.join(folder, app_author, app_name)
     if MAC and not force_xdg:
-        return os.path.join(os.path.expanduser(
-            '~/Library/Application Support'), app_name)
+        return os.path.join(
+            os.path.expanduser("~/Library/Application Support"), app_name
+        )
     return os.path.join(
-        os.path.expanduser(os.environ.get('XDG_CONFIG_HOME', '~/.config')),
-        _pathify(app_name))
+        os.path.expanduser(os.environ.get("XDG_CONFIG_HOME", "~/.config")),
+        _pathify(app_name),
+    )
 
 
 def get_system_config_dirs(app_name, app_author, force_xdg=True):
@@ -256,15 +281,15 @@ def get_system_config_dirs(app_name, app_author, force_xdg=True):
 
     """
     if WIN:
-        folder = os.environ.get('PROGRAMDATA')
+        folder = os.environ.get("PROGRAMDATA")
         return [os.path.join(folder, app_author, app_name)]
     if MAC and not force_xdg:
-        return [os.path.join('/Library/Application Support', app_name)]
-    dirs = os.environ.get('XDG_CONFIG_DIRS', '/etc/xdg')
+        return [os.path.join("/Library/Application Support", app_name)]
+    dirs = os.environ.get("XDG_CONFIG_DIRS", "/etc/xdg")
     paths = [os.path.expanduser(x) for x in dirs.split(os.pathsep)]
     return [os.path.join(d, _pathify(app_name)) for d in paths]
 
 
 def _pathify(s):
     """Convert spaces to hyphens and lowercase a string."""
-    return '-'.join(s.split()).lower()
+    return "-".join(s.split()).lower()
