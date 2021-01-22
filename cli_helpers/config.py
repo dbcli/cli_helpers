@@ -44,7 +44,7 @@ class Config(UserDict, object):
                  validate=False, write_default=False, additional_dirs=()):
         super(Config, self).__init__()
         #: The :class:`ConfigObj` instance.
-        self.data = ConfigObj()
+        self.data = ConfigObj(encoding='utf8')
 
         self.default = {}
         self.default_file = self.default_config = None
@@ -84,6 +84,10 @@ class Config(UserDict, object):
             self.default_config = ConfigObj(configspec=self.default_file,
                                             list_values=False, _inspec=True,
                                             encoding='utf8')
+
+            # ConfigObj does not set the encoding on the configspec.
+            self.default_config.configspec.encoding = 'utf8'
+
             valid = self.default_config.validate(Validator(), copy=True,
                                                  preserve_errors=True)
             if valid is not True:
@@ -161,6 +165,10 @@ class Config(UserDict, object):
         try:
             config = ConfigObj(infile=f, configspec=configspec,
                                interpolation=False, encoding='utf8')
+
+            # ConfigObj does not set the encoding on the configspec.
+            if config.configspec is not None:
+                config.configspec.encoding = 'utf8'
         except ConfigObjError as e:
             logger.warning(
                 'Unable to parse line {} of config file {}'.format(

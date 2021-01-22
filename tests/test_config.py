@@ -19,7 +19,7 @@ DEFAULT_CONFIG = {
     'section':  {
         'test_boolean_default': 'True',
         'test_string_file': '~/myfile',
-        'test_option': 'foobar'
+        'test_option': 'foobar✔'
     },
     'section2': {}
 }
@@ -27,7 +27,7 @@ DEFAULT_VALID_CONFIG = {
     'section':  {
         'test_boolean_default': True,
         'test_string_file': '~/myfile',
-        'test_option': 'foobar'
+        'test_option': 'foobar✔'
     },
     'section2': {}
 }
