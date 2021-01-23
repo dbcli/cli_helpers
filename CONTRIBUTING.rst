@@ -99,6 +99,13 @@ using the ``pre-commit`` hooks available in this repo:
     $ pip install pre-commit
     $ pre-commit install
 
+Git blame
+---------
+
+Use ``git blame my_file.py --ignore-revs-file .git-blame-ignore-revs`` to exclude irrelevant commits
+(specifically Black) from ``git blame``. For more information,
+see `here <https://github.com/psf/black#migrating-your-code-style-without-ruining-git-blame>`_.
+
 Documentation
 -------------
 
