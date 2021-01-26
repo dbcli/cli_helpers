@@ -198,3 +198,5 @@ intersphinx_mapping = {
     "numpy": ("https://docs.scipy.org/doc/numpy", None),
     "configobj": ("https://configobj.readthedocs.io/en/latest", None),
 }
+
+linkcheck_ignore = ['https://github.com/psf/black.*']
