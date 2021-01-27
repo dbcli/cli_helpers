@@ -4,16 +4,25 @@
 from __future__ import unicode_literals
 from collections import namedtuple
 
-from cli_helpers.compat import (text_type, binary_type, int_types, float_types,
-                                zip_longest)
+from cli_helpers.compat import (
+    text_type,
+    binary_type,
+    int_types,
+    float_types,
+    zip_longest,
+)
 from cli_helpers.utils import unique_items
-from . import (delimited_output_adapter, vertical_table_adapter,
-               tabulate_adapter, tsv_output_adapter)
+from . import (
+    delimited_output_adapter,
+    vertical_table_adapter,
+    tabulate_adapter,
+    tsv_output_adapter,
+)
 from decimal import Decimal
 
 import itertools
 
-MISSING_VALUE = '<null>'
+MISSING_VALUE = "<null>"
 MAX_FIELD_WIDTH = 500
 
 TYPES = {
@@ -23,12 +32,12 @@ TYPES = {
     float: 3,
     Decimal: 3,
     binary_type: 4,
-    text_type: 5
+    text_type: 5,
 }
 
 OutputFormatHandler = namedtuple(
-    'OutputFormatHandler',
-    'format_name preprocessors formatter formatter_args')
+    "OutputFormatHandler", "format_name preprocessors formatter formatter_args"
+)
 
 
 class TabularOutputFormatter(object):
@@ -96,8 +105,7 @@ class TabularOutputFormatter(object):
         if format_name in self.supported_formats:
             self._format_name = format_name
         else:
-            raise ValueError('unrecognized format_name "{}"'.format(
-                format_name))
+            raise ValueError('unrecognized format_name "{}"'.format(format_name))
 
     @property
     def supported_formats(self):
@@ -105,8 +113,9 @@ class TabularOutputFormatter(object):
         return tuple(self._output_formats.keys())
 
     @classmethod
-    def register_new_formatter(cls, format_name, handler, preprocessors=(),
-                               kwargs=None):
+    def register_new_formatter(
+        cls, format_name, handler, preprocessors=(), kwargs=None
+    ):
         """Register a new output formatter.
 
         :param str format_name: The name of the format.
@@ -117,10 +126,18 @@ class TabularOutputFormatter(object):
 
         """
         cls._output_formats[format_name] = OutputFormatHandler(
-            format_name, preprocessors, handler, kwargs or {})
+            format_name, preprocessors, handler, kwargs or {}
+        )
 
-    def format_output(self, data, headers, format_name=None,
-                      preprocessors=(), column_types=None, **kwargs):
+    def format_output(
+        self,
+        data,
+        headers,
+        format_name=None,
+        preprocessors=(),
+        column_types=None,
+        **kwargs
+    ):
         r"""Format the headers and data using a specific formatter.
 
         *format_name* must be a supported formatter (see
@@ -142,15 +159,13 @@ class TabularOutputFormatter(object):
         if format_name not in self.supported_formats:
             raise ValueError('unrecognized format "{}"'.format(format_name))
 
-        (_, _preprocessors, formatter,
-         fkwargs) = self._output_formats[format_name]
+        (_, _preprocessors, formatter, fkwargs) = self._output_formats[format_name]
         fkwargs.update(kwargs)
         if column_types is None:
             data = list(data)
             column_types = self._get_column_types(data)
         for f in unique_items(preprocessors + _preprocessors):
-            data, headers = f(data, headers, column_types=column_types,
-                              **fkwargs)
+            data, headers = f(data, headers, column_types=column_types, **fkwargs)
         return formatter(list(data), headers, column_types=column_types, **fkwargs)
 
     def _get_column_types(self, data):
@@ -197,24 +212,44 @@ def format_output(data, headers, format_name, **kwargs):
 
 for vertical_format in vertical_table_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
-        vertical_format, vertical_table_adapter.adapter,
+        vertical_format,
+        vertical_table_adapter.adapter,
         vertical_table_adapter.preprocessors,
-        {'table_format': vertical_format, 'missing_value': MISSING_VALUE, 'max_field_width': None})
+        {
+            "table_format": vertical_format,
+            "missing_value": MISSING_VALUE,
+            "max_field_width": None,
+        },
+    )
 
 for delimited_format in delimited_output_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
-        delimited_format, delimited_output_adapter.adapter,
+        delimited_format,
+        delimited_output_adapter.adapter,
         delimited_output_adapter.preprocessors,
-        {'table_format': delimited_format, 'missing_value': '', 'max_field_width': None})
+        {
+            "table_format": delimited_format,
+            "missing_value": "",
+            "max_field_width": None,
+        },
+    )
 
 for tabulate_format in tabulate_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
-        tabulate_format, tabulate_adapter.adapter,
+        tabulate_format,
+        tabulate_adapter.adapter,
         tabulate_adapter.get_preprocessors(tabulate_format),
-        {'table_format': tabulate_format, 'missing_value': MISSING_VALUE, 'max_field_width': MAX_FIELD_WIDTH}),
+        {
+            "table_format": tabulate_format,
+            "missing_value": MISSING_VALUE,
+            "max_field_width": MAX_FIELD_WIDTH,
+        },
+    ),
 
 for tsv_format in tsv_output_adapter.supported_formats:
     TabularOutputFormatter.register_new_formatter(
-        tsv_format, tsv_output_adapter.adapter,
+        tsv_format,
+        tsv_output_adapter.adapter,
         tsv_output_adapter.preprocessors,
-        {'table_format': tsv_format, 'missing_value': '', 'max_field_width': None})
+        {"table_format": tsv_format, "missing_value": "", "max_field_width": None},
+    )

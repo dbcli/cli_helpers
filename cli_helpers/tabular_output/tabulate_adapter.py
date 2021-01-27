@@ -4,16 +4,22 @@
 from __future__ import unicode_literals
 
 from cli_helpers.utils import filter_dict_by_key
-from cli_helpers.compat import (Terminal256Formatter, StringIO)
-from .preprocessors import (convert_to_string, truncate_string, override_missing_value,
-                            style_output, HAS_PYGMENTS, escape_newlines)
+from cli_helpers.compat import Terminal256Formatter, StringIO
+from .preprocessors import (
+    convert_to_string,
+    truncate_string,
+    override_missing_value,
+    style_output,
+    HAS_PYGMENTS,
+    escape_newlines,
+)
 
 import tabulate
 
 
 tabulate.MIN_PADDING = 0
 
-tabulate._table_formats['psql_unicode'] = tabulate.TableFormat(
+tabulate._table_formats["psql_unicode"] = tabulate.TableFormat(
     lineabove=tabulate.Line("┌", "─", "┬", "┐"),
     linebelowheader=tabulate.Line("├", "─", "┼", "┤"),
     linebetweenrows=None,
@@ -24,7 +30,7 @@ tabulate._table_formats['psql_unicode'] = tabulate.TableFormat(
     with_header_hide=None,
 )
 
-tabulate._table_formats['double'] = tabulate.TableFormat(
+tabulate._table_formats["double"] = tabulate.TableFormat(
     lineabove=tabulate.Line("╔", "═", "╦", "╗"),
     linebelowheader=tabulate.Line("╠", "═", "╬", "╣"),
     linebetweenrows=None,
@@ -46,21 +52,41 @@ tabulate._table_formats["ascii"] = tabulate.TableFormat(
     with_header_hide=None,
 )
 
-supported_markup_formats = ('mediawiki', 'html', 'latex', 'latex_booktabs',
-                            'textile', 'moinmoin', 'jira')
-supported_table_formats = ('ascii', 'plain', 'simple', 'grid', 'fancy_grid', 'pipe',
-                           'orgtbl', 'psql', 'psql_unicode', 'rst', 'github', 'double')
+supported_markup_formats = (
+    "mediawiki",
+    "html",
+    "latex",
+    "latex_booktabs",
+    "textile",
+    "moinmoin",
+    "jira",
+)
+supported_table_formats = (
+    "ascii",
+    "plain",
+    "simple",
+    "grid",
+    "fancy_grid",
+    "pipe",
+    "orgtbl",
+    "psql",
+    "psql_unicode",
+    "rst",
+    "github",
+    "double",
+)
 
 supported_formats = supported_markup_formats + supported_table_formats
 
-default_kwargs = {
-    "ascii": {"numalign": "left"}
-}
+default_kwargs = {"ascii": {"numalign": "left"}}
 
 
 def get_preprocessors(format_name):
     common_formatters = (
-        override_missing_value, convert_to_string, truncate_string, style_output
+        override_missing_value,
+        convert_to_string,
+        truncate_string,
+        style_output,
     )
 
     if tabulate.multiline_formats.get(format_name):
@@ -70,8 +96,13 @@ def get_preprocessors(format_name):
 
 
 def style_output_table(format_name=""):
-    def style_output(data, headers, style=None,
-                     table_separator_token='Token.Output.TableSeparator', **_):
+    def style_output(
+        data,
+        headers,
+        style=None,
+        table_separator_token="Token.Output.TableSeparator",
+        **_
+    ):
         """Style the *table* a(e.g. bold, italic, and colors)
 
         .. NOTE::
@@ -121,25 +152,28 @@ def style_output_table(format_name=""):
                 if not elt:
                     return elt
                 if elt.__class__ == tabulate.Line:
-                    return tabulate.Line(*(style_field(table_separator_token, val) for val in elt))
+                    return tabulate.Line(
+                        *(style_field(table_separator_token, val) for val in elt)
+                    )
                 if elt.__class__ == tabulate.DataRow:
-                    return tabulate.DataRow(*(style_field(table_separator_token, val) for val in elt))
+                    return tabulate.DataRow(
+                        *(style_field(table_separator_token, val) for val in elt)
+                    )
                 return elt
 
             srcfmt = tabulate._table_formats[format_name]
-            newfmt = tabulate.TableFormat(
-                *(addColorInElt(val) for val in srcfmt))
+            newfmt = tabulate.TableFormat(*(addColorInElt(val) for val in srcfmt))
             tabulate._table_formats[format_name] = newfmt
 
         return iter(data), headers
+
     return style_output
 
 
-def adapter(data, headers, table_format=None, preserve_whitespace=False,
-            **kwargs):
+def adapter(data, headers, table_format=None, preserve_whitespace=False, **kwargs):
     """Wrap tabulate inside a function for TabularOutputFormatter."""
-    keys = ('floatfmt', 'numalign', 'stralign', 'showindex', 'disable_numparse')
-    tkwargs = {'tablefmt': table_format}
+    keys = ("floatfmt", "numalign", "stralign", "showindex", "disable_numparse")
+    tkwargs = {"tablefmt": table_format}
     tkwargs.update(filter_dict_by_key(kwargs, keys))
 
     if table_format in supported_markup_formats:
@@ -148,4 +182,4 @@ def adapter(data, headers, table_format=None, preserve_whitespace=False,
     tabulate.PRESERVE_WHITESPACE = preserve_whitespace
 
     tkwargs.update(default_kwargs.get(table_format, {}))
-    return iter(tabulate.tabulate(data, headers, **tkwargs).split('\n'))
+    return iter(tabulate.tabulate(data, headers, **tkwargs).split("\n"))

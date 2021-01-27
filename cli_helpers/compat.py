@@ -5,8 +5,8 @@ from decimal import Decimal
 import sys
 
 PY2 = sys.version_info[0] == 2
-WIN = sys.platform.startswith('win')
-MAC = sys.platform == 'darwin'
+WIN = sys.platform.startswith("win")
+MAC = sys.platform == "darwin"
 
 
 if PY2:

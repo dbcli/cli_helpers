@@ -22,4 +22,4 @@ fi
 pip install virtualenv
 python -m virtualenv ~/.venv
 source ~/.venv/bin/activate
-pip install tox
+pip install -r requirements-dev.txt -U --upgrade-strategy only-if-needed

@@ -10,4 +10,4 @@ When formatting data, you'll primarily use the
 
 from .output_formatter import format_output, TabularOutputFormatter
 
-__all__ = ['format_output', 'TabularOutputFormatter']
+__all__ = ["format_output", "TabularOutputFormatter"]

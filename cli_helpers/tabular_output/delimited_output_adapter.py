@@ -8,7 +8,7 @@ from cli_helpers.compat import csv, StringIO
 from cli_helpers.utils import filter_dict_by_key
 from .preprocessors import bytes_to_string, override_missing_value
 
-supported_formats = ('csv', 'csv-tab')
+supported_formats = ("csv", "csv-tab")
 preprocessors = (override_missing_value, bytes_to_string)
 
 
@@ -23,18 +23,26 @@ class linewriter(object):
         self.line = d
 
 
-def adapter(data, headers, table_format='csv', **kwargs):
+def adapter(data, headers, table_format="csv", **kwargs):
     """Wrap the formatting inside a function for TabularOutputFormatter."""
-    keys = ('dialect', 'delimiter', 'doublequote', 'escapechar',
-            'quotechar', 'quoting', 'skipinitialspace', 'strict')
-    if table_format == 'csv':
-        delimiter = ','
-    elif table_format == 'csv-tab':
-        delimiter = '\t'
+    keys = (
+        "dialect",
+        "delimiter",
+        "doublequote",
+        "escapechar",
+        "quotechar",
+        "quoting",
+        "skipinitialspace",
+        "strict",
+    )
+    if table_format == "csv":
+        delimiter = ","
+    elif table_format == "csv-tab":
+        delimiter = "\t"
     else:
-        raise ValueError('Invalid table_format specified.')
+        raise ValueError("Invalid table_format specified.")
 
-    ckwargs = {'delimiter': delimiter, 'lineterminator': ''}
+    ckwargs = {"delimiter": delimiter, "lineterminator": ""}
     ckwargs.update(filter_dict_by_key(kwargs, keys))
 
     l = linewriter()

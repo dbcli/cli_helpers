@@ -7,6 +7,7 @@ from functools import lru_cache
 from typing import Dict
 
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from pygments.style import StyleMeta
 
@@ -21,9 +22,9 @@ def bytes_to_string(b):
     """
     if isinstance(b, binary_type):
         try:
-            return b.decode('utf8')
+            return b.decode("utf8")
         except UnicodeDecodeError:
-            return '0x' + binascii.hexlify(b).decode('ascii')
+            return "0x" + binascii.hexlify(b).decode("ascii")
     return b
 
 
@@ -37,16 +38,20 @@ def to_string(value):
 
 def truncate_string(value, max_width=None, skip_multiline_string=True):
     """Truncate string values."""
-    if skip_multiline_string and isinstance(value, text_type) and '\n' in value:
+    if skip_multiline_string and isinstance(value, text_type) and "\n" in value:
         return value
-    elif isinstance(value, text_type) and max_width is not None and len(value) > max_width:
-        return value[:max_width-3] + "..."
+    elif (
+        isinstance(value, text_type)
+        and max_width is not None
+        and len(value) > max_width
+    ):
+        return value[: max_width - 3] + "..."
     return value
 
 
 def intlen(n):
     """Find the length of the integer part of a number *n*."""
-    pos = n.find('.')
+    pos = n.find(".")
     return len(n) if pos < 0 else pos
 
 
@@ -61,12 +66,12 @@ def unique_items(seq):
     return [x for x in seq if not (x in seen or seen.add(x))]
 
 
-_ansi_re = re.compile('\033\\[((?:\\d|;)*)([a-zA-Z])')
+_ansi_re = re.compile("\033\\[((?:\\d|;)*)([a-zA-Z])")
 
 
 def strip_ansi(value):
     """Strip the ANSI escape sequences from a string."""
-    return _ansi_re.sub('', value)
+    return _ansi_re.sub("", value)
 
 
 def replace(s, replace):
@@ -98,9 +103,8 @@ def filter_style_table(style: "StyleMeta", *relevant_styles: str) -> Dict:
         'Token.Output.OddRow': "",
     }
     """
-    _styles_iter = ((str(key), val) for key, val in getattr(style, 'styles', {}).items())
-    _relevant_styles_iter = filter(
-        lambda tpl: tpl[0] in relevant_styles,
-        _styles_iter
+    _styles_iter = (
+        (str(key), val) for key, val in getattr(style, "styles", {}).items()
     )
+    _relevant_styles_iter = filter(lambda tpl: tpl[0] in relevant_styles, _styles_iter)
     return {key: val for key, val in _relevant_styles_iter}
