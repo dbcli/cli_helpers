@@ -20,7 +20,6 @@ Version 2.0.1
 (released on 2020-05-27)
 
 * Fix newline escaping in plain-text formatters (ascii, double, github)
-* Use built-in unittest.mock instead of mock.
 
 Version 2.0.0
 -------------

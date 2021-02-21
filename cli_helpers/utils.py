@@ -3,15 +3,13 @@
 
 import binascii
 import re
-from functools import lru_cache
-from typing import Dict
 
-from typing import TYPE_CHECKING
+from cli_helpers.compat import binary_type, text_type, Terminal256Formatter, StringIO, PY2
 
-if TYPE_CHECKING:
-    from pygments.style import StyleMeta
-
-from cli_helpers.compat import binary_type, text_type, Terminal256Formatter, StringIO
+if PY2:
+    from repoze.lru import lru_cache
+else:
+    from functools import lru_cache
 
 
 def bytes_to_string(b):
@@ -82,7 +80,7 @@ def replace(s, replace):
 
 
 @lru_cache()
-def _get_formatter(style) -> Terminal256Formatter:
+def _get_formatter(style):
     return Terminal256Formatter(style=style)
 
 
@@ -94,7 +92,7 @@ def style_field(token, field, style):
     return s.getvalue()
 
 
-def filter_style_table(style: "StyleMeta", *relevant_styles: str) -> Dict:
+def filter_style_table(style, *relevant_styles):
     """
     get a dictionary of styles for given tokens. Typical usage:
 

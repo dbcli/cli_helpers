@@ -20,23 +20,23 @@ import tabulate
 tabulate.MIN_PADDING = 0
 
 tabulate._table_formats["psql_unicode"] = tabulate.TableFormat(
-    lineabove=tabulate.Line("┌", "─", "┬", "┐"),
-    linebelowheader=tabulate.Line("├", "─", "┼", "┤"),
+    lineabove=tabulate.Line(u"┌", u"─", u"┬", u"┐"),
+    linebelowheader=tabulate.Line(u"├", u"─", u"┼", u"┤"),
     linebetweenrows=None,
-    linebelow=tabulate.Line("└", "─", "┴", "┘"),
-    headerrow=tabulate.DataRow("│", "│", "│"),
-    datarow=tabulate.DataRow("│", "│", "│"),
+    linebelow=tabulate.Line(u"└", u"─", u"┴", u"┘"),
+    headerrow=tabulate.DataRow(u"│", u"│", u"│"),
+    datarow=tabulate.DataRow(u"│", u"│", u"│"),
     padding=1,
     with_header_hide=None,
 )
 
 tabulate._table_formats["double"] = tabulate.TableFormat(
-    lineabove=tabulate.Line("╔", "═", "╦", "╗"),
-    linebelowheader=tabulate.Line("╠", "═", "╬", "╣"),
+    lineabove=tabulate.Line(u"╔", u"═", u"╦", u"╗"),
+    linebelowheader=tabulate.Line(u"╠", u"═", u"╬", u"╣"),
     linebetweenrows=None,
-    linebelow=tabulate.Line("╚", "═", "╩", "╝"),
-    headerrow=tabulate.DataRow("║", "║", "║"),
-    datarow=tabulate.DataRow("║", "║", "║"),
+    linebelow=tabulate.Line(u"╚", u"═", u"╩", u"╝"),
+    headerrow=tabulate.DataRow(u"║", u"║", u"║"),
+    datarow=tabulate.DataRow(u"║", u"║", u"║"),
     padding=1,
     with_header_hide=None,
 )
