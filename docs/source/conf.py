@@ -199,4 +199,4 @@ intersphinx_mapping = {
     "configobj": ("https://configobj.readthedocs.io/en/latest", None),
 }
 
-linkcheck_ignore = ['https://github.com/psf/black.*']
+linkcheck_ignore = ["https://github.com/psf/black.*"]
