@@ -6,6 +6,7 @@ TBD
 
 * Remove dependency on terminaltables
 * Add psql_unicode table format
+* Add skip_headers argument to csv formatter
 
 Version 2.1.0
 -------------
