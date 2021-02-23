@@ -22,6 +22,18 @@ def test_csv_wrapper():
         "d","456"'''
     )
 
+    # Test skip_headers argument
+    data = [["abc", "1"], ["d", "456"]]
+    headers = ["letters", "number"]
+    output = delimited_output_adapter.adapter(
+        iter(data), headers, dialect="unix", skip_headers=True
+    )
+    assert "\n".join(output) == dedent(
+        '''\
+        "abc","1"\n\
+        "d","456"'''
+    )
+
     # Test tab-delimited output.
     data = [["abc", "1"], ["d", "456"]]
     headers = ["letters", "number"]

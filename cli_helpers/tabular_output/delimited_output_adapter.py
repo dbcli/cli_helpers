@@ -23,7 +23,7 @@ class linewriter(object):
         self.line = d
 
 
-def adapter(data, headers, table_format="csv", **kwargs):
+def adapter(data, headers, table_format="csv", skip_header=False, **kwargs):
     """Wrap the formatting inside a function for TabularOutputFormatter."""
     keys = (
         "dialect",
@@ -47,8 +47,10 @@ def adapter(data, headers, table_format="csv", **kwargs):
 
     l = linewriter()
     writer = csv.writer(l, **ckwargs)
-    writer.writerow(headers)
-    yield l.line
+
+    if not kwargs.get("skip_header"):
+        writer.writerow(headers)
+        yield l.line
 
     for row in data:
         l.reset()
