@@ -6,6 +6,7 @@ TBD
 
 * Remove dependency on terminaltables
 * Add psql_unicode table format
+* Add minimal table format
 
 Version 2.1.0
 -------------

@@ -114,6 +114,21 @@ def test_format_name_attribute():
         formatter.format_name = "foobar"
 
 
+def test_headless_tabulate_format():
+    """Test that a headless formatter doesn't display headers"""
+    formatter = TabularOutputFormatter(format_name="minimal")
+    headers = ["text", "numeric"]
+    data = [["a"], ["b"], ["c"]]
+    expected = "a\nb\nc"
+    assert expected == "\n".join(
+        TabularOutputFormatter().format_output(
+            iter(data),
+            headers,
+            format_name="minimal",
+        )
+    )
+
+
 def test_unsupported_format():
     """Test that TabularOutputFormatter rejects unknown formats."""
     formatter = TabularOutputFormatter()
