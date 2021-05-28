@@ -42,6 +42,7 @@ setup(
     extras_require={
         "styles": ["Pygments >= 1.6"],
     },
+    python_requires=">=3.6",
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",

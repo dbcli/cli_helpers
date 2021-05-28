@@ -7,6 +7,7 @@ TBD
 * Remove dependency on terminaltables
 * Add psql_unicode table format
 * Add minimal table format
+* Fix pip2 installing py3-only versions
 
 Version 2.1.0
 -------------
