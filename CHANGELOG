@@ -8,6 +8,7 @@ TBD
 * Add psql_unicode table format
 * Add minimal table format
 * Fix pip2 installing py3-only versions
+* Add skip_headers argument to csv formatter
 
 Version 2.1.0
 -------------
