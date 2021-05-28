@@ -52,6 +52,9 @@ tabulate._table_formats["ascii"] = tabulate.TableFormat(
     with_header_hide=None,
 )
 
+# "minimal" is the same as "plain", but without headers
+tabulate._table_formats["minimal"] = tabulate._table_formats["plain"]
+
 supported_markup_formats = (
     "mediawiki",
     "html",
@@ -65,6 +68,7 @@ supported_table_formats = (
     "ascii",
     "plain",
     "simple",
+    "minimal",
     "grid",
     "fancy_grid",
     "pipe",
@@ -79,6 +83,7 @@ supported_table_formats = (
 supported_formats = supported_markup_formats + supported_table_formats
 
 default_kwargs = {"ascii": {"numalign": "left"}}
+headless_formats = ("minimal",)
 
 
 def get_preprocessors(format_name):
@@ -182,4 +187,6 @@ def adapter(data, headers, table_format=None, preserve_whitespace=False, **kwarg
     tabulate.PRESERVE_WHITESPACE = preserve_whitespace
 
     tkwargs.update(default_kwargs.get(table_format, {}))
+    if table_format in headless_formats:
+        headers = []
     return iter(tabulate.tabulate(data, headers, **tkwargs).split("\n"))

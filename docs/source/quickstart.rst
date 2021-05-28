@@ -50,7 +50,7 @@ Let's get a list of all the supported format names::
     >>> from cli_helpers.tabular_output import TabularOutputFormatter
     >>> formatter = TabularOutputFormatter()
     >>> formatter.supported_formats
-    ('vertical', 'csv', 'tsv', 'mediawiki', 'html', 'latex', 'latex_booktabs', 'textile', 'moinmoin', 'jira', 'plain', 'simple', 'grid', 'fancy_grid', 'pipe', 'orgtbl', 'psql', 'psql_unicode', 'rst', 'ascii', 'double', 'github')
+    ('vertical', 'csv', 'tsv', 'mediawiki', 'html', 'latex', 'latex_booktabs', 'textile', 'moinmoin', 'jira', 'plain', 'minimal', 'simple', 'grid', 'fancy_grid', 'pipe', 'orgtbl', 'psql', 'psql_unicode', 'rst', 'ascii', 'double', 'github')
 
 You can format your data in any of those supported formats. Let's take the
 same data from our first example and put it in the ``fancy_grid`` format::
