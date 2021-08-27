@@ -21,10 +21,16 @@ def bytes_to_string(b):
 
     """
     if isinstance(b, binary_type):
+        needs_hex = False
         try:
-            return b.decode("utf8")
+            result = b.decode("utf8")
+            needs_hex = not result.isprintable()
         except UnicodeDecodeError:
+            needs_hex = True
+        if needs_hex:
             return "0x" + binascii.hexlify(b).decode("ascii")
+        else:
+            return result
     return b
 
 

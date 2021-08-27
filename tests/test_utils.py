@@ -16,6 +16,13 @@ def test_bytes_to_string_decode_bytes():
     assert utils.bytes_to_string(b"foobar") == "foobar"
 
 
+def test_bytes_to_string_unprintable():
+    """Test that bytes_to_string() hexlifies data that is valid unicode, but unprintable."""
+    assert utils.bytes_to_string(b"\0") == "0x00"
+    assert utils.bytes_to_string(b"\1") == "0x01"
+    assert utils.bytes_to_string(b"a\0") == "0x6100"
+
+
 def test_bytes_to_string_non_bytes():
     """Test that bytes_to_string() returns non-bytes untouched."""
     assert utils.bytes_to_string("abc") == "abc"
