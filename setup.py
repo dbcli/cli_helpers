@@ -24,7 +24,10 @@ def open_file(filename):
 readme = open_file('README.rst')
 
 if sys.version_info[0] == 2:
-    py2_reqs = ['backports.csv >= 1.0.0']
+    py2_reqs = [
+        'backports.csv >= 1.0.0',
+        'repoze.lru',
+     ]
 else:
     py2_reqs = []
 
