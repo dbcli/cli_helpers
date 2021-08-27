@@ -15,6 +15,6 @@ test_boolean = boolean()
 
 test_string_file = string(default='~/myfile')
 
-test_option = option('foo', 'bar', 'foobar', default='foobar')
+test_option = option('foo', 'bar', 'foobar', 'foobar✔', default='foobar✔')
 
 [section2]
