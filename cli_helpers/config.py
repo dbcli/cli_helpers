@@ -16,11 +16,13 @@ logger = logging.getLogger(__name__)
 
 class ConfigError(Exception):
     """Base class for exceptions in this module."""
+
     pass
 
 
 class DefaultConfigValidationError(ConfigError):
     """Indicates the default config file did not validate correctly."""
+
     pass
 
 
@@ -52,7 +54,7 @@ class Config(UserDict, object):
     ):
         super(Config, self).__init__()
         #: The :class:`ConfigObj` instance.
-        self.data = ConfigObj(encoding='utf8')
+        self.data = ConfigObj(encoding="utf8")
 
         self.default = {}
         self.default_file = self.default_config = None
@@ -100,7 +102,7 @@ class Config(UserDict, object):
                 encoding="utf8",
             )
             # ConfigObj does not set the encoding on the configspec.
-            self.default_config.configspec.encoding = 'utf8'
+            self.default_config.configspec.encoding = "utf8"
 
             valid = self.default_config.validate(
                 Validator(), copy=True, preserve_errors=True
@@ -188,7 +190,7 @@ class Config(UserDict, object):
             )
             # ConfigObj does not set the encoding on the configspec.
             if config.configspec is not None:
-                config.configspec.encoding = 'utf8'
+                config.configspec.encoding = "utf8"
         except ConfigObjError as e:
             logger.warning(
                 "Unable to parse line {} of config file {}".format(e.line_number, f)
