@@ -221,6 +221,6 @@ def test_all_text_type():
     output_formatter = TabularOutputFormatter()
     for format_name in output_formatter.supported_formats:
         for row in output_formatter.format_output(
-            iter(data), headers, format_name=format_name
+            iter(data), headers, format_name=format_name, style="default"
         ):
             assert isinstance(row, text_type), "not unicode for {}".format(format_name)

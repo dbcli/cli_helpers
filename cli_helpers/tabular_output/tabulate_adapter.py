@@ -106,7 +106,7 @@ def style_output_table(format_name=""):
         headers,
         style=None,
         table_separator_token=TableSeparator,
-        **_
+        **_,
     ):
         """Style the *table* a(e.g. bold, italic, and colors)
 
