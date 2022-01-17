@@ -4,7 +4,7 @@
 from __future__ import unicode_literals
 
 from cli_helpers.utils import filter_dict_by_key
-from cli_helpers.compat import Terminal256Formatter, StringIO
+from cli_helpers.compat import Terminal256Formatter, TableSeparator, StringIO
 from .preprocessors import (
     convert_to_string,
     truncate_string,
@@ -105,7 +105,7 @@ def style_output_table(format_name=""):
         data,
         headers,
         style=None,
-        table_separator_token="Token.Output.TableSeparator",
+        table_separator_token=TableSeparator,
         **_
     ):
         """Style the *table* a(e.g. bold, italic, and colors)

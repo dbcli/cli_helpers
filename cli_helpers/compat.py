@@ -34,9 +34,12 @@ else:
 
 HAS_PYGMENTS = True
 try:
+    from pygments.token import Token
+    TableSeparator = Token.Output.TableSeparator
     from pygments.formatters.terminal256 import Terminal256Formatter
 except ImportError:
     HAS_PYGMENTS = False
     Terminal256Formatter = None
+    TableSeparator = None
 
 float_types = (float, Decimal)
