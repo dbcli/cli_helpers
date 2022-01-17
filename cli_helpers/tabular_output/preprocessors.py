@@ -4,7 +4,7 @@
 import string
 
 from cli_helpers import utils
-from cli_helpers.compat import text_type, int_types, float_types, HAS_PYGMENTS, Null
+from cli_helpers.compat import text_type, int_types, float_types, HAS_PYGMENTS, Token
 
 
 def truncate_string(
@@ -58,7 +58,7 @@ def override_missing_value(
     data,
     headers,
     style=None,
-    missing_value_token=Null,
+    missing_value_token=Token.Output.Null,
     missing_value="",
     **_,
 ):
@@ -248,9 +248,9 @@ def style_output(
     data,
     headers,
     style=None,
-    header_token="Token.Output.Header",
-    odd_row_token="Token.Output.OddRow",
-    even_row_token="Token.Output.EvenRow",
+    header_token=Token.Output.Header,
+    odd_row_token=Token.Output.OddRow,
+    even_row_token=Token.Output.EvenRow,
     **_,
 ):
     """Style the *data* and *headers* (e.g. bold, italic, and colors)
