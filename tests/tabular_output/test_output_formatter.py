@@ -214,13 +214,21 @@ def test_enforce_iterable():
             assert False, "{0} doesn't return iterable".format(format_name)
 
 
-def test_all_text_type():
+@pytest.mark.parametrize(
+    "extra_kwargs",
+    [
+        {},
+        {"style": "default"},
+        {"style": "colorful"},
+    ],
+)
+def test_all_text_type(extra_kwargs):
     """Test the TabularOutputFormatter class."""
     data = [[1, "", None, Decimal(2)]]
     headers = ["col1", "col2", "col3", "col4"]
     output_formatter = TabularOutputFormatter()
     for format_name in output_formatter.supported_formats:
         for row in output_formatter.format_output(
-            iter(data), headers, format_name=format_name, style="default"
+            iter(data), headers, format_name=format_name, **extra_kwargs
         ):
             assert isinstance(row, text_type), "not unicode for {}".format(format_name)
