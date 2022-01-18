@@ -250,9 +250,9 @@ def test_style_output_custom_tokens():
         data,
         headers,
         style=CliStyle,
-        header_token="Token.Results.Headers",
-        odd_row_token="Token.Results.OddRows",
-        even_row_token="Token.Results.EvenRows",
+        header_token=Token.Results.Headers,
+        odd_row_token=Token.Results.OddRows,
+        even_row_token=Token.Results.EvenRows,
     )
 
     assert (expected_data, expected_headers) == (list(output[0]), output[1])

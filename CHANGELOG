@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 2.2.1
+-------------
+
+(released on 2022-01-17)
+
+* Fix pygments tokens passed as strings
+
 Version 2.2.0
 -------------
 

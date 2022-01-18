@@ -104,13 +104,11 @@ def filter_style_table(style: "StyleMeta", *relevant_styles: str) -> Dict:
     """
     get a dictionary of styles for given tokens. Typical usage:
 
-    filter_style_table(style, 'Token.Output.EvenRow', 'Token.Output.OddRow') == {
-        'Token.Output.EvenRow': "",
-        'Token.Output.OddRow': "",
+    filter_style_table(style, Token.Output.EvenRow, Token.Output.OddRow) == {
+        Token.Output.EvenRow: "",
+        Token.Output.OddRow: "",
     }
     """
-    _styles_iter = (
-        (str(key), val) for key, val in getattr(style, "styles", {}).items()
-    )
+    _styles_iter = ((key, val) for key, val in getattr(style, "styles", {}).items())
     _relevant_styles_iter = filter(lambda tpl: tpl[0] in relevant_styles, _styles_iter)
     return {key: val for key, val in _relevant_styles_iter}

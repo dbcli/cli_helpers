@@ -2,6 +2,7 @@
 """OS and Python compatibility support."""
 
 from decimal import Decimal
+from types import SimpleNamespace
 import sys
 
 PY2 = sys.version_info[0] == 2
@@ -34,9 +35,22 @@ else:
 
 HAS_PYGMENTS = True
 try:
+    from pygments.token import Token
     from pygments.formatters.terminal256 import Terminal256Formatter
 except ImportError:
     HAS_PYGMENTS = False
     Terminal256Formatter = None
+    Token = SimpleNamespace()
+    Token.Output = SimpleNamespace()
+    Token.Output.Header = None
+    Token.Output.OddRow = None
+    Token.Output.EvenRow = None
+    Token.Output.Null = None
+    Token.Output.TableSeparator = None
+    Token.Results = SimpleNamespace()
+    Token.Results.Header = None
+    Token.Results.OddRow = None
+    Token.Results.EvenRow = None
+
 
 float_types = (float, Decimal)
