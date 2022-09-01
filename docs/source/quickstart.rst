@@ -15,7 +15,7 @@ CLI Helpers provides a simple way to display your tabular data (columns/rows) in
     >>> data = [[1, 'Asgard', True], [2, 'Camelot', False], [3, 'El Dorado', True]]
     >>> headers = ['id', 'city', 'visited']
 
-    >>> print(tabular_output.format_output(data, headers, format_name='simple'))
+    >>> print("\n".join(tabular_output.format_output(iter(data), headers, format_name='simple')))
 
       id  city       visited
     ----  ---------  ---------
@@ -57,7 +57,7 @@ same data from our first example and put it in the ``fancy_grid`` format::
 
     >>> data = [[1, 'Asgard', True], [2, 'Camelot', False], [3, 'El Dorado', True]]
     >>> headers = ['id', 'city', 'visited']
-    >>> print(formatter.format_output(data, headers, format_name='fancy_grid'))
+    >>> print("\n".join(formatter.format_output(iter(data), headers, format_name='fancy_grid')))
     ╒══════╤═══════════╤═══════════╕
     │   id │ city      │ visited   │
     ╞══════╪═══════════╪═══════════╡
@@ -70,7 +70,7 @@ same data from our first example and put it in the ``fancy_grid`` format::
 
 That was easy! How about CLI Helper's vertical table layout?
 
-    >>> print(formatter.format_output(data, headers, format_name='vertical'))
+    >>> print("\n".join(formatter.format_output(iter(data), headers, format_name='vertical')))
     ***************************[ 1. row ]***************************
     id      | 1
     city    | Asgard
@@ -93,7 +93,7 @@ object, you can specify a default formatter so you don't have to pass the
 format name each time you want to format your data::
 
     >>> formatter = TabularOutputFormatter(format_name='plain')
-    >>> print(formatter.format_output(data, headers))
+    >>> print("\n".join(formatter.format_output(iter(data), headers)))
       id  city       visited
        1  Asgard     True
        2  Camelot    False
@@ -115,13 +115,13 @@ formats, we could::
 
     >>> data = [[1, 1.5], [2, 19.605], [3, 100.0]]
     >>> headers = ['id', 'rating']
-    >>> print(format_output(data, headers, format_name='simple', disable_numparse=True))
+    >>> print("\n".join(format_output(iter(data), headers, format_name='simple', disable_numparse=True)))
     id    rating
     ----  --------
     1     1.5
     2     19.605
     3     100.0
-    >>> print(format_output(data, headers, format_name='simple', disable_numparse=False))
+    >>> print("\n".join(format_output(iter(data), headers, format_name='simple', disable_numparse=False)))
       id    rating
     ----  --------
        1     1.5
@@ -140,7 +140,7 @@ far-fetched example to prove the point::
     >>> step = 3
     >>> data = [range(n, n + step) for n in range(0, 9, step)]
     >>> headers = 'abc'
-    >>> print(format_output(data, headers, format_name='simple'))
+    >>> print("\n".join(format_output(iter(data), headers, format_name='simple')))
       a    b    c
     ---  ---  ---
       0    1    2
