@@ -23,6 +23,41 @@ def test_tabular_output_formatter():
     ]
     expected = dedent(
         """\
+        +-------+---------+
+        | text  | numeric |
+        +-------+---------+
+        | abc   | 1       |
+        | defg  | 11.1    |
+        | hi    | 1.1     |
+        | Pablo | 0       |
+        | ß     |         |
+        +-------+---------+"""
+    )
+
+    print(expected)
+    print(
+        "\n".join(
+            TabularOutputFormatter().format_output(
+                iter(data), headers, format_name="ascii"
+            )
+        )
+    )
+    assert expected == "\n".join(
+        TabularOutputFormatter().format_output(iter(data), headers, format_name="ascii")
+    )
+
+
+def test_tabular_output_escaped():
+    """Test the ascii_escaped output format."""
+    headers = ["text", "numeric"]
+    data = [
+        ["abc", Decimal(1)],
+        ["defg", Decimal("11.1")],
+        ["hi", Decimal("1.1")],
+        ["Pablo\rß\n", 0],
+    ]
+    expected = dedent(
+        """\
         +------------+---------+
         | text       | numeric |
         +------------+---------+
@@ -37,12 +72,14 @@ def test_tabular_output_formatter():
     print(
         "\n".join(
             TabularOutputFormatter().format_output(
-                iter(data), headers, format_name="ascii"
+                iter(data), headers, format_name="ascii_escaped"
             )
         )
     )
     assert expected == "\n".join(
-        TabularOutputFormatter().format_output(iter(data), headers, format_name="ascii")
+        TabularOutputFormatter().format_output(
+            iter(data), headers, format_name="ascii_escaped"
+        )
     )
 
 
