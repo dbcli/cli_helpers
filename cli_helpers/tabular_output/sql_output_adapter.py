@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 
 supported_formats = (
     "sql-insert",
@@ -26,30 +26,30 @@ def adapter(data, headers, table_format=None, **kwargs):
         headers: columns
         table_format: values from supported_formats
         kwargs:
-            tables: parsed from clis
-            delimeter: Character surrounds table name or column name when it conflicts with sql keywords.
+            tables: tuple parsed from clis. Example: (TableReference(schema=None, name='user', alias='"user"', is_function=False),)
+            delimiter: Character surrounds table name or column name when it conflicts with sql keywords.
                        For example, mysql uses ` and postgres uses "
     """
     # tables = extract_tables(formatter.query)
     tables = kwargs.get("tables")
-    delimeter = kwargs.get("delimeter")
-    if not isinstance(delimeter, str):
-        delimeter = '"'
+    delimiter = kwargs.get("delimiter")
+    if not isinstance(delimiter, str):
+        delimiter = '"'
 
-    if isinstance(tables, list) and len(tables) > 0:
+    if tables is not None and len(tables) > 0:
         table = tables[0]
         if table[0]:
             table_name = "{}.{}".format(*table[:2])
         else:
             table_name = table[1]
     else:
-        table_name = '{delimeter}DUAL{delimeter}'.format(delimeter=delimeter)
+        table_name = 'DUAL'.format(delimiter=delimiter)
 
-    header_joiner = '{delimeter}, {delimeter}'.format(delimeter=delimeter)
+    header_joiner = '{delimiter}, {delimiter}'.format(delimiter=delimiter)
     if table_format == "sql-insert":
         h = header_joiner.join(headers)
-        yield 'INSERT INTO {delimeter}{table_name}{delimeter} ({delimeter}{header}{delimeter}) VALUES'.format(
-            table_name=table_name, header=h, delimeter=delimeter)
+        yield 'INSERT INTO {delimiter}{table_name}{delimiter} ({delimiter}{header}{delimiter}) VALUES'.format(
+            table_name=table_name, header=h, delimiter=delimiter)
         prefix = "  "
         for d in data:
             values = ", ".join(escape_for_sql_statement(v) for i, v in enumerate(d))
@@ -63,27 +63,33 @@ def adapter(data, headers, table_format=None, **kwargs):
         if len(s) > 2:
             keys = int(s[-1])
         for d in data:
-            yield 'UPDATE {delimeter}{table_name}{delimeter} SET'.format(table_name=table_name, delimeter=delimeter)
+            yield 'UPDATE {delimiter}{table_name}{delimiter} SET'.format(table_name=table_name, delimiter=delimiter)
             prefix = "  "
             for i, v in enumerate(d[keys:], keys):
-                yield '{prefix}{delimeter}{column}{delimeter} = {value}'.format(
-                    prefix=prefix, delimeter=delimeter, column=headers[i], value=escape_for_sql_statement(v)
+                yield '{prefix}{delimiter}{column}{delimiter} = {value}'.format(
+                    prefix=prefix, delimiter=delimiter, column=headers[i], value=escape_for_sql_statement(v)
                 )
                 if prefix == "  ":
                     prefix = ", "
-            f = '{delimeter}{column}{delimeter}" = {value}'
+            f = '{delimiter}{column}{delimiter} = {value}'
             where = (
-                f.format(delimeter=delimeter, column=headers[i], value=escape_for_sql_statement(d[i]))
+                f.format(delimiter=delimiter, column=headers[i], value=escape_for_sql_statement(d[i]))
                 for i in range(keys)
             )
             yield "WHERE {};".format(" AND ".join(where))
 
 
-
-def register_new_formatter(TabularOutputFormatter):
+def register_new_formatter(TabularOutputFormatter, **kwargs):
+    """
+    Parameters:
+        TabularOutputFormatter: default TabularOutputFormatter imported from cli_helpers
+        kwargs: dict required, with key delimiter and tables required.
+            For example {"delimiter": "`", "tables": ["table_name"]}
+    """
     global formatter
     formatter = TabularOutputFormatter
     for sql_format in supported_formats:
+        kwargs["table_format"] = sql_format
         TabularOutputFormatter.register_new_formatter(
-            sql_format, adapter, preprocessors, {"table_format": sql_format}
+            sql_format, adapter, preprocessors, kwargs
         )
