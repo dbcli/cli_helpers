@@ -1,6 +1,10 @@
 Changelog
 =========
 
+TBD
+-------------
+* don't escape newlines, etc. in ascii tables, and add ascii_escaped table format
+
 Version 2.2.1
 -------------
 

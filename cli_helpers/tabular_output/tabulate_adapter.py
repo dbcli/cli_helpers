@@ -52,8 +52,24 @@ tabulate._table_formats["ascii"] = tabulate.TableFormat(
     with_header_hide=None,
 )
 
+tabulate._table_formats["ascii_escaped"] = tabulate.TableFormat(
+    lineabove=tabulate.Line("+", "-", "+", "+"),
+    linebelowheader=tabulate.Line("+", "-", "+", "+"),
+    linebetweenrows=None,
+    linebelow=tabulate.Line("+", "-", "+", "+"),
+    headerrow=tabulate.DataRow("|", "|", "|"),
+    datarow=tabulate.DataRow("|", "|", "|"),
+    padding=1,
+    with_header_hide=None,
+)
+
 # "minimal" is the same as "plain", but without headers
 tabulate._table_formats["minimal"] = tabulate._table_formats["plain"]
+
+tabulate.multiline_formats["psql_unicode"] = "psql_unicode"
+tabulate.multiline_formats["double"] = "double"
+tabulate.multiline_formats["ascii"] = "ascii"
+tabulate.multiline_formats["minimal"] = "minimal"
 
 supported_markup_formats = (
     "mediawiki",
@@ -66,6 +82,7 @@ supported_markup_formats = (
 )
 supported_table_formats = (
     "ascii",
+    "ascii_escaped",
     "plain",
     "simple",
     "minimal",
@@ -82,7 +99,10 @@ supported_table_formats = (
 
 supported_formats = supported_markup_formats + supported_table_formats
 
-default_kwargs = {"ascii": {"numalign": "left"}}
+default_kwargs = {
+    "ascii": {"numalign": "left"},
+    "ascii_escaped": {"numalign": "left"},
+}
 headless_formats = ("minimal",)
 
 
