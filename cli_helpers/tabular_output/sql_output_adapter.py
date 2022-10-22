@@ -30,9 +30,9 @@ def adapter(data, headers, table_format=None, **kwargs):
             delimiter: Character surrounds table name or column name when it conflicts with sql keywords.
                        For example, mysql uses ` and postgres uses "
     """
-    extract_table_func = kwargs.get('extract_tables')
+    extract_table_func = kwargs.get("extract_tables")
     if not extract_table_func:
-        raise ValueError('extract_tables function should be registered first')
+        raise ValueError("extract_tables function should be registered first")
 
     tables = extract_table_func(formatter.query)
     delimiter = kwargs.get("delimiter")
@@ -46,13 +46,14 @@ def adapter(data, headers, table_format=None, **kwargs):
         else:
             table_name = table[1]
     else:
-        table_name = 'DUAL'.format(delimiter=delimiter)
+        table_name = "DUAL".format(delimiter=delimiter)
 
-    header_joiner = '{delimiter}, {delimiter}'.format(delimiter=delimiter)
+    header_joiner = "{delimiter}, {delimiter}".format(delimiter=delimiter)
     if table_format == "sql-insert":
         h = header_joiner.join(headers)
-        yield 'INSERT INTO {delimiter}{table_name}{delimiter} ({delimiter}{header}{delimiter}) VALUES'.format(
-            table_name=table_name, header=h, delimiter=delimiter)
+        yield "INSERT INTO {delimiter}{table_name}{delimiter} ({delimiter}{header}{delimiter}) VALUES".format(
+            table_name=table_name, header=h, delimiter=delimiter
+        )
         prefix = "  "
         for d in data:
             values = ", ".join(escape_for_sql_statement(v) for i, v in enumerate(d))
@@ -66,17 +67,26 @@ def adapter(data, headers, table_format=None, **kwargs):
         if len(s) > 2:
             keys = int(s[-1])
         for d in data:
-            yield 'UPDATE {delimiter}{table_name}{delimiter} SET'.format(table_name=table_name, delimiter=delimiter)
+            yield "UPDATE {delimiter}{table_name}{delimiter} SET".format(
+                table_name=table_name, delimiter=delimiter
+            )
             prefix = "  "
             for i, v in enumerate(d[keys:], keys):
-                yield '{prefix}{delimiter}{column}{delimiter} = {value}'.format(
-                    prefix=prefix, delimiter=delimiter, column=headers[i], value=escape_for_sql_statement(v)
+                yield "{prefix}{delimiter}{column}{delimiter} = {value}".format(
+                    prefix=prefix,
+                    delimiter=delimiter,
+                    column=headers[i],
+                    value=escape_for_sql_statement(v),
                 )
                 if prefix == "  ":
                     prefix = ", "
-            f = '{delimiter}{column}{delimiter} = {value}'
+            f = "{delimiter}{column}{delimiter} = {value}"
             where = (
-                f.format(delimiter=delimiter, column=headers[i], value=escape_for_sql_statement(d[i]))
+                f.format(
+                    delimiter=delimiter,
+                    column=headers[i],
+                    value=escape_for_sql_statement(d[i]),
+                )
                 for i in range(keys)
             )
             yield "WHERE {};".format(" AND ".join(where))
