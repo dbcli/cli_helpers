@@ -26,12 +26,15 @@ def adapter(data, headers, table_format=None, **kwargs):
         headers: columns
         table_format: values from supported_formats
         kwargs:
-            tables: tuple parsed from clis. Example: (TableReference(schema=None, name='user', alias='"user"', is_function=False),)
+            extract_tables: extract_tables function. For example, in pgcli.packages.parseutils.tables there is a function extract_tables
             delimiter: Character surrounds table name or column name when it conflicts with sql keywords.
                        For example, mysql uses ` and postgres uses "
     """
-    # tables = extract_tables(formatter.query)
-    tables = kwargs.get("tables")
+    extract_table_func = kwargs.get('extract_tables')
+    if not extract_table_func:
+        raise ValueError('extract_tables function should be registered first')
+
+    tables = extract_table_func(formatter.query)
     delimiter = kwargs.get("delimiter")
     if not isinstance(delimiter, str):
         delimiter = '"'
@@ -84,7 +87,7 @@ def register_new_formatter(TabularOutputFormatter, **kwargs):
     Parameters:
         TabularOutputFormatter: default TabularOutputFormatter imported from cli_helpers
         kwargs: dict required, with key delimiter and tables required.
-            For example {"delimiter": "`", "tables": ["table_name"]}
+            For example {"delimiter": "`", "extact_tables": extract_tables}
     """
     global formatter
     formatter = TabularOutputFormatter

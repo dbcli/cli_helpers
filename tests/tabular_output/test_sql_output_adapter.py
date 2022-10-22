@@ -25,6 +25,19 @@ def test_escape_for_sql_statement_bytes():
     assert escaped_bytes == "X'383337313234616233653864633066'"
 
 
+def __mock_extract_tables(sql):
+    """
+    mock function for extract tables
+    in mycli, pass `mycli.packages.parseutils.extract_tables`
+    in pgcli, pass `pgcli.packages.parseutils.extract_tables`
+
+    :param sql: sql query
+    :return:
+    """
+    table_refs = (TableReference(schema=None, name='user', alias='"user"', is_function=False),)
+    return table_refs
+
+
 def test_output_sql_insert():
     global formatter
     formatter = TabularOutputFormatter
@@ -42,7 +55,6 @@ def test_output_sql_insert():
     ]
     header = ["id", "name", "email", "phone", "description", "created_at", "updated_at"]
     table_format = "sql-insert"
-    table_refs = (TableReference(schema=None, name='user', alias='"user"', is_function=False),)
     kwargs = {
         "column_types": [int, str, str, str, str, str, str],
         "sep_title": "RECORD {n}",
@@ -54,7 +66,7 @@ def test_output_sql_insert():
         "disable_numparse": True,
         "preserve_whitespace": True,
         "max_field_width": 500,
-        "tables": table_refs,
+        "extract_tables": __mock_extract_tables,
     }
 
     formatter.query = 'SELECT * FROM "user";'
@@ -112,7 +124,7 @@ def test_output_sql_update_pg():
         "disable_numparse": True,
         "preserve_whitespace": True,
         "max_field_width": 500,
-        "tables": table_refs,
+        "extract_tables": __mock_extract_tables,
     }
     formatter.query = 'SELECT * FROM "user";'
     # For postgresql
