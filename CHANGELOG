@@ -1,156 +1,134 @@
-Changelog
-=========
+# Changelog
 
-Version 2.3.0
--------------
-* Don't escape newlines in `ascii` tables, and add `ascii_escaped` table format.
-* Updated tabulate version to latest, to fix ImportError in pgcli.
+## Version 2.3.1
 
-Version 2.2.1
--------------
+- Don't escape newlines in `ascii` tables, and add `ascii_escaped` table format.
+- Updated tabulate version to latest, to fix ImportError in pgcli.
+
+## Version 2.2.1
 
 (released on 2022-01-17)
 
-* Fix pygments tokens passed as strings
+- Fix pygments tokens passed as strings
 
-Version 2.2.0
--------------
+## Version 2.2.0
 
 (released on 2021-08-27)
 
-* Remove dependency on terminaltables
-* Add psql_unicode table format
-* Add minimal table format
-* Fix pip2 installing py3-only versions
-* Format unprintable bytes (eg 0x00, 0x01) as hex
+- Remove dependency on terminaltables
+- Add psql_unicode table format
+- Add minimal table format
+- Fix pip2 installing py3-only versions
+- Format unprintable bytes (eg 0x00, 0x01) as hex
 
-Version 2.1.0
--------------
+## Version 2.1.0
 
 (released on 2020-07-29)
 
-* Speed up output styling of tables.
+- Speed up output styling of tables.
 
-Version 2.0.1
--------------
+## Version 2.0.1
 
 (released on 2020-05-27)
 
-* Fix newline escaping in plain-text formatters (ascii, double, github)
-* Use built-in unittest.mock instead of mock.
+- Fix newline escaping in plain-text formatters (ascii, double, github)
+- Use built-in unittest.mock instead of mock.
 
-Version 2.0.0
--------------
+## Version 2.0.0
 
 (released on 2020-05-26)
 
-* Remove Python 2.7 and 3.5.
-* Style config for missing value.
+- Remove Python 2.7 and 3.5.
+- Style config for missing value.
 
-Version 1.2.1
--------------
+## Version 1.2.1
 
 (released on 2019-06-09)
 
-* Pin Pygments to >= 2.4.0 for tests.
-* Remove Python 3.4 from tests and Trove classifier.
-* Add an option to skip truncating multi-line strings.
-* When truncating long strings, add ellipsis.
+- Pin Pygments to >= 2.4.0 for tests.
+- Remove Python 3.4 from tests and Trove classifier.
+- Add an option to skip truncating multi-line strings.
+- When truncating long strings, add ellipsis.
 
-Version 1.2.0
--------------
+## Version 1.2.0
 
 (released on 2019-04-05)
 
-* Fix issue with writing non-ASCII characters to config files.
-* Run tests on Python 3.7.
-* Use twine check during packaging tests.
-* Rename old tsv format to csv-tab (because it add quotes), introduce new tsv output adapter.
-* Truncate long fields for tabular display.
-* Return the supported table formats as unicode.
-* Override tab with 4 spaces for terminal tables.
+- Fix issue with writing non-ASCII characters to config files.
+- Run tests on Python 3.7.
+- Use twine check during packaging tests.
+- Rename old tsv format to csv-tab (because it add quotes), introduce new tsv output adapter.
+- Truncate long fields for tabular display.
+- Return the supported table formats as unicode.
+- Override tab with 4 spaces for terminal tables.
 
-Version 1.1.0
--------------
+## Version 1.1.0
 
 (released on 2018-10-18)
 
-* Adds config file reading/writing.
-* Style formatted tables with Pygments (optional).
+- Adds config file reading/writing.
+- Style formatted tables with Pygments (optional).
 
-Version 1.0.2
--------------
+## Version 1.0.2
 
 (released on 2018-04-07)
 
-* Copy unit test from pgcli
-* Use safe float for unit test
-* Move strip_ansi from tests.utils to cli_helpers.utils
+- Copy unit test from pgcli
+- Use safe float for unit test
+- Move strip_ansi from tests.utils to cli_helpers.utils
 
-Version 1.0.1
--------------
+## Version 1.0.1
 
 (released on 2017-11-27)
 
-* Output all unicode for terminaltables, add unit test.
+- Output all unicode for terminaltables, add unit test.
 
-Version 1.0.0
--------------
+## Version 1.0.0
 
 (released on 2017-10-11)
 
-* Output as generator
-* Use backports.csv only for py2
-* Require tabulate as a dependency instead of using vendored module.
-* Drop support for Python 3.3.
+- Output as generator
+- Use backports.csv only for py2
+- Require tabulate as a dependency instead of using vendored module.
+- Drop support for Python 3.3.
 
-
-Version 0.2.3
--------------
+## Version 0.2.3
 
 (released on 2017-08-01)
 
-* Fix unicode error on Python 2 with newlines in output row.
-* Fixes to accept iterator.
+- Fix unicode error on Python 2 with newlines in output row.
+- Fixes to accept iterator.
 
-
-Version 0.2.2
--------------
+## Version 0.2.2
 
 (released on 2017-07-16)
 
-* Fix IndexError from being raised with uneven rows.
+- Fix IndexError from being raised with uneven rows.
 
-
-Version 0.2.1
--------------
+## Version 0.2.1
 
 (released on 2017-07-11)
 
-* Run tests on macOS via Travis.
-* Fix unicode issues on Python 2 (csv and styling output).
+- Run tests on macOS via Travis.
+- Fix unicode issues on Python 2 (csv and styling output).
 
-
-Version 0.2.0
--------------
+## Version 0.2.0
 
 (released on 2017-06-23)
 
-* Make vertical table separator more customizable.
-* Add format numbers preprocessor.
-* Add test coverage reports.
-* Add ability to pass additional preprocessors when formatting output.
-* Don't install tests.tabular_output.
-* Add .gitignore
-* Coverage for tox tests.
-* Style formatted output with Pygments (optional).
-* Fix issue where tabulate can't handle ANSI escape codes in default values.
-* Run tests on Windows via Appveyor.
+- Make vertical table separator more customizable.
+- Add format numbers preprocessor.
+- Add test coverage reports.
+- Add ability to pass additional preprocessors when formatting output.
+- Don't install tests.tabular_output.
+- Add .gitignore
+- Coverage for tox tests.
+- Style formatted output with Pygments (optional).
+- Fix issue where tabulate can't handle ANSI escape codes in default values.
+- Run tests on Windows via Appveyor.
 
-
-Version 0.1.0
--------------
+## Version 0.1.0
 
 (released on 2017-05-01)
 
-* Pretty print tabular data using a variety of formatting libraries.
+- Pretty print tabular data using a variety of formatting libraries.
