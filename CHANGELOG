@@ -1,9 +1,10 @@
 Changelog
 =========
 
-TBD
+Version 2.3.0
 -------------
-* don't escape newlines, etc. in ascii tables, and add ascii_escaped table format
+* Don't escape newlines in `ascii` tables, and add `ascii_escaped` table format.
+* Updated tabulate version to latest, to fix ImportError in pgcli.
 
 Version 2.2.1
 -------------
