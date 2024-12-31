@@ -16,6 +16,7 @@ from cli_helpers.tabular_output.preprocessors import (
     override_tab_value,
     style_output,
     format_numbers,
+    format_timestamps,
 )
 
 if HAS_PYGMENTS:
@@ -348,3 +349,25 @@ def test_enforce_iterable():
             assert False, "{} doesn't return iterable".format(name)
         if isinstance(preprocessed[1], types.GeneratorType):
             assert False, "{} returns headers as iterator".format(name)
+
+
+def test_format_timestamps():
+    data = (
+        ("name1", "2024-12-13T18:32:22", "2024-12-13T19:32:22", "2024-12-13T20:32:22"),
+        ("name2", "2025-02-13T02:32:22", "2025-02-13T02:32:22", "2025-02-13T02:32:22"),
+        ("name3", None, "not-actually-timestamp", "2025-02-13T02:32:22"),
+    )
+    headers = ["name", "date_col", "datetime_col", "unchanged_col"]
+    column_date_formats = {
+        "date_col": "%Y-%m-%d",
+        "datetime_col": "%I:%M:%S %m/%d/%y",
+    }
+    result_data, result_headers = format_timestamps(data, headers, column_date_formats)
+
+    expected = [
+        ["name1", "2024-12-13", "07:32:22 12/13/24", "2024-12-13T20:32:22"],
+        ["name2", "2025-02-13", "02:32:22 02/13/25", "2025-02-13T02:32:22"],
+        ["name3", None, "not-actually-timestamp", "2025-02-13T02:32:22"],
+    ]
+    assert expected == list(result_data)
+    assert headers == result_headers
