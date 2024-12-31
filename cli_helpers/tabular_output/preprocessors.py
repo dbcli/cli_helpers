@@ -125,9 +125,11 @@ def escape_newlines(data, headers, **_):
     return (
         (
             [
-                v.replace("\r", r"\r").replace("\n", r"\n")
-                if isinstance(v, text_type)
-                else v
+                (
+                    v.replace("\r", r"\r").replace("\n", r"\n")
+                    if isinstance(v, text_type)
+                    else v
+                )
                 for v in row
             ]
             for row in data
