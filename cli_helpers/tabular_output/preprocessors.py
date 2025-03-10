@@ -2,6 +2,7 @@
 """These preprocessor functions are used to process data prior to output."""
 
 import string
+from datetime import datetime
 
 from cli_helpers import utils
 from cli_helpers.compat import text_type, int_types, float_types, HAS_PYGMENTS, Token
@@ -125,9 +126,11 @@ def escape_newlines(data, headers, **_):
     return (
         (
             [
-                v.replace("\r", r"\r").replace("\n", r"\n")
-                if isinstance(v, text_type)
-                else v
+                (
+                    v.replace("\r", r"\r").replace("\n", r"\n")
+                    if isinstance(v, text_type)
+                    else v
+                )
                 for v in row
             ]
             for row in data
@@ -349,5 +352,46 @@ def format_numbers(
 
     data = (
         [_format_number(v, column_types[i]) for i, v in enumerate(row)] for row in data
+    )
+    return data, headers
+
+
+def format_timestamps(data, headers, column_date_formats=None, **_):
+    """Format timestamps according to user preference.
+
+    This allows for per-column formatting for date, time, or datetime like data.
+
+    Add a `column_date_formats` section to your config file with separate lines for each column
+    that you'd like to specify a format using `name=format`. Use standard Python strftime
+    formatting strings
+
+    Example: `signup_date = "%Y-%m-%d"`
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :param str column_date_format: The format strings to use for specific columns.
+    :return: The processed data and headers.
+    :rtype: tuple
+
+    """
+    if column_date_formats is None:
+        return iter(data), headers
+
+    def _format_timestamp(value, name, column_date_formats):
+        if name not in column_date_formats:
+            return value
+        try:
+            dt = datetime.fromisoformat(value)
+            return dt.strftime(column_date_formats[name])
+        except (ValueError, TypeError):
+            # not a date
+            return value
+
+    data = (
+        [
+            _format_timestamp(v, headers[i], column_date_formats)
+            for i, v in enumerate(row)
+        ]
+        for row in data
     )
     return data, headers
