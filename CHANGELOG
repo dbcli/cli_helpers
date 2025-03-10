@@ -1,7 +1,8 @@
 # Changelog
 
-TBD
----
+## Version 2.4.0
+
+(released on 2025-03-10)
 
 - Added format_timestamps preprocessor for per-column date/time formatting.
 
