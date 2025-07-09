@@ -1,6 +1,7 @@
 # Changelog
 
 - Added noheader CSV and TSV output formats.
+- Added `jsonl` and `jsonl_escaped` output formats.
 
 ## Version 2.4.0
 
