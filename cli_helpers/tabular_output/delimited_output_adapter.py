@@ -8,7 +8,7 @@ from cli_helpers.compat import csv, StringIO
 from cli_helpers.utils import filter_dict_by_key
 from .preprocessors import bytes_to_string, override_missing_value
 
-supported_formats = ("csv", "csv-tab")
+supported_formats = ("csv", "csv-tab", "csv-noheader", "csv-tab-noheader")
 preprocessors = (override_missing_value, bytes_to_string)
 
 
@@ -35,9 +35,9 @@ def adapter(data, headers, table_format="csv", **kwargs):
         "skipinitialspace",
         "strict",
     )
-    if table_format == "csv":
+    if table_format in ("csv", "csv-noheader"):
         delimiter = ","
-    elif table_format == "csv-tab":
+    elif table_format in ("csv-tab", "csv-tab-noheader"):
         delimiter = "\t"
     else:
         raise ValueError("Invalid table_format specified.")
@@ -47,8 +47,9 @@ def adapter(data, headers, table_format="csv", **kwargs):
 
     l = linewriter()
     writer = csv.writer(l, **ckwargs)
-    writer.writerow(headers)
-    yield l.line
+    if "noheader" not in table_format:
+        writer.writerow(headers)
+        yield l.line
 
     for row in data:
         l.reset()

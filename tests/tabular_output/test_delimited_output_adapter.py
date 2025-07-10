@@ -42,6 +42,36 @@ def test_csv_wrapper():
         list(output)
 
 
+def test_csv_noheader_wrapper():
+    """Test the delimited output adapter without headers."""
+    # Test comma-delimited output.
+    data = [["abc", "1"], ["d", "456"]]
+    headers = ["letters", "number"]
+    output = delimited_output_adapter.adapter(
+        iter(data),
+        headers,
+        table_format="csv-noheader",
+        dialect="unix",
+    )
+    assert "\n".join(output) == dedent(
+        '''\
+        "abc","1"\n\
+        "d","456"'''
+    )
+
+    # Test tab-delimited output.
+    data = [["abc", "1"], ["d", "456"]]
+    headers = ["letters", "number"]
+    output = delimited_output_adapter.adapter(
+        iter(data), headers, table_format="csv-tab-noheader", dialect="unix"
+    )
+    assert "\n".join(output) == dedent(
+        '''\
+        "abc"\t"1"\n\
+        "d"\t"456"'''
+    )
+
+
 def test_unicode_with_csv():
     """Test that the csv wrapper can handle non-ascii characters."""
     data = [["观音", "1"], ["Ποσειδῶν", "456"]]

@@ -23,6 +23,19 @@ def test_tsv_wrapper():
     )
 
 
+def test_tsv_headerless_wrapper():
+    """Test the tsv headerless_output adapter."""
+    # Test tab-delimited output.
+    data = [["ab\r\nc", "1"], ["d", "456"]]
+    headers = ["letters", "number"]
+    output = tsv_output_adapter.adapter(iter(data), headers, table_format="tsv_noheader")
+    assert "\n".join(output) == dedent(
+        """\
+        ab\r\\nc\t1\n\
+        d\t456"""
+    )
+
+
 def test_unicode_with_tsv():
     """Test that the tsv wrapper can handle non-ascii characters."""
     data = [["观音", "1"], ["Ποσειδῶν", "456"]]

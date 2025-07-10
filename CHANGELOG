@@ -1,5 +1,7 @@
 # Changelog
 
+- Added noheader CSV and TSV output formats.
+
 ## Version 2.4.0
 
 (released on 2025-03-10)

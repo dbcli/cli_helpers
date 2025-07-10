@@ -7,11 +7,17 @@ from .preprocessors import bytes_to_string, override_missing_value, convert_to_s
 from itertools import chain
 from cli_helpers.utils import replace
 
-supported_formats = ("tsv",)
+supported_formats = ("tsv", "tsv_noheader")
 preprocessors = (override_missing_value, bytes_to_string, convert_to_string)
 
 
-def adapter(data, headers, **kwargs):
+def adapter(data, headers, table_format="tsv", **kwargs):
     """Wrap the formatting inside a function for TabularOutputFormatter."""
-    for row in chain((headers,), data):
-        yield "\t".join((replace(r, (("\n", r"\n"), ("\t", r"\t"))) for r in row))
+    if table_format == "tsv":
+        for row in chain((headers,), data):
+            yield "\t".join((replace(r, (("\n", r"\n"), ("\t", r"\t"))) for r in row))
+    elif table_format == "tsv_noheader":
+        for row in data:
+            yield "\t".join((replace(r, (("\n", r"\n"), ("\t", r"\t"))) for r in row))
+    else:
+        raise ValueError(f"Invalid table_format specified: {table_format}.")
