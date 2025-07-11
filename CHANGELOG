@@ -1,5 +1,8 @@
 # Changelog
 
+- Register the JSON formats so they are actually usable.
+- Make JSON formats able to encode Decimals and None/NULLs.
+	
 ## Version 2.5.0
 
 - Added noheader CSV and TSV output formats.

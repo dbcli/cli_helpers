@@ -1,13 +1,22 @@
 # -*- coding: utf-8 -*-
 """A JSON data output adapter"""
 
+from decimal import Decimal
 from itertools import chain
 import json
 
-from .preprocessors import bytes_to_string, override_missing_value, convert_to_string
+from .preprocessors import bytes_to_string
 
 supported_formats = ("jsonl", "jsonl_escaped")
-preprocessors = (override_missing_value, bytes_to_string, convert_to_string)
+preprocessors = (bytes_to_string,)
+
+
+class CustomEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, Decimal):
+            return float(o)
+        else:
+            return super(CustomEncoder, self).default(o)
 
 
 def adapter(data, headers, table_format="jsonl", **_kwargs):
@@ -22,6 +31,7 @@ def adapter(data, headers, table_format="jsonl", **_kwargs):
     for row in chain(data):
         yield json.dumps(
             dict(zip(headers, row, strict=True)),
+            cls=CustomEncoder,
             separators=(",", ":"),
             ensure_ascii=ensure_ascii,
         )
