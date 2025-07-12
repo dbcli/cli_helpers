@@ -17,6 +17,7 @@ from . import (
     vertical_table_adapter,
     tabulate_adapter,
     tsv_output_adapter,
+    json_output_adapter,
 )
 from decimal import Decimal
 
@@ -252,4 +253,15 @@ for tsv_format in tsv_output_adapter.supported_formats:
         tsv_output_adapter.adapter,
         tsv_output_adapter.preprocessors,
         {"table_format": tsv_format, "missing_value": "", "max_field_width": None},
+    )
+
+for json_format in json_output_adapter.supported_formats:
+    TabularOutputFormatter.register_new_formatter(
+        json_format,
+        json_output_adapter.adapter,
+        json_output_adapter.preprocessors,
+        {
+            "table_format": json_format,
+            "max_field_width": None,
+        },
     )

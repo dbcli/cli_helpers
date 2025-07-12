@@ -177,6 +177,13 @@ def test_unsupported_format():
         formatter.format_output((), (), format_name="foobar")
 
 
+def test_supported_json_formats():
+    """Test that the JSONl formats are known."""
+    formatter = TabularOutputFormatter()
+    assert "jsonl" in formatter.supported_formats
+    assert "jsonl_escaped" in formatter.supported_formats
+
+
 def test_tabulate_ansi_escape_in_default_value():
     """Test that ANSI escape codes work with tabulate."""
 

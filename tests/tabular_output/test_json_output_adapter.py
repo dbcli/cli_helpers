@@ -3,6 +3,8 @@
 
 from __future__ import unicode_literals
 
+from decimal import Decimal
+
 from cli_helpers.tabular_output import json_output_adapter
 
 
@@ -26,6 +28,28 @@ def test_unicode_with_jsonl():
     assert (
         "\n".join(output)
         == """{"letters":"观音","number":1}\n{"letters":"Ποσειδῶν","number":456}"""
+    )
+
+
+def test_decimal_with_jsonl():
+    """Test that the jsonl wrapper can pass through Decimal values."""
+    data = [["ab\r\nc", 1], ["d", Decimal(4.56)]]
+    headers = ["letters", "number"]
+    output = json_output_adapter.adapter(iter(data), headers, table_format="jsonl")
+    assert (
+        "\n".join(output)
+        == """{"letters":"ab\\r\\nc","number":1}\n{"letters":"d","number":4.56}"""
+    )
+
+
+def test_null_with_jsonl():
+    """Test that the jsonl wrapper can pass through null values."""
+    data = [["ab\r\nc", None], ["d", None]]
+    headers = ["letters", "value"]
+    output = json_output_adapter.adapter(iter(data), headers, table_format="jsonl")
+    assert (
+        "\n".join(output)
+        == """{"letters":"ab\\r\\nc","value":null}\n{"letters":"d","value":null}"""
     )
 
 
