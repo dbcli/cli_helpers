@@ -1,11 +1,21 @@
 # Changelog
 
+## Version 2.7.0
+
+(released on 2025-07-28)
+
+- Add `mysql` and `mysql_unicode` output formats which right-align numbers.
+
 ## Version 2.6.0
+
+(released on 2025-07-12)
 
 - Register the JSON formats so they are actually usable.
 - Make JSON formats able to encode Decimals and None/NULLs.
 
 ## Version 2.5.0
+
+(released on 2025-07-10)
 
 - Added noheader CSV and TSV output formats.
 - Added `jsonl` and `jsonl_escaped` output formats.

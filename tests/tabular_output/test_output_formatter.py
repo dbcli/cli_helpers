@@ -83,6 +83,78 @@ def test_tabular_output_escaped():
     )
 
 
+def test_tabular_output_mysql():
+    """Test the mysql output format."""
+    headers = ["text", "numeric"]
+    data = [
+        ["abc", Decimal(1)],
+        ["defg", Decimal("11.1")],
+        ["hi", Decimal("1.1")],
+        ["Pablo\rß\n", 0],
+    ]
+    expected = dedent(
+        """\
+        +-------+---------+
+        | text  | numeric |
+        +-------+---------+
+        | abc   |       1 |
+        | defg  |    11.1 |
+        | hi    |     1.1 |
+        | Pablo |       0 |
+        | ß     |         |
+        +-------+---------+"""
+    )
+
+    print(expected)
+    print(
+        "\n".join(
+            TabularOutputFormatter().format_output(
+                iter(data), headers, format_name="mysql"
+            )
+        )
+    )
+    assert expected == "\n".join(
+        TabularOutputFormatter().format_output(iter(data), headers, format_name="mysql")
+    )
+
+
+def test_tabular_output_mysql_unicode():
+    """Test the mysql_unicode output format."""
+    headers = ["text", "numeric"]
+    data = [
+        ["abc", Decimal(1)],
+        ["defg", Decimal("11.1")],
+        ["hi", Decimal("1.1")],
+        ["Pablo\rß\n", 0],
+    ]
+    expected = dedent(
+        """\
+        ┌───────┬─────────┐
+        │ text  │ numeric │
+        ├───────┼─────────┤
+        │ abc   │       1 │
+        │ defg  │    11.1 │
+        │ hi    │     1.1 │
+        │ Pablo │       0 │
+        │ ß     │         │
+        └───────┴─────────┘"""
+    )
+
+    print(expected)
+    print(
+        "\n".join(
+            TabularOutputFormatter().format_output(
+                iter(data), headers, format_name="mysql_unicode"
+            )
+        )
+    )
+    assert expected == "\n".join(
+        TabularOutputFormatter().format_output(
+            iter(data), headers, format_name="mysql_unicode"
+        )
+    )
+
+
 def test_tabular_format_output_wrapper():
     """Test the format_output wrapper."""
     data = [["1", None], ["2", "Sam"], ["3", "Joe"]]
