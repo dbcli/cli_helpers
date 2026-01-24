@@ -225,7 +225,14 @@ def style_output_table(format_name=""):
 
 def adapter(data, headers, table_format=None, preserve_whitespace=False, **kwargs):
     """Wrap tabulate inside a function for TabularOutputFormatter."""
-    keys = ("floatfmt", "numalign", "stralign", "showindex", "disable_numparse")
+    keys = (
+        "floatfmt",
+        "numalign",
+        "stralign",
+        "showindex",
+        "disable_numparse",
+        "colalign",
+    )
     tkwargs = {"tablefmt": table_format}
     tkwargs.update(filter_dict_by_key(kwargs, keys))
 

@@ -42,6 +42,24 @@ def test_tabulate_wrapper():
         └─────────┴────────┘"""
     )
 
+    data = [["abc", 1], ["d", 456]]
+    headers = ["letters", "number"]
+    output = tabulate_adapter.adapter(
+        iter(data),
+        headers,
+        colalign=["left", "left"],
+        table_format="psql_unicode",
+    )
+    assert "\n".join(output) == dedent(
+        """\
+        ┌─────────┬────────┐
+        │ letters │ number │
+        ├─────────┼────────┤
+        │ abc     │ 1      │
+        │ d       │ 456    │
+        └─────────┴────────┘"""
+    )
+
     data = [["{1,2,3}", "{{1,2},{3,4}}", "{å,魚,текст}"], ["{}", "<null>", "{<null>}"]]
     headers = ["bigint_array", "nested_numeric_array", "配列"]
     output = tabulate_adapter.adapter(iter(data), headers, table_format="psql")
