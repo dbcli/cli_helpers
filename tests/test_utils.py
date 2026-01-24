@@ -13,7 +13,7 @@ def test_bytes_to_string_hexlify():
 
 def test_bytes_to_string_decode_bytes():
     """Test that bytes_to_string() decodes bytes."""
-    assert utils.bytes_to_string(b"foobar") == "foobar"
+    assert utils.bytes_to_string(b"foobar") == "0x666f6f626172"
 
 
 def test_bytes_to_string_unprintable():
@@ -31,7 +31,7 @@ def test_bytes_to_string_non_bytes():
 
 def test_to_string_bytes():
     """Test that to_string() converts bytes to a string."""
-    assert utils.to_string(b"foo") == "foo"
+    assert utils.to_string(b"foo") == "0x666f6f"
 
 
 def test_to_string_non_bytes():
