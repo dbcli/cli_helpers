@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.8.0
+
+(released on 2026-01-24)
+
+- Pass `colalign` argument through to `tabulate`.
+
 ## Version 2.7.0
 
 (released on 2025-07-28)
