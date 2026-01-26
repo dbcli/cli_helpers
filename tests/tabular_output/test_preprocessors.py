@@ -84,7 +84,7 @@ def test_bytes_to_string():
     """Test the bytes_to_string() function."""
     data = [[1, "John"], [2, b"Jill"]]
     headers = [0, "name"]
-    expected = ([[1, "John"], [2, "0x4a696c6c"]], [0, "name"])
+    expected = ([[1, "John"], [2, "Jill"]], [0, "name"])
     results = bytes_to_string(data, headers)
 
     assert expected == (list(results[0]), results[1])
