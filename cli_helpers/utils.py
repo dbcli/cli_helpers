@@ -34,10 +34,34 @@ def bytes_to_string(b):
     return b
 
 
+def to_hex_if_bin(b):
+    """Convert bytes *b* to a string.
+
+    Pass b through if not bytes.
+
+    """
+    if isinstance(b, binary_type):
+        return "0x" + binascii.hexlify(b).decode("ascii")
+    return b
+
+
 def to_string(value):
     """Convert *value* to a string."""
     if isinstance(value, binary_type):
         return bytes_to_string(value)
+    else:
+        return text_type(value)
+
+
+def to_undecoded_string(value):
+    """Convert *value* to an undecoded string, respecting Nones."""
+    # preserve Nones so that
+    # * this can run before override_missing_value when stringifying
+    # * Nones are preserved in formats such as CSV
+    if value is None:
+        return None
+    elif isinstance(value, binary_type):
+        return to_hex_if_bin(value)
     else:
         return text_type(value)
 

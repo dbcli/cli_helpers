@@ -55,6 +55,26 @@ def convert_to_string(data, headers, **_):
     )
 
 
+def convert_to_undecoded_string(data, headers, **_):
+    """Convert all *data* and *headers* to hex, if needed.
+
+    Binary data is converted to a hexadecimal representation via
+    :func:`binascii.hexlify`.
+
+    Unlike convert_to_string(), None values are left as Nones.
+
+    :param iterable data: An :term:`iterable` (e.g. list) of rows.
+    :param iterable headers: The column headers.
+    :return: The processed data and headers.
+    :rtype: tuple
+
+    """
+    return (
+        ([utils.to_undecoded_string(v) for v in row] for row in data),
+        [utils.to_undecoded_string(h) for h in headers],
+    )
+
+
 def override_missing_value(
     data,
     headers,
