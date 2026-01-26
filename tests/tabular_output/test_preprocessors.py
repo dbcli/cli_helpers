@@ -11,6 +11,7 @@ from cli_helpers.tabular_output.preprocessors import (
     align_decimals,
     bytes_to_string,
     convert_to_string,
+    convert_to_undecoded_string,
     quote_whitespaces,
     override_missing_value,
     override_tab_value,
@@ -34,6 +35,16 @@ def test_convert_to_string():
     headers = [0, "name"]
     expected = ([["1", "John"], ["2", "Jill"]], ["0", "name"])
     results = convert_to_string(data, headers)
+
+    assert expected == (list(results[0]), results[1])
+
+
+def test_convert_to_undecoded_string():
+    """Test the convert_to_undecoded_string() function."""
+    data = [[1, "John"], [2, b"Jill"], [3, None]]
+    headers = [0, "name"]
+    expected = ([["1", "John"], ["2", "0x4a696c6c"], ["3", None]], ["0", "name"])
+    results = convert_to_undecoded_string(data, headers)
 
     assert expected == (list(results[0]), results[1])
 

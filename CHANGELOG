@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.9.0
+
+(released on 2026-01-26)
+
+- Add optional `convert_to_undecoded_string` preprocessor.
+
 ## Version 2.8.2
 
 (released on 2026-01-26)
