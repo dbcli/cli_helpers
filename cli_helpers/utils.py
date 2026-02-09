@@ -2,6 +2,7 @@
 """Various utility functions and helpers."""
 
 import binascii
+import os
 import re
 from functools import lru_cache
 from typing import Dict
@@ -11,7 +12,13 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from pygments.style import StyleMeta
 
-from cli_helpers.compat import binary_type, text_type, Terminal256Formatter, StringIO
+from cli_helpers.compat import (
+    binary_type,
+    text_type,
+    Terminal256Formatter,
+    TerminalTrueColorFormatter,
+    StringIO,
+)
 
 
 def bytes_to_string(b):
@@ -112,8 +119,11 @@ def replace(s, replace):
 
 
 @lru_cache()
-def _get_formatter(style) -> Terminal256Formatter:
-    return Terminal256Formatter(style=style)
+def _get_formatter(style) -> Terminal256Formatter | TerminalTrueColorFormatter:
+    if "truecolor" in os.getenv("COLORTERM", "").lower():
+        return TerminalTrueColorFormatter(style=style)
+    else:
+        return Terminal256Formatter(style=style)
 
 
 def style_field(token, field, style):

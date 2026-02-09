@@ -3,8 +3,15 @@
 
 from __future__ import unicode_literals
 
+import os
+
 from cli_helpers.utils import filter_dict_by_key
-from cli_helpers.compat import Terminal256Formatter, Token, StringIO
+from cli_helpers.compat import (
+    Terminal256Formatter,
+    TerminalTrueColorFormatter,
+    Token,
+    StringIO,
+)
 from .preprocessors import (
     convert_to_string,
     truncate_string,
@@ -193,7 +200,10 @@ def style_output_table(format_name=""):
 
         """
         if style and HAS_PYGMENTS and format_name in supported_table_formats:
-            formatter = Terminal256Formatter(style=style)
+            if "truecolor" in os.getenv("COLORTERM", "").lower():
+                formatter = TerminalTrueColorFormatter(style=style)
+            else:
+                formatter = Terminal256Formatter(style=style)
 
             def style_field(token, field):
                 """Get the styled text for a *field* using *token* type."""
