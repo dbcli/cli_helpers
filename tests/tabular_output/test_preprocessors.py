@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 from decimal import Decimal
+import os
 
 import pytest
 
@@ -27,6 +28,12 @@ if HAS_PYGMENTS:
 import inspect
 import cli_helpers.tabular_output.preprocessors
 import types
+
+
+@pytest.fixture
+def TwoFiftySixColor():
+    # todo: finalize this fixture by resetting the env value
+    os.environ["COLORTERM"] = ""
 
 
 def test_convert_to_string():
@@ -60,7 +67,7 @@ def test_override_missing_values():
 
 
 @pytest.mark.skipif(not HAS_PYGMENTS, reason="requires the Pygments library")
-def test_override_missing_value_with_style():
+def test_override_missing_value_with_style(TwoFiftySixColor):
     """Test that *override_missing_value()* styles output."""
 
     class NullStyle(Style):
@@ -185,7 +192,7 @@ def test_style_output_no_pygments():
 
 
 @pytest.mark.skipif(not HAS_PYGMENTS, reason="requires the Pygments library")
-def test_style_output():
+def test_style_output(TwoFiftySixColor):
     """Test that *style_output()* styles output."""
 
     class CliStyle(Style):
@@ -210,7 +217,7 @@ def test_style_output():
 
 
 @pytest.mark.skipif(not HAS_PYGMENTS, reason="requires the Pygments library")
-def test_style_output_with_newlines():
+def test_style_output_with_newlines(TwoFiftySixColor):
     """Test that *style_output()* styles output with newlines in it."""
 
     class CliStyle(Style):
@@ -238,7 +245,7 @@ def test_style_output_with_newlines():
 
 
 @pytest.mark.skipif(not HAS_PYGMENTS, reason="requires the Pygments library")
-def test_style_output_custom_tokens():
+def test_style_output_custom_tokens(TwoFiftySixColor):
     """Test that *style_output()* styles output with custom token names."""
 
     class CliStyle(Style):

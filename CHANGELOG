@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.10.0
+
+(released on 2026-02-09)
+
+- Allow TrueColor Pygments formatters, based on the `COLORTERM` env variable.
+
 ## Version 2.9.0
 
 (released on 2026-01-26)

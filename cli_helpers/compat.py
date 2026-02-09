@@ -36,10 +36,14 @@ else:
 HAS_PYGMENTS = True
 try:
     from pygments.token import Token
-    from pygments.formatters.terminal256 import Terminal256Formatter
+    from pygments.formatters.terminal256 import (
+        TerminalTrueColorFormatter,
+        Terminal256Formatter,
+    )
 except ImportError:
     HAS_PYGMENTS = False
     Terminal256Formatter = None
+    TerminalTrueColorFormatter = None
     Token = SimpleNamespace()
     Token.Output = SimpleNamespace()
     Token.Output.Header = None
