@@ -4,7 +4,8 @@
 
 (released on TBD)
 
-- Update license dates
+- Update license dates.
+- Change `master` branch references to `main`.
 
 ## Version 2.10.0
 
