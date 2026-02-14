@@ -39,14 +39,14 @@ Ready to contribute? Here's how to set up CLI Helpers for local development.
     $ pip install -r requirements-dev.txt
     $ pip install --editable .
 
-6. Create a branch for your bugfix or feature based off the ``master`` branch::
+6. Create a branch for your bugfix or feature based off the ``main`` branch::
 
-    $ git checkout -b <name-of-bugfix-or-feature> master
+    $ git checkout -b <name-of-bugfix-or-feature> main
 
 7. While you work on your bugfix or feature, be sure to pull the latest changes from ``upstream``.
    This ensures that your local codebase is up-to-date::
 
-    $ git pull upstream master
+    $ git pull upstream main
 
 8. When your work is ready for the CLI Helpers team to review it,
    make sure to add an entry to CHANGELOG file, and add your name to the AUTHORS file.
