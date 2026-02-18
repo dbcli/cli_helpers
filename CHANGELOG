@@ -1,11 +1,12 @@
 # Changelog
 
-## Upcoming
+## Version 2.10.1
 
-(released on TBD)
+(released on 2025-02-18)
 
 - Update license dates.
 - Change `master` branch references to `main`.
+- Provisional Python 3.6 compatibility (Union syntax).
 
 ## Version 2.10.0
 
