@@ -5,7 +5,7 @@ import binascii
 import os
 import re
 from functools import lru_cache
-from typing import Dict
+from typing import Dict, Union
 
 from typing import TYPE_CHECKING
 
@@ -119,7 +119,7 @@ def replace(s, replace):
 
 
 @lru_cache()
-def _get_formatter(style) -> Terminal256Formatter | TerminalTrueColorFormatter:
+def _get_formatter(style) -> Union[Terminal256Formatter, TerminalTrueColorFormatter]:
     if "truecolor" in os.getenv("COLORTERM", "").lower():
         return TerminalTrueColorFormatter(style=style)
     else:
