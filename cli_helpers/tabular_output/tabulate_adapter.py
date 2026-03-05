@@ -249,7 +249,7 @@ def adapter(data, headers, table_format=None, preserve_whitespace=False, **kwarg
     if table_format in supported_markup_formats:
         tkwargs.update(numalign=None, stralign=None)
 
-    tabulate.PRESERVE_WHITESPACE = preserve_whitespace
+    tkwargs.update(preserve_whitespace=preserve_whitespace)
 
     tkwargs.update(default_kwargs.get(table_format, {}))
     if table_format in headless_formats:
