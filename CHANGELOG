@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+
+- Support version 0.10 of `tabulate`
+
 ## Version 2.10.1
 
 (released on 2025-02-18)
