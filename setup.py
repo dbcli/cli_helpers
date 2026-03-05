@@ -37,6 +37,7 @@ setup(
     long_description_content_type="text/x-rst",
     install_requires=[
         "configobj >= 5.0.5",
+        "packaging",
         "tabulate[widechars] >= 0.9.0",
     ],
     extras_require={
