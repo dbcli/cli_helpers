@@ -1,8 +1,11 @@
 # Changelog
 
-## [Unreleased]
+## Version 2.11.0
 
-- Support and require version 0.10 of `tabulate`
+(released on 2025-03-05)
+
+- Support and require version 0.10.x of `tabulate`.
+- Pin `tabulate` version more tightly.
 
 ## Version 2.10.1
 
