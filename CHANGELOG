@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-- Support version 0.10 of `tabulate`
+- Support and require version 0.10 of `tabulate`
 
 ## Version 2.10.1
 

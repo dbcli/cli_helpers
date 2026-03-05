@@ -21,7 +21,6 @@ from .preprocessors import (
     escape_newlines,
 )
 
-from packaging.version import Version
 import tabulate
 
 
@@ -250,10 +249,7 @@ def adapter(data, headers, table_format=None, preserve_whitespace=False, **kwarg
     if table_format in supported_markup_formats:
         tkwargs.update(numalign=None, stralign=None)
 
-    if Version(tabulate.__version__) < Version("0.10.0"):
-        tabulate.PRESERVE_WHITESPACE = preserve_whitespace
-    else:
-        tkwargs.update(preserve_whitespace=preserve_whitespace)
+    tkwargs.update(preserve_whitespace=preserve_whitespace)
 
     tkwargs.update(default_kwargs.get(table_format, {}))
     if table_format in headless_formats:
