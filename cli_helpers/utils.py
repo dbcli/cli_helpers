@@ -5,7 +5,7 @@ import binascii
 import os
 import re
 from functools import lru_cache
-from typing import Dict, Union
+from typing import Dict, Tuple, Union
 
 from typing import TYPE_CHECKING
 
@@ -146,3 +146,15 @@ def filter_style_table(style: "StyleMeta", *relevant_styles: str) -> Dict:
     _styles_iter = ((key, val) for key, val in getattr(style, "styles", {}).items())
     _relevant_styles_iter = filter(lambda tpl: tpl[0] in relevant_styles, _styles_iter)
     return {key: val for key, val in _relevant_styles_iter}
+
+
+@lru_cache()
+def version_as_tuple(version: str) -> Tuple:
+    try:
+        list_s = [re.sub(r'(rc|alpha|beta|test|dev|post).*$', '', x) for x in version.split('.')]
+        list_s = [re.sub(r'[^\d]', '', x) for x in list_s]
+        list_i = [int(x) for x in list_s if x]
+        list_i.extend([0, 0, 0])
+        return tuple(list_i[:3])
+    except ValueError:
+        return (0, 0, 0)

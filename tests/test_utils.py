@@ -75,3 +75,28 @@ def test_filter_dict_by_key():
     fd = utils.filter_dict_by_key(d, keys)
     assert len(fd) == 1
     assert all([k in keys for k in fd])
+
+
+def test_version_as_tuple_01():
+    """Test version_as_tuple() in the usual case."""
+    assert utils.version_as_tuple('0.10.0') == (0, 10, 0)
+
+
+def test_version_as_tuple_02():
+    """Test version_as_tuple() with leading v."""
+    assert utils.version_as_tuple('v0.10.0') == (0, 10, 0)
+
+
+def test_version_as_tuple_03():
+    """Test version_as_tuple() trailing padding."""
+    assert utils.version_as_tuple('0.10') == (0, 10, 0)
+
+
+def test_version_as_tuple_04():
+    """Test version_as_tuple() stripping rc suffixes."""
+    assert utils.version_as_tuple('0.10.0rc1') == (0, 10, 0)
+
+
+def test_version_as_tuple_05():
+    """Test version_as_tuple() deleting post1 elements."""
+    assert utils.version_as_tuple('0.10.0.post1') == (0, 10, 0)
