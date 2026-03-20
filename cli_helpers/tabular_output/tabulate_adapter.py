@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 
 import os
 
-from cli_helpers.utils import filter_dict_by_key
+from cli_helpers.utils import filter_dict_by_key, version_as_tuple
 from cli_helpers.compat import (
     Terminal256Formatter,
     TerminalTrueColorFormatter,
@@ -141,6 +141,10 @@ default_kwargs = {
 headless_formats = ("minimal",)
 
 
+def has_new_preserve_whitespace_arg():
+    return version_as_tuple(tabulate.__version__) >= (0, 10, 0)
+
+
 def get_preprocessors(format_name):
     common_formatters = (
         override_missing_value,
@@ -249,7 +253,10 @@ def adapter(data, headers, table_format=None, preserve_whitespace=False, **kwarg
     if table_format in supported_markup_formats:
         tkwargs.update(numalign=None, stralign=None)
 
-    tkwargs.update(preserve_whitespace=preserve_whitespace)
+    if has_new_preserve_whitespace_arg():
+        tkwargs.update(preserve_whitespace=preserve_whitespace)
+    else:
+        tabulate.PRESERVE_WHITESPACE = preserve_whitespace
 
     tkwargs.update(default_kwargs.get(table_format, {}))
     if table_format in headless_formats:
