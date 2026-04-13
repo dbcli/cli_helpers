@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.14.0
+
+(released on 2026-04-13)
+
+- Downgrade Pygments requirement to v1.6+, and fix tests to support all versions.
+
 ## Version 2.13.0
 
 (released on 2026-04-13)

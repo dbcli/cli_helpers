@@ -207,13 +207,24 @@ def test_style_output(TwoFiftySixColor):
     data = [["观音", "2"], ["Ποσειδῶν", "b"]]
 
     expected_headers = ["\x1b[91;01mh1\x1b[39;00m", "\x1b[91;01mh2\x1b[39;00m"]
-    expected_data = [
+    # Pygments v2.19.2 and earlier
+    expected_data_old = [
         ["\x1b[38;5;233;48;5;7m观音\x1b[39;49m", "\x1b[38;5;233;48;5;7m2\x1b[39;49m"],
         ["\x1b[38;5;10mΠοσειδῶν\x1b[39m", "\x1b[38;5;10mb\x1b[39m"],
     ]
+    # Pygments v2.20.0 and later
+    # it looks like the control sequences changed after https://github.com/pygments/pygments/pull/3043
+    expected_data_new = [
+        [
+            '\x1b[38;5;233;48;5;255m观音\x1b[39;49m',
+            '\x1b[38;5;233;48;5;255m2\x1b[39;49m',
+        ],
+        ['\x1b[38;5;10mΠοσειδῶν\x1b[39m', '\x1b[38;5;10mb\x1b[39m'],
+    ]
     results = style_output(data, headers, style=CliStyle)
 
-    assert (expected_data, expected_headers) == (list(results[0]), results[1])
+    assert results[1] == expected_headers
+    assert list(results[0]) in [expected_data_old, expected_data_new]
 
 
 @pytest.mark.skipif(not HAS_PYGMENTS, reason="requires the Pygments library")
@@ -232,16 +243,27 @@ def test_style_output_with_newlines(TwoFiftySixColor):
     data = [["观音\nLine2", "Ποσειδῶν"]]
 
     expected_headers = ["\x1b[91;01mh1\x1b[39;00m", "\x1b[91;01mh2\x1b[39;00m"]
-    expected_data = [
+    # Pygments v2.19.2 and earlier
+    expected_data_old = [
         [
             "\x1b[38;5;233;48;5;7m观音\x1b[39;49m\n\x1b[38;5;233;48;5;7m"
             "Line2\x1b[39;49m",
             "\x1b[38;5;233;48;5;7mΠοσειδῶν\x1b[39;49m",
         ]
     ]
+    # Pygments v2.20.0 and later
+    # it looks like the control sequences changed after https://github.com/pygments/pygments/pull/3043
+    expected_data_new = [
+        [
+            '\x1b[38;5;233;48;5;255m观音\x1b[39;49m\n\x1b[38;5;233;48;5;255m'
+            'Line2\x1b[39;49m',
+            '\x1b[38;5;233;48;5;255mΠοσειδῶν\x1b[39;49m',
+        ]
+    ]
     results = style_output(data, headers, style=CliStyle)
 
-    assert (expected_data, expected_headers) == (list(results[0]), results[1])
+    assert results[1] == expected_headers
+    assert list(results[0]) in [expected_data_old, expected_data_new]
 
 
 @pytest.mark.skipif(not HAS_PYGMENTS, reason="requires the Pygments library")
@@ -260,9 +282,16 @@ def test_style_output_custom_tokens(TwoFiftySixColor):
     data = [["1", "2"], ["a", "b"]]
 
     expected_headers = ["\x1b[91;01mh1\x1b[39;00m", "\x1b[91;01mh2\x1b[39;00m"]
-    expected_data = [
+    # Pygments v2.19.2 and earlier
+    expected_data_old = [
         ["\x1b[38;5;233;48;5;7m1\x1b[39;49m", "\x1b[38;5;233;48;5;7m2\x1b[39;49m"],
         ["\x1b[38;5;10ma\x1b[39m", "\x1b[38;5;10mb\x1b[39m"],
+    ]
+    # Pygments v2.20.0 and later
+    # it looks like the control sequences changed after https://github.com/pygments/pygments/pull/3043
+    expected_data_new = [
+        ['\x1b[38;5;233;48;5;255m1\x1b[39;49m', '\x1b[38;5;233;48;5;255m2\x1b[39;49m'],
+        ['\x1b[38;5;10ma\x1b[39m', '\x1b[38;5;10mb\x1b[39m'],
     ]
 
     output = style_output(
@@ -274,7 +303,8 @@ def test_style_output_custom_tokens(TwoFiftySixColor):
         even_row_token=Token.Results.EvenRows,
     )
 
-    assert (expected_data, expected_headers) == (list(output[0]), output[1])
+    assert output[1] == expected_headers
+    assert list(output[0]) in [expected_data_old, expected_data_new]
 
 
 def test_format_integer():
