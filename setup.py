@@ -40,7 +40,7 @@ setup(
         "tabulate[widechars] ~= 0.10.0",
     ],
     extras_require={
-        "styles": ["Pygments ~= 2.19.2"],
+        "styles": ["Pygments >= 1.6"],
     },
     python_requires=">=3.6",
     classifiers=[
