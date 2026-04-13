@@ -1,21 +1,28 @@
 # Changelog
 
+## Version 2.13.0
+
+(released on 2026-04-13)
+
+- Pin Pygments library to older version v2.19.2 to fix tests.
+- Fix dates in changelog.
+
 ## Version 2.12.0
 
-(released on 2025-03-21)
+(released on 2026-03-21)
 
 - Probe tabulate version for `preserve_whitespace` keyword support.
 
 ## Version 2.11.0
 
-(released on 2025-03-05)
+(released on 2026-03-05)
 
 - Support and require version 0.10.x of `tabulate`.
 - Pin `tabulate` version more tightly.
 
 ## Version 2.10.1
 
-(released on 2025-02-18)
+(released on 2026-02-18)
 
 - Update license dates.
 - Change `master` branch references to `main`.
