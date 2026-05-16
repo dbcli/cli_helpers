@@ -92,6 +92,17 @@ tabulate._table_formats["mysql_unicode"] = tabulate.TableFormat(
     with_header_hide=None,
 )
 
+tabulate._table_formats["mysql_heavy"] = tabulate.TableFormat(
+    lineabove=tabulate.Line("┏", "━", "┳", "┓"),
+    linebelowheader=tabulate.Line("┣", "━", "╋", "┫"),
+    linebetweenrows=None,
+    linebelow=tabulate.Line("┗", "━", "┻", "┛"),
+    headerrow=tabulate.DataRow("┃", "┃", "┃"),
+    datarow=tabulate.DataRow("┃", "┃", "┃"),
+    padding=1,
+    with_header_hide=None,
+)
+
 # "minimal" is the same as "plain", but without headers
 tabulate._table_formats["minimal"] = tabulate._table_formats["plain"]
 
@@ -128,6 +139,7 @@ supported_table_formats = (
     "double",
     "mysql",
     "mysql_unicode",
+    "mysql_heavy",
 )
 
 supported_formats = supported_markup_formats + supported_table_formats
