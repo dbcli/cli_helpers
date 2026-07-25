@@ -52,7 +52,9 @@ def vertical_table(
     :rtype: str
 
     """
-    header_len = max([len(x) for x in headers])
+    if data and not headers:
+        headers = [" " * len(x) for x in data[0]]
+    header_len = max(len(x) for x in headers or [""])
     padded_headers = [x.ljust(header_len) for x in headers]
     formatted_rows = [_format_row(padded_headers, row) for row in data]
 

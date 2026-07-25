@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.15.1
+
+(released on 2026-07-25)
+
+- Better handle empty headers in vertical table output.
+
 ## Version 2.15.0
 
 (released on 2026-05-16)
