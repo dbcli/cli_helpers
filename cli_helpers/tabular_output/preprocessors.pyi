@@ -1,3 +1,4 @@
+from decimal import Decimal
 from collections.abc import Iterable, Iterator, Mapping, Sequence
 from typing import TypeVar, overload
 
@@ -6,6 +7,15 @@ from pygments.token import _TokenType
 
 _T = TypeVar("_T")
 _H = TypeVar("_H")
+_ColumnType = (
+    type[None]
+    | type[bool]
+    | type[int]
+    | type[float]
+    | type[Decimal]
+    | type[bytes]
+    | type[str]
+)
 
 def truncate_string(
     data: Iterable[Sequence[_T]],
@@ -43,7 +53,7 @@ def bytes_to_string(
 def align_decimals(
     data: Iterable[Sequence[_T]],
     headers: Sequence[_H],
-    column_types: Sequence[type[object]] = ...,
+    column_types: Sequence[_ColumnType] = ...,
     **_: object
 ) -> tuple[Iterator[list[_T | str]], Sequence[_H]]: ...
 def quote_whitespaces(
@@ -75,7 +85,7 @@ def style_output(
 def format_numbers(
     data: Iterable[Sequence[_T]],
     headers: Sequence[_H],
-    column_types: Sequence[type[object]] = ...,
+    column_types: Sequence[_ColumnType] = ...,
     integer_format: str | None = ...,
     float_format: str | None = ...,
     **_: object

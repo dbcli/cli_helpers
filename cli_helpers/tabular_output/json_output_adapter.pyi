@@ -14,7 +14,7 @@ supported_formats: tuple[Literal["jsonl"], Literal["jsonl_escaped"]]
 preprocessors: tuple[_Preprocessor,]
 
 class CustomEncoder(json.JSONEncoder):
-    def default(self, o: object) -> object: ...
+    def default(self, o: object) -> float: ...
 
 def adapter(
     data: Iterable[Sequence[object]],

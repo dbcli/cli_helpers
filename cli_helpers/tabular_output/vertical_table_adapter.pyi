@@ -20,5 +20,11 @@ def vertical_table(
     sep_length: int | tuple[int, int] = ...,
 ) -> Iterator[str]: ...
 def adapter(
-    data: Iterable[Sequence[str]], headers: Sequence[str], **kwargs: object
+    data: Iterable[Sequence[str]],
+    headers: Sequence[str],
+    *,
+    sep_title: str = ...,
+    sep_character: str = ...,
+    sep_length: int | tuple[int, int] = ...,
+    **kwargs: object
 ) -> Iterator[str]: ...
