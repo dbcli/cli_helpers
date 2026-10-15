@@ -85,6 +85,26 @@ That was easy! How about CLI Helper's vertical table layout?
     visited | True
 
 
+JSON Output
++++++++++++
+
+Use ``json`` to produce one JSON document containing an array of row objects.
+Column headers become object keys, and empty results produce ``[]``::
+
+    >>> print("\n".join(tabular_output.format_output([[1, 'Asgard'], [2, 'Camelot']], ['id', 'city'], format_name='json')))
+    [{"id":1,"city":"Asgard"},{"id":2,"city":"Camelot"}]
+
+The output can be parsed with ``json.loads`` or piped to tools such as
+``jq '.[] | .city'``. The entire result is collected into an array before
+serialization. For one object per line instead, use ``jsonl``; use
+``jsonl_escaped`` to additionally escape non-ASCII characters.
+
+These formats preserve numbers, booleans and nulls. Decimal values are
+converted to floats, bytes are decoded by the existing text preprocessor,
+and duplicate column names retain the last value, as with ``jsonl``.
+Use unique column names to retain every column.
+
+
 Default Format
 ++++++++++++++
 

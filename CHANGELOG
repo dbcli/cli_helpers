@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add `json` output for a single JSON array of row objects, including empty results.
+
 ## Version 2.15.1
 
 (released on 2026-07-25)

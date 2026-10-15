@@ -7,7 +7,7 @@ import json
 
 from .preprocessors import bytes_to_string
 
-supported_formats = ("jsonl", "jsonl_escaped")
+supported_formats = ("json", "jsonl", "jsonl_escaped")
 preprocessors = (bytes_to_string,)
 
 
@@ -21,16 +21,20 @@ class CustomEncoder(json.JSONEncoder):
 
 def adapter(data, headers, table_format="jsonl", **_kwargs):
     """Wrap the formatting inside a function for TabularOutputFormatter."""
-    if table_format == "jsonl":
+    if table_format in ("json", "jsonl"):
         ensure_ascii = False
     elif table_format == "jsonl_escaped":
         ensure_ascii = True
     else:
         raise ValueError("Invalid table_format specified.")
 
-    for row in chain(data):
+    records = (dict(zip(headers, row, strict=True)) for row in chain(data))
+    if table_format == "json":
+        records = (list(records),)
+
+    for record in records:
         yield json.dumps(
-            dict(zip(headers, row, strict=True)),
+            record,
             cls=CustomEncoder,
             separators=(",", ":"),
             ensure_ascii=ensure_ascii,

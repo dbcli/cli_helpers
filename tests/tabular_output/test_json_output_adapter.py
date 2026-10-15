@@ -4,6 +4,11 @@
 from __future__ import unicode_literals
 
 from decimal import Decimal
+import json
+
+import pytest
+
+from cli_helpers.tabular_output import TabularOutputFormatter, format_output
 
 from cli_helpers.tabular_output import json_output_adapter
 
@@ -62,3 +67,51 @@ def test_unicode_with_jsonl_esc():
         "\n".join(output)
         == """{"letters":"\\u89c2\\u97f3","number":1}\n{"letters":"\\u03a0\\u03bf\\u03c3\\u03b5\\u03b9\\u03b4\\u1ff6\\u03bd","number":456}"""
     )
+
+
+@pytest.mark.parametrize("data", [[], [[1, "alpha"]], [[1, "alpha"], [2, "βeta"]]])
+def test_json_document(data):
+    """The public formatter emits one complete document, including empty data."""
+    output = list(format_output(iter(data), ["id", "name"], format_name="json"))
+    assert len(output) == 1
+    assert json.loads(output[0]) == [dict(zip(["id", "name"], row)) for row in data]
+
+
+def test_json_document_types_and_escaping():
+    data = [[1, 2.5, Decimal("3.75"), None, True, 'a"\\b\nc', "观音", b"bytes"]]
+    headers = [
+        "integer",
+        "float",
+        "decimal",
+        "null",
+        "bool",
+        "text",
+        "unicode",
+        "bytes",
+    ]
+    output = "\n".join(format_output(iter(data), headers, format_name="json"))
+    assert json.loads(output) == [
+        dict(zip(headers, [1, 2.5, 3.75, None, True, 'a"\\b\nc', "观音", "bytes"]))
+    ]
+    assert "观音" in output
+
+
+def test_json_format_switching():
+    formatter = TabularOutputFormatter(format_name="json")
+    assert list(formatter.format_output([[1]], ["id"])) == ['[{"id":1}]']
+    formatter.format_name = "jsonl"
+    assert list(formatter.format_output([[1], [2]], ["id"])) == ['{"id":1}', '{"id":2}']
+    formatter.format_name = "json"
+    assert list(formatter.format_output([], ["id"])) == ["[]"]
+
+
+@pytest.mark.parametrize("data", [[[1, 2]], [[1], [2, 3]]])
+def test_json_rejects_mismatched_columns(data):
+    formatter = TabularOutputFormatter(format_name="json")
+    with pytest.raises(ValueError):
+        list(formatter.format_output(iter(data), ["id"]))
+
+
+def test_json_rejects_unsupported_values():
+    with pytest.raises(TypeError):
+        list(format_output([[object()]], ["value"], format_name="json"))
