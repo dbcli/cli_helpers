@@ -3,7 +3,9 @@
 
 from __future__ import unicode_literals
 
-from cli_helpers.utils import filter_dict_by_key
+from wcwidth import wcswidth
+
+from cli_helpers.utils import filter_dict_by_key, strip_ansi
 from .preprocessors import convert_to_string, override_missing_value, style_output
 
 supported_formats = ("vertical",)
@@ -54,8 +56,12 @@ def vertical_table(
     """
     if data and not headers:
         headers = [" " * len(x) for x in data[0]]
-    header_len = max(len(x) for x in headers or [""])
-    padded_headers = [x.ljust(header_len) for x in headers]
+    header_widths = [wcswidth(strip_ansi(x)) for x in headers]
+    header_len = max(header_widths or [0])
+    padded_headers = [
+        header + " " * (header_len - width)
+        for header, width in zip(headers, header_widths)
+    ]
     formatted_rows = [_format_row(padded_headers, row) for row in data]
 
     output = []

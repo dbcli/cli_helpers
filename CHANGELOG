@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Align vertical table headers containing wide or combining characters.
+
 ## Version 2.15.1
 
 (released on 2026-07-25)
