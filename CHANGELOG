@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Align vertical table headers containing wide or combining characters.
+- Target Python 3.11 in pre-commit configuration.
 
 ## Version 2.15.1
 
