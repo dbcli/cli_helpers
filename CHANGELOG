@@ -1,10 +1,12 @@
 # Changelog
 
-## Unreleased
+## Version 2.15.1
+
+(released on 2026-10-15)
 
 - Align vertical table headers containing wide or combining characters.
 - Target Python 3.11 in pre-commit configuration.
-- Update pytest to 9.1.1, and other dev requirements.
+- Update `pytest` to 9.1.1, and other dev requirements.
 	
 ## Version 2.15.1
 
