@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fix inferred float and Decimal columns skipping number formatting and decimal alignment.
+
 ## Version 2.15.1
 
 (released on 2026-10-15)
