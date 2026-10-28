@@ -19,7 +19,6 @@ from . import (
     tsv_output_adapter,
     json_output_adapter,
 )
-from decimal import Decimal
 
 import itertools
 
@@ -31,7 +30,6 @@ TYPES = {
     bool: 1,
     int: 2,
     float: 3,
-    Decimal: 3,
     binary_type: 4,
     text_type: 5,
 }

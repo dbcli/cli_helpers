@@ -348,3 +348,47 @@ def test_all_text_type(extra_kwargs):
             iter(data), headers, format_name=format_name, **extra_kwargs
         ):
             assert isinstance(row, text_type), "not unicode for {}".format(format_name)
+
+
+@pytest.mark.parametrize(
+    "column",
+    [
+        [1.2, 10.34],
+        [Decimal("1.2"), Decimal("10.34")],
+        [1, 1.2, Decimal("10.34"), None],
+    ],
+)
+def test_inferred_float_column_type(column):
+    formatter = TabularOutputFormatter()
+    assert formatter._get_column_type(column) is float
+
+
+@pytest.mark.parametrize("number_type", [float, Decimal])
+def test_format_numbers_with_inferred_types(number_type):
+    from cli_helpers.tabular_output.preprocessors import format_numbers
+
+    formatter = TabularOutputFormatter(format_name="psql")
+    output = "\n".join(
+        formatter.format_output(
+            iter([(number_type("123456.78"), number_type("2.5"))]),
+            ["f", "n"],
+            preprocessors=(format_numbers,),
+            float_format=",.2f",
+            disable_numparse=True,
+        )
+    )
+    assert "123,456.78" in output
+    assert "2.50" in output
+
+
+@pytest.mark.parametrize("number_type", [float, Decimal])
+def test_align_decimals_with_inferred_types(number_type):
+    from cli_helpers.tabular_output.preprocessors import align_decimals
+
+    formatter = TabularOutputFormatter()
+    data = [(number_type("1.2"),), (number_type("10.34"),)]
+    result, headers = align_decimals(
+        data, ["n"], column_types=formatter._get_column_types(data)
+    )
+    assert list(result) == [[" 1.2"], ["10.34"]]
+    assert headers == ["n"]
