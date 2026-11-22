@@ -148,7 +148,7 @@ class TabularOutputFormatter(object):
             :class:`TabularOutputFormatter` object has a default format set).
         :param tuple preprocessors: Additional preprocessors to call before
                                     any formatter preprocessors.
-        :param \*\*kwargs: Optional arguments for the formatter.
+        :param \*\*kwargs: Optional arguments for this call to the formatter.
         :return: The formatted data.
         :rtype: str
         :raises ValueError: If the *format_name* is not recognized.
@@ -158,7 +158,8 @@ class TabularOutputFormatter(object):
         if format_name not in self.supported_formats:
             raise ValueError('unrecognized format "{}"'.format(format_name))
 
-        (_, _preprocessors, formatter, fkwargs) = self._output_formats[format_name]
+        _, _preprocessors, formatter, fkwargs = self._output_formats[format_name]
+        fkwargs = fkwargs.copy()
         fkwargs.update(kwargs)
         if column_types is None:
             data = list(data)
@@ -200,7 +201,7 @@ def format_output(data, headers, format_name, **kwargs):
     :param iterable data: An :term:`iterable` (e.g. list) of rows.
     :param iterable headers: The column headers.
     :param str format_name: The display format to use.
-    :param \*\*kwargs: Optional arguments for the formatter.
+    :param \*\*kwargs: Optional arguments for this call to the formatter.
     :return: The formatted data.
     :rtype: str
 
