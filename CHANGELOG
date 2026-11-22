@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Keep per-call formatter options from changing the defaults for later output.
+
 ## Version 2.15.3
 
 (released on 2026-10-28)
