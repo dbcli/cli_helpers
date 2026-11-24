@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Preserve iterator rows when inferring column types before formatting output.
+
 ## Version 2.15.4
 
 (released on 2026-11-23)
