@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 from collections import namedtuple
+from collections.abc import Iterator
 
 from cli_helpers.compat import (
     text_type,
@@ -162,7 +163,7 @@ class TabularOutputFormatter(object):
         fkwargs = fkwargs.copy()
         fkwargs.update(kwargs)
         if column_types is None:
-            data = list(data)
+            data = [list(row) if isinstance(row, Iterator) else row for row in data]
             column_types = self._get_column_types(data)
         for f in unique_items(preprocessors + _preprocessors):
             data, headers = f(data, headers, column_types=column_types, **fkwargs)

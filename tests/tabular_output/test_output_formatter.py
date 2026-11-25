@@ -294,6 +294,18 @@ def test_get_type():
         assert data_type is formatter._get_type(value)
 
 
+@pytest.mark.parametrize(
+    "format_name, expected",
+    [
+        ("csv", ["a,b", "1,2", "3,4"]),
+        ("jsonl", ['{"a":"1","b":"2"}', '{"a":"3","b":"4"}']),
+    ],
+)
+def test_infer_column_types_from_iterator_rows(format_name, expected):
+    rows = (map(str, row) for row in [(1, 2), (3, 4)])
+    assert list(format_output(rows, ["a", "b"], format_name)) == expected
+
+
 def test_provide_column_types():
     """Test that provided column types are passed to preprocessors."""
     expected_column_types = (bool, float)
